@@ -248,7 +248,7 @@
         '<form class="score-login-form">' +
           '<div class="login-tabs"><button class="active" type="button">账号密码</button></div>' +
           '<label class="select-wrap"><select name="method"><option value="">请选择登录方式</option><option value="candidate">考生号/身份证号</option><option value="ticket">准考证号</option></select></label>' +
-          '<label><input name="candidate" autocomplete="off" placeholder="考生号/身份证号"></label>' +
+          '<label><input name="candidate" autocomplete="off" placeholder="请先选择登录方式" disabled></label>' +
           '<label><input name="password" type="password" placeholder="密码"></label>' +
           '<div class="captcha-row"><label><input name="captcha" autocomplete="off" placeholder="验证码"></label><button class="captcha-img" type="button" aria-label="刷新验证码">st4m</button></div>' +
           '<button class="login-submit" type="submit">登 录</button>' +
@@ -265,8 +265,27 @@
     var error = document.querySelector(".login-error");
     var captcha = document.querySelector(".captcha-img");
     var forgot = document.querySelector(".forgot-pass");
+    var methodSelect = document.querySelector('select[name="method"]');
+    var accountInput = document.querySelector('input[name="candidate"]');
     var codes = ["st4m", "7kq2", "m8r6", "c9x5"];
     var codeIndex = 0;
+
+    if (methodSelect && accountInput) {
+      methodSelect.addEventListener("change", function () {
+        var selected = methodSelect.options[methodSelect.selectedIndex];
+        var label = selected && methodSelect.value ? selected.textContent.trim() : "";
+        accountInput.value = "";
+        accountInput.disabled = !label;
+        accountInput.placeholder = label || "请先选择登录方式";
+        if (label) accountInput.focus();
+      });
+
+      accountInput.addEventListener("focus", function () {
+        if (methodSelect.value) return;
+        accountInput.blur();
+        showLoginError("请先选择登录方式。");
+      });
+    }
 
     if (captcha) {
       captcha.addEventListener("click", function () {
@@ -295,7 +314,7 @@
       if (!method || !candidate || !password || !inputCode) {
         if (error) {
           error.hidden = false;
-          error.textContent = "请完整填写登录方式、账号、密码和验证码。";
+          error.textContent = !method ? "请先选择登录方式。" : "请完整填写" + accountLabel() + "、密码和验证码。";
         }
         return;
       }
@@ -311,6 +330,17 @@
       sessionStorage.setItem("scoreCandidate", candidate);
       navigate("/score/result.html", true);
     });
+
+    function accountLabel() {
+      if (!methodSelect || !methodSelect.value) return "账号";
+      return methodSelect.options[methodSelect.selectedIndex].textContent.trim();
+    }
+
+    function showLoginError(message) {
+      if (!error) return;
+      error.hidden = false;
+      error.textContent = message;
+    }
   }
 
   function renderScoreResult() {
