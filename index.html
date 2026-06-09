@@ -4,7 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>资讯公告 | 研招考试 | 重庆招考信息网</title>
-  <link rel="stylesheet" href="styles/site.css">
+  <script>
+    (function () {
+      var base = location.protocol === "file:" ? "" : "/";
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = base + "styles/site.css";
+      document.head.appendChild(link);
+    })();
+  </script>
 </head>
 <body>
   <div class="topbar">
@@ -172,6 +180,13 @@
     </div>
   </footer>
 
-  <script src="scripts/site.js"></script>
+  <script>
+    (function () {
+      var base = location.protocol === "file:" ? "" : "/";
+      var script = document.createElement("script");
+      script.src = base + "scripts/site.js";
+      document.body.appendChild(script);
+    })();
+  </script>
 </body>
 </html>
