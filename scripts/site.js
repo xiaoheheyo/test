@@ -66,8 +66,39 @@
     ["02/15", "2024", "硕士研究生招生考试成绩查询操作说明", "/YZYK/YZYK_guide/score-guide.html"]
   ].map(toArticle);
 
+  var latestNews = [
+    ["06/15", "2026", "重庆市2026年普通高校招生统一考试成绩查询及志愿填报工作安排", "/news/20260615-score-volunteer.html"],
+    ["06/15", "2026", "重庆市2026年普通高考综合查询服务今日开放", "/news/20260615-query-open.html"],
+    ["06/14", "2026", "重庆市2026年普通高校招生网上咨询活动安排", "/news/20260614-consult.html"],
+    ["06/12", "2026", "重庆市2026年高考后主要时间节点提醒", "/news/20260612-timeline.html"],
+    ["06/09", "2026", "重庆市2026年普通高校招生统一考试考后主要时间节点安排", "/news/20260609-after-exam.html"],
+    ["06/04", "2026", "重庆市2026年高考温馨提醒", "/news/20260604-reminder.html"],
+    ["06/02", "2026", "致2026年重庆高考考生及家长的一封信", "/news/20260602-letter.html"],
+    ["05/27", "2026", "重庆市2026年上半年高等教育自学考试毕业申请办理有关事项的公告", "/news/20260527-self-study.html"],
+    ["05/25", "2026", "“智慧招考服务”支付宝小程序上线", "/news/20260525-smart-service.html"],
+    ["05/09", "2026", "重庆市2026年上半年中小学教师资格考试（面试）温馨提示", "/news/20260509-teacher.html"],
+    ["04/30", "2026", "重庆市2026年普通高校专升本考试一分段表", "/news/20260430-ranking.html"],
+    ["04/30", "2026", "2026年重庆市普通高校专升本志愿填报时间和流程公告", "/news/20260430-upgrade.html"],
+    ["04/29", "2026", "重庆市2026年同等学力人员申请硕士学位外国语水平和学科综合水平全国统一考试温馨提示", "/news/20260429-master.html"],
+    ["04/19", "2026", "重庆市2026年高职分类考试招生录取信息表-高职对口专科批第三次征集", "/news/20260419-vocational.html"],
+    ["04/18", "2026", "2026年高职对口专科批第三次征集", "/news/20260418-collect.html"]
+  ].map(toArticle);
+
+  var announcementArticles = [
+    ["06/15", "2026", "重庆市2026年普通高考综合查询入口开通公告", "/announcement/20260615-score-entry.html"],
+    ["06/15", "2026", "重庆市2026年普通高考成绩复核申请安排", "/announcement/20260615-review.html"],
+    ["06/13", "2026", "重庆市2026年普通高校招生志愿填报辅助系统使用提示", "/announcement/20260613-assist.html"],
+    ["06/10", "2026", "区县招考机构联系方式", "/announcement/20260610-district-contact.html"],
+    ["06/06", "2026", "重庆市2026年普通高校招生网上咨询服务公告", "/announcement/20260606-consult.html"],
+    ["05/31", "2026", "重庆市2026年普通高考考生照顾资格信息公示办法", "/announcement/20260531-care.html"],
+    ["05/22", "2026", "重庆市2026年高职分类考试录取查询时间安排", "/announcement/20260522-vocational.html"],
+    ["05/16", "2026", "重庆市2026年社会考试报名服务提示", "/announcement/20260516-social.html"]
+  ].map(toArticle);
+
   var pageData = {
-    "/": makePage("最新资讯", "首页", genericArticles("最新资讯", "/news/news")),
+    "/": makePage("最新资讯", "最新资讯", latestNews, [["最新资讯", "/news/list_1.html"]], { total: "共有 73 页/ 1089 条数据", current: 1, pages: [["1", "/news/list_1.html"], ["2", "/news/list_2.html"], ["3", "/news/list_3.html"], ["4", "/news/list_4.html"], ["5", "/news/list_5.html"], ["›", "/news/list_2.html"], ["»", "/news/list_73.html"]] }),
+    "/news/list_1.html": makePage("最新资讯", "最新资讯", latestNews, [["最新资讯", "/news/list_1.html"]], { total: "共有 73 页/ 1089 条数据", current: 1, pages: [["1", "/news/list_1.html"], ["2", "/news/list_2.html"], ["3", "/news/list_3.html"], ["4", "/news/list_4.html"], ["5", "/news/list_5.html"], ["›", "/news/list_2.html"], ["»", "/news/list_73.html"]] }),
+    "/announcement/list_1.html": makePage("公示公告", "公示公告", announcementArticles, [["公示公告", "/announcement/list_1.html"]], { total: "共有 18 页/ 270 条数据", current: 1, pages: [["1", "/announcement/list_1.html"], ["2", "/announcement/list_2.html"], ["3", "/announcement/list_3.html"], ["›", "/announcement/list_2.html"], ["»", "/announcement/list_18.html"]] }),
     "/score/2026.html": makePage("成绩查询", "2026成绩查询入口", [
       ["06/24", "2026", "2026年普通高考综合查询入口", "/score/2026-detail.html"],
       ["06/24", "2026", "普通高考成绩查询操作说明", "/score/2026-guide.html"],
@@ -101,7 +132,7 @@
     }
   });
 
-  registerArticles(yzykArticles.concat(yzykPage2, yzykPolicy, yzykGuide));
+  registerArticles(latestNews.concat(announcementArticles, yzykArticles, yzykPage2, yzykPolicy, yzykGuide));
   mainSections.forEach(function (section) {
     registerArticles(pageData[section.route].articles);
   });
@@ -136,7 +167,7 @@
     renderRoute(location.pathname || "/", false);
   });
 
-  renderRoute(location.pathname === "/" ? "/YZYK/YZYK_news/list_1.html" : location.pathname, false);
+  renderRoute(location.pathname === "/" ? "/news/list_1.html" : location.pathname, false);
 
   function handleSearch(event) {
     event.preventDefault();
@@ -176,7 +207,7 @@
   }
 
   function renderRoute(route, push) {
-    if (!route || route === "/") route = "/YZYK/YZYK_news/list_1.html";
+    if (!route || route === "/") route = "/news/list_1.html";
 
     if (route === "/score/2026.html") {
       renderScoreLogin();
@@ -437,12 +468,12 @@
 
   function genericArticles(section, prefix) {
     return [
-      ["06/20", "2026", section + "相关工作安排", prefix + "-1.html"],
-      ["06/12", "2026", section + "网上办理事项温馨提示", prefix + "-2.html"],
-      ["05/28", "2026", section + "报名及查询服务公告", prefix + "-3.html"],
-      ["04/18", "2026", section + "考试招生政策解读", prefix + "-4.html"],
-      ["03/25", "2026", section + "考生常见问题答复", prefix + "-5.html"],
-      ["02/10", "2026", section + "年度工作日程提醒", prefix + "-6.html"]
+      ["06/15", "2026", section + "今日服务事项提醒", prefix + "-1.html"],
+      ["06/15", "2026", section + "2026年考试招生查询服务更新", prefix + "-2.html"],
+      ["06/14", "2026", section + "网上办理事项温馨提示", prefix + "-3.html"],
+      ["06/12", "2026", section + "报名及查询服务公告", prefix + "-4.html"],
+      ["06/09", "2026", section + "考试招生政策解读", prefix + "-5.html"],
+      ["06/04", "2026", section + "考生常见问题答复", prefix + "-6.html"]
   ].map(toArticle).map(function (article) {
     article.section = section;
     return article;
