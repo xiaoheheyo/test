@@ -493,6 +493,28 @@ main {
   text-indent: 2em;
 }
 
+.detail-body .detail-signature {
+  margin-top: 34px;
+  text-align: right;
+}
+
+.detail-body .detail-signature p {
+  margin-bottom: 8px;
+  text-indent: 0;
+}
+
+.detail-attachment {
+  margin-top: 34px;
+  border-top: 1px solid #eee;
+  padding-top: 18px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.detail-attachment a {
+  color: #bf1721;
+}
+
 .detail-actions {
   padding: 0 46px 38px;
 }

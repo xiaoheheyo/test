@@ -260,13 +260,114 @@
     sectionMenu.innerHTML = "<h2>" + escapeHtml(basePage.menuTitle) + "</h2>" + (basePage.menu || [[basePage.activeMenu, currentRouteFor(basePage)]]).map(function (item) {
       return '<a href="javascript:;" data-route="' + escapeHtml(item[1]) + '">' + escapeHtml(item[0]) + "</a>";
     }).join("");
+    var detail = detailContent(article, section);
     articlePanel.innerHTML = '<article class="article-detail">' +
       '<div class="detail-head"><h1>' + escapeHtml(article.title) + '</h1><p>发布时间：' + escapeHtml(article.year) + "-" + escapeHtml(article.date.replace("/", "-")) + "　来源：重庆招考信息网</p></div>" +
-      '<div class="detail-body"><p>这是本地复刻页面，点击行为按照原网站进入详情页。当前展示的是“' + escapeHtml(article.title) + '”的详情内容。</p>' +
-      '<p>请考生以重庆招考信息网发布的考试公告、报名安排、成绩查询须知和相关附件为准，按规定时间完成网上报名、确认、打印准考证和成绩查询等事项。</p>' +
-      '<p>页面结构、标题区、正文区和返回行为均在 localhost 内完成，不会跳转到 www.cqzk.com.cn。</p></div>' +
+      '<div class="detail-body">' + detail.paragraphs.map(function (paragraph) { return "<p>" + escapeHtml(paragraph) + "</p>"; }).join("") + renderSignature(detail.signature) + detailAttachment(article) + "</div>" +
       '<div class="detail-actions"><a href="javascript:;" data-route="' + escapeHtml(basePage.route) + '">返回列表</a></div>' +
       "</article>";
+  }
+
+  function detailContent(article, section) {
+    var title = article.title;
+    var dateText = article.year + "年" + article.date.replace("/", "月") + "日";
+
+    if (title.indexOf("硕士研究生招生考试（初试）成绩公布须知") >= 0 || title.indexOf("硕士研究生招生考试初试成绩公布须知") >= 0) {
+      return content([
+        "报考重庆市硕士研究生招生单位的考生，可按招生单位公布的时间和方式查询全国硕士研究生招生考试初试成绩。成绩由各招生单位负责公布，请考生及时关注报考单位公告。",
+        "考生如对成绩有异议，应在规定时间内按照报考招生单位要求提出成绩复核申请。逾期未申请的，不再受理；复核结果由招生单位反馈考生本人。",
+        "报考重庆市外招生单位的考生，请根据报考招生单位或其所在省级教育考试机构发布的公告查询成绩和办理后续事项。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    if (title.indexOf("研招考试网上报名流程") >= 0 || title.indexOf("硕士研究生报名公告") >= 0 || title.indexOf("硕士研究生考试报名公告") >= 0) {
+      return content([
+        "重庆市全国硕士研究生招生考试报名包括网上报名和网上确认两个阶段。考生应在规定时间内登录研招网填报报名信息，并按报考点要求完成确认。",
+        "报名期间，考生须认真核对本人学历学籍、户籍或工作所在地、报考单位、考试方式、专项计划等信息。因填报错误、材料不实或未按要求确认造成不能考试的，责任由考生本人承担。",
+        "各报考点容量有限，报考点选择、网上缴费、确认材料提交和审核结果查询等事项，以重庆市教育考试院、报考点和招生单位后续公告为准。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    if (title.indexOf("研招考试报名信息填写常见问题") >= 0 || title.indexOf("政策问答") >= 0 || title.indexOf("政策解读") >= 0) {
+      return content([
+        "为帮助考生准确理解招生考试政策，现就报名资格、报考点选择、网上确认、信息修改、缴费退费和准考证下载等常见问题进行提示。",
+        "考生填报前应认真阅读教育部招生工作管理规定、重庆市报名公告、招生单位招生章程和报考点公告，确认本人符合报考条件后再提交信息。",
+        "政策执行中涉及具体资格审核和材料要求的，以招生单位、报考点及相关主管部门审核意见为准。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    if (title.indexOf("准考证") >= 0 || title.indexOf("考前提醒") >= 0 || title.indexOf("温馨提醒") >= 0 || title.indexOf("温馨提示") >= 0 || title.indexOf("参考须知") >= 0) {
+      return content([
+        "请考生提前打印准考证，认真阅读准考证上的考试地点、考试时间、考场规则和注意事项，合理安排出行时间。",
+        "考生进入考点时应主动配合身份核验和安全检查，严禁携带手机、智能手表、电子存储设备等违规物品进入考场。",
+        "考试期间请遵守考场纪律，诚信应考。后续成绩查询、复核、复试和录取安排，请持续关注招生单位及重庆招考信息网发布的通知。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    if (title.indexOf("高考综合查询入口") >= 0 || title.indexOf("综合查询服务") >= 0 || title.indexOf("成绩查询") >= 0) {
+      return content([
+        "重庆市2026年普通高校招生统一考试综合查询服务已开通。考生可根据页面提示选择登录方式，通过本人考生号、准考证号或身份证号等信息完成身份校验后查询相关结果。",
+        "请考生妥善保管账号、密码和验证码，不向他人泄露个人信息。查询高峰期如出现页面访问缓慢，可稍后错峰登录。",
+        "考生对成绩有疑问的，可在规定时间内向报名所在区县招考机构提出成绩复核申请。复核只核查答卷信息、统分登分等事项，不重新评卷。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    if (title.indexOf("成绩复核") >= 0) {
+      return content([
+        "普通高考成绩公布后，考生如对本人考试成绩有疑问，可按报名所在区县招考机构公布的时间、地点和方式提交成绩复核申请。",
+        "成绩复核内容包括考生信息是否一致、是否漏评、统分登分是否准确等。复核结果由区县招考机构按规定方式告知考生本人。",
+        "逾期未提出申请的，视为自动放弃复核。请考生保持报名时预留联系方式畅通。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    if (title.indexOf("志愿填报") >= 0 || title.indexOf("辅助系统") >= 0) {
+      return content([
+        "为做好重庆市2026年普通高校招生志愿填报工作，考生应在规定时间内登录指定系统填报志愿，并认真阅读招生计划、招生章程和填报说明。",
+        "志愿填报辅助系统用于帮助考生查询招生计划、选科要求、历年录取参考信息等内容，辅助信息不作为录取承诺，正式志愿以志愿填报系统提交结果为准。",
+        "考生应妥善保管登录密码，填报完成后及时核对确认。因考生本人填报失误、未按时提交或泄露密码造成的后果，由考生本人承担。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    if (title.indexOf("区县招考机构联系方式") >= 0) {
+      return content([
+        "为方便考生咨询报名、考试、成绩复核、志愿填报和录取查询等事项，现公布重庆市各区县招考机构联系方式。",
+        "考生咨询时请说明本人报名区县、考试类别和具体事项。涉及个人信息查询或业务办理的，请按工作人员要求提供必要身份核验材料。",
+        "联系方式如有调整，以各区县招考机构最新公布信息为准。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    if (title.indexOf("公示") >= 0 || section === "公示公告") {
+      return content([
+        "根据考试招生工作安排，现将有关名单、资格或办理事项予以公示。公示期间如有异议，可按公告公布的渠道实名反映。",
+        "反映问题应实事求是，并提供必要证明材料。受理单位将按规定核查处理，依法保护反映人和相关考生个人信息。",
+        "公示期满无异议或经核查不影响相关资格的，按规定进入后续工作程序。"
+      ], "重庆市教育考试院", dateText);
+    }
+
+    return content([
+      "为做好重庆市考试招生相关工作，现将有关事项通知如下。",
+      "请考生认真阅读本通知内容，按照规定时间、规定方式办理报名、确认、查询、打印、填报等事项。相关安排以重庆招考信息网发布内容为准。",
+      "后续安排如有调整，将通过重庆招考信息网及时公布，请考生持续关注。"
+    ], "重庆市教育考试院", dateText);
+  }
+
+  function content(paragraphs, org, dateText) {
+    return {
+      paragraphs: paragraphs,
+      signature: org && dateText ? [org, dateText] : []
+    };
+  }
+
+  function renderSignature(signature) {
+    if (!signature || !signature.length) return "";
+    return '<div class="detail-signature">' + signature.map(function (line) {
+      return "<p>" + escapeHtml(line) + "</p>";
+    }).join("") + "</div>";
+  }
+
+  function detailAttachment(article) {
+    if (article.title.indexOf("公告") < 0 && article.title.indexOf("安排") < 0 && article.title.indexOf("办法") < 0) return "";
+    return '<div class="detail-attachment"><strong>附件：</strong><a href="javascript:;">' + escapeHtml(article.title) + "相关材料.pdf</a></div>";
   }
 
   function renderScoreLogin() {

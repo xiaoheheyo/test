@@ -9,7 +9,7 @@
       var base = location.protocol === "file:" ? "" : "/";
       var link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = base + "styles/site.css";
+      link.href = base + "styles/site.css?v=" + Date.now();
       document.head.appendChild(link);
     })();
   </script>
@@ -184,7 +184,7 @@
     (function () {
       var base = location.protocol === "file:" ? "" : "/";
       var script = document.createElement("script");
-      script.src = base + "scripts/site.js";
+      script.src = base + "scripts/site.js?v=" + Date.now();
       document.body.appendChild(script);
     })();
   </script>
