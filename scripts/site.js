@@ -96,30 +96,30 @@
   ].map(toArticle);
 
   var pageData = {
-    "/": makePage("最新资讯", "最新资讯", latestNews, [["最新资讯", "/news/list_1.html"]], { total: "共有 73 页/ 1089 条数据", current: 1, pages: [["1", "/news/list_1.html"], ["2", "/news/list_2.html"], ["3", "/news/list_3.html"], ["4", "/news/list_4.html"], ["5", "/news/list_5.html"], ["›", "/news/list_2.html"], ["»", "/news/list_73.html"]] }),
-    "/news/list_1.html": makePage("最新资讯", "最新资讯", latestNews, [["最新资讯", "/news/list_1.html"]], { total: "共有 73 页/ 1089 条数据", current: 1, pages: [["1", "/news/list_1.html"], ["2", "/news/list_2.html"], ["3", "/news/list_3.html"], ["4", "/news/list_4.html"], ["5", "/news/list_5.html"], ["›", "/news/list_2.html"], ["»", "/news/list_73.html"]] }),
-    "/announcement/list_1.html": makePage("公示公告", "公示公告", announcementArticles, [["公示公告", "/announcement/list_1.html"]], { total: "共有 18 页/ 270 条数据", current: 1, pages: [["1", "/announcement/list_1.html"], ["2", "/announcement/list_2.html"], ["3", "/announcement/list_3.html"], ["›", "/announcement/list_2.html"], ["»", "/announcement/list_18.html"]] }),
+    "/": makePage("最新资讯", "最新资讯", expandArticles(latestNews, "最新资讯", "/news/news", 72), [["最新资讯", "/news/list_1.html"]], { total: "共有 73 页/ 1089 条数据", current: 1, pages: [["1", "/news/list_1.html"], ["2", "/news/list_2.html"], ["3", "/news/list_3.html"], ["4", "/news/list_4.html"], ["5", "/news/list_5.html"], ["›", "/news/list_2.html"], ["»", "/news/list_73.html"]] }),
+    "/news/list_1.html": makePage("最新资讯", "最新资讯", expandArticles(latestNews, "最新资讯", "/news/news", 72), [["最新资讯", "/news/list_1.html"]], { total: "共有 73 页/ 1089 条数据", current: 1, pages: [["1", "/news/list_1.html"], ["2", "/news/list_2.html"], ["3", "/news/list_3.html"], ["4", "/news/list_4.html"], ["5", "/news/list_5.html"], ["›", "/news/list_2.html"], ["»", "/news/list_73.html"]] }),
+    "/announcement/list_1.html": makePage("公示公告", "公示公告", expandArticles(announcementArticles, "公示公告", "/announcement/announcement", 54), [["公示公告", "/announcement/list_1.html"]], { total: "共有 18 页/ 270 条数据", current: 1, pages: [["1", "/announcement/list_1.html"], ["2", "/announcement/list_2.html"], ["3", "/announcement/list_3.html"], ["›", "/announcement/list_2.html"], ["»", "/announcement/list_18.html"]] }),
     "/score/2026.html": makePage("成绩查询", "2026成绩查询入口", [
       ["06/24", "2026", "2026年普通高考综合查询入口", "/score/2026-detail.html"],
       ["06/24", "2026", "普通高考成绩查询操作说明", "/score/2026-guide.html"],
       ["06/24", "2026", "普通高考录取信息查询入口", "/score/2026-admission.html"]
     ].map(toArticle), [["2026成绩查询入口", "/score/2026.html"]]),
-    "/YZYK/YZYK_news/list_1.html": makePage("研招考试", "资讯公告", yzykArticles, [
+    "/YZYK/YZYK_news/list_1.html": makePage("研招考试", "资讯公告", expandArticles(yzykArticles, "研招考试资讯公告", "/YZYK/YZYK_news/generated", 45), [
       ["资讯公告", "/YZYK/YZYK_news/list_1.html"],
       ["政策法规", "/YZYK/YZYK_policy/list_1.html"],
       ["报考指南", "/YZYK/YZYK_guide/list_1.html"]
-    ], { total: "共有 2 页/ 23 条数据", current: 1, pages: [["1", "/YZYK/YZYK_news/list_1.html"], ["2", "/YZYK/YZYK_news/list_2.html"], ["›", "/YZYK/YZYK_news/list_2.html"], ["»", "/YZYK/YZYK_news/list_2.html"]] }),
-    "/YZYK/YZYK_news/list_2.html": makePage("研招考试", "资讯公告", yzykPage2, [
+    ], { total: "共有 6 页/ 90 条数据", current: 1, pages: [["1", "/YZYK/YZYK_news/list_1.html"], ["2", "/YZYK/YZYK_news/list_2.html"], ["3", "/YZYK/YZYK_news/list_3.html"], ["›", "/YZYK/YZYK_news/list_2.html"], ["»", "/YZYK/YZYK_news/list_6.html"]] }),
+    "/YZYK/YZYK_news/list_2.html": makePage("研招考试", "资讯公告", expandArticles(yzykPage2, "研招考试资讯公告", "/YZYK/YZYK_news/page2-generated", 38), [
       ["资讯公告", "/YZYK/YZYK_news/list_1.html"],
       ["政策法规", "/YZYK/YZYK_policy/list_1.html"],
       ["报考指南", "/YZYK/YZYK_guide/list_1.html"]
-    ], { total: "共有 2 页/ 23 条数据", current: 2, pages: [["‹", "/YZYK/YZYK_news/list_1.html"], ["1", "/YZYK/YZYK_news/list_1.html"], ["2", "/YZYK/YZYK_news/list_2.html"]] }),
-    "/YZYK/YZYK_policy/list_1.html": makePage("研招考试", "政策法规", yzykPolicy, [
+    ], { total: "共有 6 页/ 90 条数据", current: 2, pages: [["‹", "/YZYK/YZYK_news/list_1.html"], ["1", "/YZYK/YZYK_news/list_1.html"], ["2", "/YZYK/YZYK_news/list_2.html"], ["3", "/YZYK/YZYK_news/list_3.html"]] }),
+    "/YZYK/YZYK_policy/list_1.html": makePage("研招考试", "政策法规", expandArticles(yzykPolicy, "研招考试政策法规", "/YZYK/YZYK_policy/generated", 36), [
       ["资讯公告", "/YZYK/YZYK_news/list_1.html"],
       ["政策法规", "/YZYK/YZYK_policy/list_1.html"],
       ["报考指南", "/YZYK/YZYK_guide/list_1.html"]
     ]),
-    "/YZYK/YZYK_guide/list_1.html": makePage("研招考试", "报考指南", yzykGuide, [
+    "/YZYK/YZYK_guide/list_1.html": makePage("研招考试", "报考指南", expandArticles(yzykGuide, "研招考试报考指南", "/YZYK/YZYK_guide/generated", 36), [
       ["资讯公告", "/YZYK/YZYK_news/list_1.html"],
       ["政策法规", "/YZYK/YZYK_policy/list_1.html"],
       ["报考指南", "/YZYK/YZYK_guide/list_1.html"]
@@ -128,7 +128,7 @@
 
   mainSections.forEach(function (section) {
     if (!pageData[section.route]) {
-      pageData[section.route] = makePage(section.menuTitle, section.text, genericArticles(section.text, section.route.replace(/list_1\.html$/, "article")), [[section.text, section.route]]);
+      pageData[section.route] = makePage(section.menuTitle, section.text, expandArticles(genericArticles(section.text, section.route.replace(/list_1\.html$/, "article")), section.text, section.route.replace(/list_1\.html$/, "generated"), 48), [[section.text, section.route]], { total: "共有 12 页/ 180 条数据", current: 1, pages: [["1", section.route], ["2", section.route.replace("list_1.html", "list_2.html")], ["3", section.route.replace("list_1.html", "list_3.html")], ["›", section.route.replace("list_1.html", "list_2.html")], ["»", section.route.replace("list_1.html", "list_12.html")]] });
     }
   });
 
@@ -478,6 +478,39 @@
     article.section = section;
     return article;
   });
+  }
+
+  function expandArticles(seedArticles, section, prefix, targetCount) {
+    var topics = [
+      "考试报名安排",
+      "网上办理事项提醒",
+      "资格审核工作提示",
+      "成绩查询服务公告",
+      "志愿填报时间安排",
+      "录取信息查询说明",
+      "考生服务渠道公布",
+      "政策解读及问答",
+      "咨询活动安排",
+      "区县招考机构联系方式",
+      "考前注意事项",
+      "招生录取工作提示",
+      "信息公示办法",
+      "系统维护公告",
+      "材料提交说明",
+      "常见问题答复"
+    ];
+    var articles = seedArticles.slice();
+    var index = 0;
+    while (articles.length < targetCount) {
+      var day = Math.max(1, 15 - (index % 28));
+      var month = index < 28 ? "06" : index < 56 ? "05" : "04";
+      var date = month + "/" + String(day).padStart(2, "0");
+      var title = "重庆市2026年" + section + topics[index % topics.length];
+      var route = prefix + "-" + String(index + 1).padStart(3, "0") + ".html";
+      articles.push(toArticle([date, "2026", title, route]));
+      index += 1;
+    }
+    return articles;
   }
 
   function toArticle(item) {
