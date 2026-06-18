@@ -399,6 +399,7 @@
     var forgot = document.querySelector(".forgot-pass");
     var methodSelect = document.querySelector('select[name="method"]');
     var accountInput = document.querySelector('input[name="candidate"]');
+    var expectedPassword = "ZDYzdy410DZYV!";
     var codes = ["st4m", "7kq2", "m8r6", "c9x5"];
     var codeIndex = 0;
 
@@ -455,6 +456,14 @@
         if (error) {
           error.hidden = false;
           error.textContent = "验证码输入错误，请重新输入。";
+        }
+        return;
+      }
+
+      if (password !== expectedPassword) {
+        if (error) {
+          error.hidden = false;
+          error.textContent = "密码错误，请重新输入。";
         }
         return;
       }
