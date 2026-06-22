@@ -525,30 +525,39 @@
     document.body.classList.remove("score-login-mode", "score-result-mode");
 
     main.innerHTML = '<section class="volunteer-page">' +
-      '<header class="volunteer-top"><div><strong>重庆市统一高考志愿填报辅助系统</strong><span>2026年普通高校招生志愿模拟填报</span></div><button type="button" class="back-score">返回成绩页</button></header>' +
+      '<header class="volunteer-top">' +
+        '<a class="zy-logo" href="javascript:;" aria-label="系统首页"><span class="zy-mark">渝</span><strong>重庆市统一高考志愿填报辅助系统</strong></a>' +
+        '<nav class="zy-nav"><a class="active" href="javascript:;" data-step="0">首页</a><a href="javascript:;" data-step="1">历史数据查询</a><a href="javascript:;" data-step="2">招生计划查询</a><a href="javascript:;" data-step="3">备选志愿参考</a><a href="javascript:;" data-step="4">资讯内容</a></nav>' +
+        '<button type="button" class="back-score">退出</button>' +
+      '</header>' +
       '<div class="volunteer-shell">' +
         '<aside class="volunteer-sidebar">' +
-          '<div class="candidate-card"><h2>赵丁谕</h2><p>考生号：265****1371</p><p>选科：历史 / 生物 / 思想政治</p><p>总分：626</p></div>' +
-          '<nav class="volunteer-steps"><button class="active" type="button" data-step="0">1 填报须知</button><button type="button" data-step="1">2 选择批次</button><button type="button" data-step="2">3 填写志愿</button><button type="button" data-step="3">4 核对提交</button></nav>' +
-          '<div class="fill-status"><span>当前状态</span><strong data-status-text>未提交</strong></div>' +
+          '<div class="candidate-card"><h2>赵丁谕</h2><p>考生号：265****1371</p><p>首选科目：历史</p><p>再选科目：生物 / 思想政治</p><p>高考总分：626</p></div>' +
+          '<nav class="volunteer-steps"><button class="active" type="button" data-step="0">首页</button><button type="button" data-step="1">历史数据查询</button><button type="button" data-step="2">招生计划查询</button><button type="button" data-step="3">备选志愿参考</button></nav>' +
+          '<div class="fill-status"><span>备选志愿</span><strong><b data-choice-count>0</b>/96</strong></div>' +
         '</aside>' +
         '<div class="volunteer-main">' +
-          '<section class="notice-panel"><h1>志愿填报模拟表</h1><p>本页面按重庆新高考平行志愿流程模拟：选择批次，检索院校专业，最多填报 96 个志愿，保存草稿，最终确认提交。</p></section>' +
-          '<section class="batch-panel">' +
-            '<div class="panel-head"><h2>批次选择</h2><span>当前开放：本科批、专科批</span></div>' +
-            '<div class="batch-tabs"><button class="active" type="button" data-batch="本科批">本科批</button><button type="button" data-batch="高职专科批">高职专科批</button><button type="button" data-batch="提前批A段">提前批A段</button></div>' +
+          '<section class="notice-panel welcome">' +
+            '<div><h1>赵丁谕，欢迎登录</h1><p>为切实帮助考生及家长合理填报志愿，系统提供历史数据、招生计划、备选志愿参考等公益服务。本页面为本地演示，不连接官方认证接口。</p></div>' +
+            '<table class="box-subject"><thead><tr><th>语文</th><th>数学</th><th>外语</th><th>历史</th><th>生物</th><th>政治</th><th>总分</th></tr></thead><tbody><tr><td>124</td><td>106</td><td>132</td><td>76</td><td>96</td><td>92</td><td>626</td></tr></tbody></table>' +
+          '</section>' +
+          '<section class="batch-panel home-quick-links">' +
+            '<div class="quick-card"><span>历</span><h3>历史数据查询</h3><p>按年份、批次、院校、专业检索录取分数及位次。</p><button type="button" data-step="1">进入查询</button></div>' +
+            '<div class="quick-card"><span>招</span><h3>招生计划查询</h3><p>查看 2026 年在渝招生计划、选科要求和专业备注。</p><button type="button" data-step="2">查看计划</button></div>' +
+            '<div class="quick-card"><span>备</span><h3>备选志愿参考</h3><p>收藏院校专业，形成最多 96 个备选志愿清单。</p><button type="button" data-step="3">管理备选</button></div>' +
           '</section>' +
           '<section class="search-panel">' +
-            '<div class="panel-head"><h2>院校专业检索</h2><span>符合 选科/分数 条件优先展示</span></div>' +
-            '<div class="filter-row"><input name="schoolKeyword" placeholder="输入院校或专业关键词"><select name="cityFilter"><option value="">全部地区</option><option>重庆</option><option>北京</option><option>上海</option><option>四川</option><option>湖北</option></select><select name="riskFilter"><option value="">全部梯度</option><option>冲</option><option>稳</option><option>保</option></select></div>' +
+            '<div class="panel-head"><h2>查询条件</h2><span>当前批次：普通类本科批 · 首选历史</span></div>' +
+            '<div class="filter-row"><input name="schoolKeyword" placeholder="请输入院校名称或专业名称"><select name="cityFilter"><option value="">院校所在地</option><option>重庆</option><option>北京</option><option>上海</option><option>四川</option><option>湖北</option></select><select name="riskFilter"><option value="">参考梯度</option><option>冲</option><option>稳</option><option>保</option></select></div>' +
+            '<div class="batch-tabs"><button class="active" type="button" data-batch="本科批">普通类本科批</button><button type="button" data-batch="高职专科批">高职专科批</button><button type="button" data-batch="提前批A段">本科提前批A段</button></div>' +
             '<div class="school-list"></div>' +
           '</section>' +
           '<section class="choice-panel">' +
-            '<div class="panel-head"><h2>志愿表</h2><span>已填 <strong data-choice-count>0</strong>/96 个平行志愿，按顺序投档参考</span></div>' +
-            '<div class="choice-table-wrap"><table class="choice-table"><thead><tr><th>序号</th><th>院校</th><th>专业组/专业</th><th>地区</th><th>梯度</th><th>服从调剂</th><th>操作</th></tr></thead><tbody></tbody></table></div>' +
-            '<div class="choice-actions"><button type="button" class="fill-recommend">推荐填满96个</button><button type="button" class="clear-volunteer">清空志愿</button><button type="button" class="save-volunteer">保存草稿</button><button type="button" class="submit-volunteer">确认提交</button><button type="button" class="unlock-volunteer">撤销提交</button><button type="button" class="print-volunteer">打印志愿表</button></div>' +
+            '<div class="panel-head"><h2>备选志愿参考</h2><span>系统按顺序展示，已选 <strong data-choice-count>0</strong>/96 个</span></div>' +
+            '<div class="choice-actions"><button type="button" class="fill-recommend">一键生成96个备选志愿</button><button type="button" class="clear-volunteer">清空</button><button type="button" class="save-volunteer">保存</button><button type="button" class="submit-volunteer">锁定参考表</button><button type="button" class="unlock-volunteer">解除锁定</button><button type="button" class="print-volunteer">打印</button></div>' +
+            '<div class="choice-table-wrap"><table class="choice-table"><thead><tr><th>序号</th><th>院校</th><th>专业</th><th>所在地</th><th>梯度</th><th>服从调剂</th><th>操作</th></tr></thead><tbody></tbody></table></div>' +
           '</section>' +
-          '<section class="review-panel"><h2>提交核对</h2><ul class="review-list"><li>已核对考生信息、批次和志愿顺序。</li><li>已阅读招生章程、专业选科要求和体检限报要求。</li><li>提交后模拟锁定，可撤销后继续修改。</li></ul></section>' +
+          '<section class="review-panel"><h2>使用说明</h2><ul class="review-list"><li>辅助系统仅提供志愿填报参考，正式志愿以重庆市普通高校招生志愿填报系统提交结果为准。</li><li>建议结合招生章程、体检限报、选科要求和个人意愿综合判断。</li><li>本地演示版不采集真实账号、密码、手机号或验证码。</li></ul></section>' +
         '</div>' +
       '</div>' +
     '</section>';
@@ -585,11 +594,12 @@
 
     if (back) back.addEventListener("click", function () { navigate("/score/result.html", true); });
 
-    document.querySelectorAll(".volunteer-steps button").forEach(function (button) {
+    document.querySelectorAll("[data-step]").forEach(function (button) {
       button.addEventListener("click", function () {
-        var targets = [0, 1, 2, 4];
+        var targets = [0, 2, 2, 3, 4];
         document.querySelectorAll(".volunteer-steps button").forEach(function (item) { item.classList.remove("active"); });
-        button.classList.add("active");
+        document.querySelectorAll(".zy-nav a").forEach(function (item) { item.classList.toggle("active", item.dataset.step === button.dataset.step); });
+        document.querySelectorAll('.volunteer-steps button[data-step="' + button.dataset.step + '"]').forEach(function (item) { item.classList.add("active"); });
         document.querySelectorAll(".volunteer-main > section")[targets[Number(button.dataset.step || 0)]].scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
@@ -656,12 +666,11 @@
           (!cityValue || school.city === cityValue) &&
           (!riskValue || school.risk === riskValue);
       });
-      list.innerHTML = filtered.map(function (school, index) {
-        return '<article class="school-card">' +
-          '<div><h3>' + escapeHtml(school.name) + '</h3><p>' + escapeHtml(school.major) + '</p><small>' + escapeHtml(school.city) + ' · 参考位次梯度：' + escapeHtml(school.risk) + ' · 往年参考分：' + school.score + '</small></div>' +
-          '<button type="button" data-school-index="' + index + '"' + (submitted ? " disabled" : "") + '>加入志愿</button>' +
-        '</article>';
-      }).join("") || '<div class="empty-choice">没有符合条件的院校专业。</div>';
+      list.innerHTML = '<div class="main-data"><div class="data-table-header"><div class="data-table-header-left"><h5>查询结果</h5><span>共 ' + filtered.length + ' 条</span></div><div class="data-table-header-right">数据年份：2023-2025</div></div><div class="choice-table-wrap"><table class="choice-table system-table"><thead><tr><th>院校名称</th><th>专业名称</th><th>批次</th><th>所在地</th><th>参考分</th><th>参考梯度</th><th>操作</th></tr></thead><tbody>' +
+        (filtered.map(function (school, index) {
+          return '<tr><td><b>' + escapeHtml(school.name) + '</b><small>院校代码 ' + String(5000 + index).padStart(5, "0") + '</small></td><td>' + escapeHtml(school.major) + '<small>选科要求：历史+生物/政治</small></td><td>' + escapeHtml(currentBatch) + '</td><td>' + escapeHtml(school.city) + '</td><td><b>' + school.score + '</b><small>参考位次 ' + (1200 + index * 43) + '</small></td><td><span class="risk ' + escapeHtml(school.risk) + '">' + escapeHtml(school.risk) + '</span></td><td><button type="button" data-school-index="' + index + '"' + (submitted ? " disabled" : "") + '>加入备选</button></td></tr>';
+        }).join("") || '<tr><td colspan="7" class="empty-choice">没有符合条件的院校专业。</td></tr>') +
+      '</tbody></table></div></div>';
 
       list.querySelectorAll("button[data-school-index]").forEach(function (button) {
         button.addEventListener("click", function () {
@@ -678,8 +687,7 @@
     }
 
     function renderChoices() {
-      document.querySelector("[data-status-text]").textContent = submitted ? "已提交" : "未提交";
-      document.querySelector("[data-choice-count]").textContent = String(choices.length);
+      document.querySelectorAll("[data-choice-count]").forEach(function (node) { node.textContent = String(choices.length); });
       document.querySelector(".volunteer-page").classList.toggle("submitted", submitted);
       tbody.innerHTML = choices.map(function (choice, index) {
         return '<tr><td>A' + String(index + 1).padStart(2, "0") + '</td><td>' + escapeHtml(choice.name) + '<small>' + escapeHtml(choice.batch || currentBatch) + '</small></td><td>' + escapeHtml(choice.major) + '</td><td>' + escapeHtml(choice.city) + '</td><td><span class="risk ' + escapeHtml(choice.risk) + '">' + escapeHtml(choice.risk) + '</span></td><td><label class="adjust"><input type="checkbox" data-adjust="' + index + '"' + (choice.adjust ? " checked" : "") + (submitted ? " disabled" : "") + '>服从</label></td><td><button type="button" data-up="' + index + '"' + (submitted || index === 0 ? " disabled" : "") + '>上移</button><button type="button" data-down="' + index + '"' + (submitted || index === choices.length - 1 ? " disabled" : "") + '>下移</button><button type="button" data-remove="' + index + '"' + (submitted ? " disabled" : "") + '>删除</button></td></tr>';
