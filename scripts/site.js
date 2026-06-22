@@ -533,7 +533,7 @@
           '<div class="fill-status"><span>当前状态</span><strong data-status-text>未提交</strong></div>' +
         '</aside>' +
         '<div class="volunteer-main">' +
-          '<section class="notice-panel"><h1>志愿填报模拟表</h1><p>本页面按真实填报流程模拟：选择批次，检索院校专业，加入志愿表，保存草稿，最终确认提交。</p></section>' +
+          '<section class="notice-panel"><h1>志愿填报模拟表</h1><p>本页面按重庆新高考平行志愿流程模拟：选择批次，检索院校专业，最多填报 96 个志愿，保存草稿，最终确认提交。</p></section>' +
           '<section class="batch-panel">' +
             '<div class="panel-head"><h2>批次选择</h2><span>当前开放：本科批、专科批</span></div>' +
             '<div class="batch-tabs"><button class="active" type="button" data-batch="本科批">本科批</button><button type="button" data-batch="高职专科批">高职专科批</button><button type="button" data-batch="提前批A段">提前批A段</button></div>' +
@@ -544,9 +544,9 @@
             '<div class="school-list"></div>' +
           '</section>' +
           '<section class="choice-panel">' +
-            '<div class="panel-head"><h2>志愿表</h2><span>最多 6 个院校专业组，按顺序投档参考</span></div>' +
+            '<div class="panel-head"><h2>志愿表</h2><span>已填 <strong data-choice-count>0</strong>/96 个平行志愿，按顺序投档参考</span></div>' +
             '<div class="choice-table-wrap"><table class="choice-table"><thead><tr><th>序号</th><th>院校</th><th>专业组/专业</th><th>地区</th><th>梯度</th><th>服从调剂</th><th>操作</th></tr></thead><tbody></tbody></table></div>' +
-            '<div class="choice-actions"><button type="button" class="save-volunteer">保存草稿</button><button type="button" class="submit-volunteer">确认提交</button><button type="button" class="unlock-volunteer">撤销提交</button><button type="button" class="print-volunteer">打印志愿表</button></div>' +
+            '<div class="choice-actions"><button type="button" class="fill-recommend">推荐填满96个</button><button type="button" class="clear-volunteer">清空志愿</button><button type="button" class="save-volunteer">保存草稿</button><button type="button" class="submit-volunteer">确认提交</button><button type="button" class="unlock-volunteer">撤销提交</button><button type="button" class="print-volunteer">打印志愿表</button></div>' +
           '</section>' +
           '<section class="review-panel"><h2>提交核对</h2><ul class="review-list"><li>已核对考生信息、批次和志愿顺序。</li><li>已阅读招生章程、专业选科要求和体检限报要求。</li><li>提交后模拟锁定，可撤销后继续修改。</li></ul></section>' +
         '</div>' +
@@ -557,7 +557,8 @@
   }
 
   function setupVolunteerAssist() {
-    var schools = [
+    var maxChoices = 96;
+    var seedSchools = [
       { name: "重庆大学", major: "人文科学试验班 / 法学", city: "重庆", risk: "冲", score: 641 },
       { name: "西南大学", major: "思想政治教育 / 历史学", city: "重庆", risk: "冲", score: 628 },
       { name: "重庆师范大学", major: "汉语言文学 / 英语", city: "重庆", risk: "稳", score: 594 },
@@ -569,7 +570,9 @@
       { name: "北京语言大学", major: "外国语言文学类", city: "北京", risk: "冲", score: 625 },
       { name: "重庆文理学院", major: "思想政治教育 / 生物技术", city: "重庆", risk: "保", score: 532 }
     ];
+    var schools = buildVolunteerSchools(seedSchools);
     var choices = JSON.parse(localStorage.getItem("volunteerChoices") || "[]");
+    if (choices.length > maxChoices) choices = choices.slice(0, maxChoices);
     var submitted = localStorage.getItem("volunteerSubmitted") === "1";
     var currentBatch = localStorage.getItem("volunteerBatch") || "本科批";
 
@@ -612,6 +615,20 @@
       persistVolunteer();
       toastVolunteer("草稿已保存。");
     });
+    document.querySelector(".fill-recommend").addEventListener("click", function () {
+      if (submitted) return toastVolunteer("已提交状态不能修改志愿，请先撤销提交。");
+      fillRecommendedChoices();
+      persistVolunteer();
+      renderChoices();
+      toastVolunteer("已按冲稳保梯度填满 96 个志愿。");
+    });
+    document.querySelector(".clear-volunteer").addEventListener("click", function () {
+      if (submitted) return toastVolunteer("已提交状态不能清空志愿，请先撤销提交。");
+      choices = [];
+      persistVolunteer();
+      renderChoices();
+      toastVolunteer("志愿表已清空。");
+    });
     document.querySelector(".submit-volunteer").addEventListener("click", function () {
       if (!choices.length) return toastVolunteer("请至少添加一个志愿。");
       submitted = true;
@@ -649,7 +666,7 @@
       list.querySelectorAll("button[data-school-index]").forEach(function (button) {
         button.addEventListener("click", function () {
           if (submitted) return toastVolunteer("已提交状态不能修改志愿。");
-          if (choices.length >= 6) return toastVolunteer("最多填报 6 个志愿。");
+          if (choices.length >= maxChoices) return toastVolunteer("最多填报 96 个志愿。");
           var school = filtered[Number(button.dataset.schoolIndex)];
           if (choices.some(function (item) { return item.name === school.name && item.major === school.major; })) return toastVolunteer("该志愿已添加。");
           choices.push({ name: school.name, major: school.major, city: school.city, risk: school.risk, adjust: true, batch: currentBatch });
@@ -662,6 +679,7 @@
 
     function renderChoices() {
       document.querySelector("[data-status-text]").textContent = submitted ? "已提交" : "未提交";
+      document.querySelector("[data-choice-count]").textContent = String(choices.length);
       document.querySelector(".volunteer-page").classList.toggle("submitted", submitted);
       tbody.innerHTML = choices.map(function (choice, index) {
         return '<tr><td>A' + String(index + 1).padStart(2, "0") + '</td><td>' + escapeHtml(choice.name) + '<small>' + escapeHtml(choice.batch || currentBatch) + '</small></td><td>' + escapeHtml(choice.major) + '</td><td>' + escapeHtml(choice.city) + '</td><td><span class="risk ' + escapeHtml(choice.risk) + '">' + escapeHtml(choice.risk) + '</span></td><td><label class="adjust"><input type="checkbox" data-adjust="' + index + '"' + (choice.adjust ? " checked" : "") + (submitted ? " disabled" : "") + '>服从</label></td><td><button type="button" data-up="' + index + '"' + (submitted || index === 0 ? " disabled" : "") + '>上移</button><button type="button" data-down="' + index + '"' + (submitted || index === choices.length - 1 ? " disabled" : "") + '>下移</button><button type="button" data-remove="' + index + '"' + (submitted ? " disabled" : "") + '>删除</button></td></tr>';
@@ -703,6 +721,71 @@
       localStorage.setItem("volunteerChoices", JSON.stringify(choices));
       localStorage.setItem("volunteerSubmitted", submitted ? "1" : "0");
       localStorage.setItem("volunteerBatch", currentBatch);
+    }
+
+    function fillRecommendedChoices() {
+      var exists = {};
+      choices.forEach(function (choice) { exists[choice.name + choice.major] = true; });
+      schools.forEach(function (school) {
+        if (choices.length >= maxChoices) return;
+        var key = school.name + school.major;
+        if (exists[key]) return;
+        choices.push({ name: school.name, major: school.major, city: school.city, risk: school.risk, adjust: true, batch: currentBatch });
+        exists[key] = true;
+      });
+    }
+
+    function buildVolunteerSchools(seed) {
+      var names = [
+        "重庆大学", "西南大学", "西南政法大学", "重庆师范大学", "四川外国语大学", "重庆邮电大学",
+        "重庆交通大学", "重庆工商大学", "重庆理工大学", "重庆文理学院", "四川师范大学", "成都大学",
+        "西华师范大学", "湖北大学", "华中师范大学", "中南民族大学", "上海政法学院", "北京语言大学",
+        "天津师范大学", "南京晓庄学院", "浙江传媒学院", "湖南师范大学", "广东外语外贸大学", "海南师范大学"
+      ];
+      var majors = [
+        "汉语言文学", "历史学", "思想政治教育", "法学", "英语", "新闻传播学类",
+        "社会工作", "教育学类", "生物科学", "行政管理", "政治学与行政学", "工商管理类"
+      ];
+      var cities = ["重庆", "四川", "湖北", "上海", "北京", "天津", "江苏", "浙江", "湖南", "广东", "海南"];
+      var risks = ["冲", "冲", "稳", "稳", "保", "保"];
+      var generated = seed.slice();
+      var seen = {};
+      generated.forEach(function (item) { seen[item.name + item.major] = true; });
+      names.forEach(function (name, nameIndex) {
+        majors.forEach(function (majorName, majorIndex) {
+          if (generated.length >= 120) return;
+          var major = majorName + " / " + majors[(majorIndex + 3) % majors.length];
+          var key = name + major;
+          if (seen[key]) return;
+          var index = generated.length;
+          generated.push({
+            name: name,
+            major: major,
+            city: cities[(nameIndex + majorIndex) % cities.length],
+            risk: risks[(nameIndex + majorIndex) % risks.length],
+            score: 650 - (index % 96)
+          });
+          seen[key] = true;
+        });
+      });
+
+      var fallbackIndex = 1;
+      while (generated.length < 120) {
+        var fallback = {
+          name: "重庆市模拟院校" + String(fallbackIndex).padStart(2, "0"),
+          major: majors[fallbackIndex % majors.length] + " / " + majors[(fallbackIndex + 4) % majors.length],
+          city: cities[fallbackIndex % cities.length],
+          risk: risks[fallbackIndex % risks.length],
+          score: 650 - (generated.length % 96)
+        };
+        var fallbackKey = fallback.name + fallback.major;
+        if (!seen[fallbackKey]) {
+          generated.push(fallback);
+          seen[fallbackKey] = true;
+        }
+        fallbackIndex += 1;
+      }
+      return generated;
     }
   }
 
