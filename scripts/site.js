@@ -213,6 +213,8 @@
       renderScoreLogin();
     } else if (route === "/score/result.html") {
       renderScoreResult();
+    } else if (route === "/score/assist.html") {
+      renderVolunteerAssist();
     } else if (/^\/score\//.test(route)) {
       renderScoreResult();
     } else if (/\.pdf$/i.test(route)) {
@@ -373,7 +375,7 @@
   function renderScoreLogin() {
     if (!main) return;
     document.body.classList.add("score-mode", "score-login-mode");
-    document.body.classList.remove("score-result-mode");
+    document.body.classList.remove("score-result-mode", "volunteer-mode");
     main.innerHTML = '<section class="score-login-page">' +
       '<div class="score-title"><h1>重庆市教育考试招生查询系统</h1><p>2026年普通高考综合查询</p></div>' +
       '<div class="login-card">' +
@@ -488,7 +490,7 @@
     if (!main) return;
     var candidate = "26500111111371";
     document.body.classList.add("score-mode", "score-result-mode");
-    document.body.classList.remove("score-login-mode");
+    document.body.classList.remove("score-login-mode", "volunteer-mode");
     main.innerHTML = '<section class="score-result-page">' +
       '<header class="result-top"><div>重庆市教育考试院综合查询系统 [2026年普通高考综合查询]</div></header>' +
       '<div class="candidate-band">考生：赵丁谕　' + maskId(candidate) + '</div>' +
@@ -517,6 +519,193 @@
     });
   }
 
+  function renderVolunteerAssist() {
+    if (!main) return;
+    document.body.classList.add("score-mode", "volunteer-mode");
+    document.body.classList.remove("score-login-mode", "score-result-mode");
+
+    main.innerHTML = '<section class="volunteer-page">' +
+      '<header class="volunteer-top"><div><strong>重庆市统一高考志愿填报辅助系统</strong><span>2026年普通高校招生志愿模拟填报</span></div><button type="button" class="back-score">返回成绩页</button></header>' +
+      '<div class="volunteer-shell">' +
+        '<aside class="volunteer-sidebar">' +
+          '<div class="candidate-card"><h2>赵丁谕</h2><p>考生号：265****1371</p><p>选科：历史 / 生物 / 思想政治</p><p>总分：626</p></div>' +
+          '<nav class="volunteer-steps"><button class="active" type="button" data-step="0">1 填报须知</button><button type="button" data-step="1">2 选择批次</button><button type="button" data-step="2">3 填写志愿</button><button type="button" data-step="3">4 核对提交</button></nav>' +
+          '<div class="fill-status"><span>当前状态</span><strong data-status-text>未提交</strong></div>' +
+        '</aside>' +
+        '<div class="volunteer-main">' +
+          '<section class="notice-panel"><h1>志愿填报模拟表</h1><p>本页面按真实填报流程模拟：选择批次，检索院校专业，加入志愿表，保存草稿，最终确认提交。</p></section>' +
+          '<section class="batch-panel">' +
+            '<div class="panel-head"><h2>批次选择</h2><span>当前开放：本科批、专科批</span></div>' +
+            '<div class="batch-tabs"><button class="active" type="button" data-batch="本科批">本科批</button><button type="button" data-batch="高职专科批">高职专科批</button><button type="button" data-batch="提前批A段">提前批A段</button></div>' +
+          '</section>' +
+          '<section class="search-panel">' +
+            '<div class="panel-head"><h2>院校专业检索</h2><span>符合 选科/分数 条件优先展示</span></div>' +
+            '<div class="filter-row"><input name="schoolKeyword" placeholder="输入院校或专业关键词"><select name="cityFilter"><option value="">全部地区</option><option>重庆</option><option>北京</option><option>上海</option><option>四川</option><option>湖北</option></select><select name="riskFilter"><option value="">全部梯度</option><option>冲</option><option>稳</option><option>保</option></select></div>' +
+            '<div class="school-list"></div>' +
+          '</section>' +
+          '<section class="choice-panel">' +
+            '<div class="panel-head"><h2>志愿表</h2><span>最多 6 个院校专业组，按顺序投档参考</span></div>' +
+            '<div class="choice-table-wrap"><table class="choice-table"><thead><tr><th>序号</th><th>院校</th><th>专业组/专业</th><th>地区</th><th>梯度</th><th>服从调剂</th><th>操作</th></tr></thead><tbody></tbody></table></div>' +
+            '<div class="choice-actions"><button type="button" class="save-volunteer">保存草稿</button><button type="button" class="submit-volunteer">确认提交</button><button type="button" class="unlock-volunteer">撤销提交</button><button type="button" class="print-volunteer">打印志愿表</button></div>' +
+          '</section>' +
+          '<section class="review-panel"><h2>提交核对</h2><ul class="review-list"><li>已核对考生信息、批次和志愿顺序。</li><li>已阅读招生章程、专业选科要求和体检限报要求。</li><li>提交后模拟锁定，可撤销后继续修改。</li></ul></section>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+
+    setupVolunteerAssist();
+  }
+
+  function setupVolunteerAssist() {
+    var schools = [
+      { name: "重庆大学", major: "人文科学试验班 / 法学", city: "重庆", risk: "冲", score: 641 },
+      { name: "西南大学", major: "思想政治教育 / 历史学", city: "重庆", risk: "冲", score: 628 },
+      { name: "重庆师范大学", major: "汉语言文学 / 英语", city: "重庆", risk: "稳", score: 594 },
+      { name: "四川外国语大学", major: "英语 / 新闻传播学类", city: "重庆", risk: "稳", score: 586 },
+      { name: "西南政法大学", major: "政治学与行政学 / 社会工作", city: "重庆", risk: "稳", score: 612 },
+      { name: "华中师范大学", major: "历史学类 / 教育学类", city: "湖北", risk: "冲", score: 632 },
+      { name: "四川师范大学", major: "生物科学 / 历史学", city: "四川", risk: "保", score: 571 },
+      { name: "上海政法学院", major: "法学 / 行政管理", city: "上海", risk: "稳", score: 602 },
+      { name: "北京语言大学", major: "外国语言文学类", city: "北京", risk: "冲", score: 625 },
+      { name: "重庆文理学院", major: "思想政治教育 / 生物技术", city: "重庆", risk: "保", score: 532 }
+    ];
+    var choices = JSON.parse(localStorage.getItem("volunteerChoices") || "[]");
+    var submitted = localStorage.getItem("volunteerSubmitted") === "1";
+    var currentBatch = localStorage.getItem("volunteerBatch") || "本科批";
+
+    var back = document.querySelector(".back-score");
+    var list = document.querySelector(".school-list");
+    var tbody = document.querySelector(".choice-table tbody");
+    var keyword = document.querySelector('input[name="schoolKeyword"]');
+    var city = document.querySelector('select[name="cityFilter"]');
+    var risk = document.querySelector('select[name="riskFilter"]');
+
+    if (back) back.addEventListener("click", function () { navigate("/score/result.html", true); });
+
+    document.querySelectorAll(".volunteer-steps button").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var targets = [0, 1, 2, 4];
+        document.querySelectorAll(".volunteer-steps button").forEach(function (item) { item.classList.remove("active"); });
+        button.classList.add("active");
+        document.querySelectorAll(".volunteer-main > section")[targets[Number(button.dataset.step || 0)]].scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    document.querySelectorAll(".batch-tabs button").forEach(function (button) {
+      button.classList.toggle("active", button.dataset.batch === currentBatch);
+      button.addEventListener("click", function () {
+        if (submitted) return toastVolunteer("已提交状态不能修改批次，请先撤销提交。");
+        currentBatch = button.dataset.batch;
+        localStorage.setItem("volunteerBatch", currentBatch);
+        document.querySelectorAll(".batch-tabs button").forEach(function (item) { item.classList.toggle("active", item === button); });
+        toastVolunteer("已切换至：" + currentBatch);
+      });
+    });
+
+    [keyword, city, risk].forEach(function (field) {
+      if (!field) return;
+      field.addEventListener("input", renderSchools);
+      field.addEventListener("change", renderSchools);
+    });
+
+    document.querySelector(".save-volunteer").addEventListener("click", function () {
+      persistVolunteer();
+      toastVolunteer("草稿已保存。");
+    });
+    document.querySelector(".submit-volunteer").addEventListener("click", function () {
+      if (!choices.length) return toastVolunteer("请至少添加一个志愿。");
+      submitted = true;
+      persistVolunteer();
+      renderChoices();
+      toastVolunteer("志愿表已确认提交。");
+    });
+    document.querySelector(".unlock-volunteer").addEventListener("click", function () {
+      submitted = false;
+      persistVolunteer();
+      renderChoices();
+      toastVolunteer("已撤销提交，可继续修改。");
+    });
+    document.querySelector(".print-volunteer").addEventListener("click", function () { window.print(); });
+
+    renderSchools();
+    renderChoices();
+
+    function renderSchools() {
+      var key = keyword ? keyword.value.trim() : "";
+      var cityValue = city ? city.value : "";
+      var riskValue = risk ? risk.value : "";
+      var filtered = schools.filter(function (school) {
+        return (!key || school.name.indexOf(key) >= 0 || school.major.indexOf(key) >= 0) &&
+          (!cityValue || school.city === cityValue) &&
+          (!riskValue || school.risk === riskValue);
+      });
+      list.innerHTML = filtered.map(function (school, index) {
+        return '<article class="school-card">' +
+          '<div><h3>' + escapeHtml(school.name) + '</h3><p>' + escapeHtml(school.major) + '</p><small>' + escapeHtml(school.city) + ' · 参考位次梯度：' + escapeHtml(school.risk) + ' · 往年参考分：' + school.score + '</small></div>' +
+          '<button type="button" data-school-index="' + index + '"' + (submitted ? " disabled" : "") + '>加入志愿</button>' +
+        '</article>';
+      }).join("") || '<div class="empty-choice">没有符合条件的院校专业。</div>';
+
+      list.querySelectorAll("button[data-school-index]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          if (submitted) return toastVolunteer("已提交状态不能修改志愿。");
+          if (choices.length >= 6) return toastVolunteer("最多填报 6 个志愿。");
+          var school = filtered[Number(button.dataset.schoolIndex)];
+          if (choices.some(function (item) { return item.name === school.name && item.major === school.major; })) return toastVolunteer("该志愿已添加。");
+          choices.push({ name: school.name, major: school.major, city: school.city, risk: school.risk, adjust: true, batch: currentBatch });
+          persistVolunteer();
+          renderChoices();
+          toastVolunteer("已加入志愿表。");
+        });
+      });
+    }
+
+    function renderChoices() {
+      document.querySelector("[data-status-text]").textContent = submitted ? "已提交" : "未提交";
+      document.querySelector(".volunteer-page").classList.toggle("submitted", submitted);
+      tbody.innerHTML = choices.map(function (choice, index) {
+        return '<tr><td>A' + String(index + 1).padStart(2, "0") + '</td><td>' + escapeHtml(choice.name) + '<small>' + escapeHtml(choice.batch || currentBatch) + '</small></td><td>' + escapeHtml(choice.major) + '</td><td>' + escapeHtml(choice.city) + '</td><td><span class="risk ' + escapeHtml(choice.risk) + '">' + escapeHtml(choice.risk) + '</span></td><td><label class="adjust"><input type="checkbox" data-adjust="' + index + '"' + (choice.adjust ? " checked" : "") + (submitted ? " disabled" : "") + '>服从</label></td><td><button type="button" data-up="' + index + '"' + (submitted || index === 0 ? " disabled" : "") + '>上移</button><button type="button" data-down="' + index + '"' + (submitted || index === choices.length - 1 ? " disabled" : "") + '>下移</button><button type="button" data-remove="' + index + '"' + (submitted ? " disabled" : "") + '>删除</button></td></tr>';
+      }).join("") || '<tr><td colspan="7" class="empty-choice">尚未添加志愿，请从上方院校专业列表选择。</td></tr>';
+
+      tbody.querySelectorAll("[data-adjust]").forEach(function (input) {
+        input.addEventListener("change", function () {
+          choices[Number(input.dataset.adjust)].adjust = input.checked;
+          persistVolunteer();
+        });
+      });
+      tbody.querySelectorAll("[data-remove]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          choices.splice(Number(button.dataset.remove), 1);
+          persistVolunteer();
+          renderChoices();
+        });
+      });
+      tbody.querySelectorAll("[data-up]").forEach(function (button) {
+        button.addEventListener("click", function () { moveChoice(Number(button.dataset.up), -1); });
+      });
+      tbody.querySelectorAll("[data-down]").forEach(function (button) {
+        button.addEventListener("click", function () { moveChoice(Number(button.dataset.down), 1); });
+      });
+      renderSchools();
+    }
+
+    function moveChoice(index, offset) {
+      var next = index + offset;
+      if (next < 0 || next >= choices.length) return;
+      var item = choices[index];
+      choices[index] = choices[next];
+      choices[next] = item;
+      persistVolunteer();
+      renderChoices();
+    }
+
+    function persistVolunteer() {
+      localStorage.setItem("volunteerChoices", JSON.stringify(choices));
+      localStorage.setItem("volunteerSubmitted", submitted ? "1" : "0");
+      localStorage.setItem("volunteerBatch", currentBatch);
+    }
+  }
+
   function ensurePortal() {
     if (!main) return;
     if (document.body.classList.contains("score-mode")) {
@@ -524,7 +713,7 @@
       articlePanel = document.querySelector(".article-panel");
       sectionMenu = document.querySelector(".section-menu");
     }
-    document.body.classList.remove("score-mode", "score-login-mode", "score-result-mode");
+    document.body.classList.remove("score-mode", "score-login-mode", "score-result-mode", "volunteer-mode");
   }
 
   function scoreRows() {
@@ -555,6 +744,10 @@
     toast.textContent = text;
     document.body.appendChild(toast);
     setTimeout(function () { toast.remove(); }, 1800);
+  }
+
+  function toastVolunteer(text) {
+    showResultToast(text);
   }
 
   function renderPager(pager) {

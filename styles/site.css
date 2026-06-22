@@ -885,6 +885,347 @@ body.score-mode main {
   font-size: 14px;
 }
 
+.volunteer-page {
+  min-height: 100vh;
+  background: #f4f7fb;
+  color: #1d2b3a;
+}
+
+.volunteer-top {
+  display: flex;
+  min-height: 74px;
+  padding: 0 36px;
+  align-items: center;
+  justify-content: space-between;
+  background: #075f99;
+  color: #fff;
+}
+
+.volunteer-top strong {
+  display: block;
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+.volunteer-top span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255,255,255,.72);
+  font-size: 14px;
+}
+
+.volunteer-top button,
+.choice-actions button,
+.school-card button,
+.choice-table button {
+  border: 0;
+  cursor: pointer;
+}
+
+.volunteer-top button {
+  height: 38px;
+  padding: 0 18px;
+  background: #fff;
+  color: #075f99;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.volunteer-shell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 18px;
+  width: 1180px;
+  max-width: calc(100vw - 32px);
+  margin: 18px auto 40px;
+}
+
+.volunteer-sidebar,
+.notice-panel,
+.batch-panel,
+.search-panel,
+.choice-panel,
+.review-panel {
+  border: 1px solid #d9e1eb;
+  background: #fff;
+}
+
+.volunteer-sidebar {
+  align-self: start;
+}
+
+.candidate-card {
+  padding: 20px;
+  border-bottom: 1px solid #e3e8ef;
+}
+
+.candidate-card h2 {
+  margin: 0 0 12px;
+  font-size: 26px;
+}
+
+.candidate-card p {
+  margin: 7px 0;
+  color: #4b5b69;
+  font-size: 14px;
+}
+
+.volunteer-steps {
+  display: grid;
+  padding: 12px;
+  gap: 8px;
+}
+
+.volunteer-steps button {
+  height: 42px;
+  border: 1px solid #d9e1eb;
+  background: #f8fafc;
+  color: #1d2b3a;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.volunteer-steps button.active {
+  border-color: #0b73ad;
+  background: #0b73ad;
+  color: #fff;
+}
+
+.fill-status {
+  display: flex;
+  padding: 16px 20px 20px;
+  justify-content: space-between;
+  border-top: 1px solid #e3e8ef;
+  font-size: 14px;
+}
+
+.fill-status strong {
+  color: #b51e2b;
+}
+
+.volunteer-page.submitted .fill-status strong {
+  color: #087a38;
+}
+
+.volunteer-main {
+  display: grid;
+  gap: 14px;
+}
+
+.notice-panel,
+.batch-panel,
+.search-panel,
+.choice-panel,
+.review-panel {
+  padding: 20px 22px;
+}
+
+.notice-panel h1,
+.panel-head h2,
+.review-panel h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.notice-panel p {
+  margin: 10px 0 0;
+  color: #5d6a75;
+  font-size: 15px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.panel-head span {
+  color: #6a7682;
+  font-size: 13px;
+}
+
+.batch-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.batch-tabs button {
+  min-width: 138px;
+  height: 42px;
+  border: 1px solid #cfd8e3;
+  background: #fff;
+  color: #1d2b3a;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.batch-tabs button.active {
+  border-color: #0b73ad;
+  background: #e9f5fb;
+  color: #075f99;
+  font-weight: 700;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 150px 150px;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.filter-row input,
+.filter-row select {
+  height: 40px;
+  border: 1px solid #cfd8e3;
+  padding: 0 12px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.school-list {
+  display: grid;
+  gap: 10px;
+}
+
+.school-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 104px;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid #e1e7ef;
+  padding: 14px;
+  background: #fbfcfe;
+}
+
+.school-card h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.school-card p {
+  margin: 0 0 6px;
+  color: #2c3c4b;
+  font-size: 14px;
+}
+
+.school-card small {
+  color: #6a7682;
+}
+
+.school-card button,
+.choice-actions button {
+  height: 38px;
+  background: #0b73ad;
+  color: #fff;
+  font-size: 14px;
+}
+
+.school-card button:disabled,
+.choice-actions button:disabled,
+.choice-table button:disabled {
+  background: #bfc8d2;
+  cursor: not-allowed;
+}
+
+.choice-table-wrap {
+  overflow-x: auto;
+}
+
+.choice-table {
+  width: 100%;
+  min-width: 840px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.choice-table th,
+.choice-table td {
+  border: 1px solid #dfe6ee;
+  padding: 11px 10px;
+  text-align: left;
+}
+
+.choice-table th {
+  background: #f1f5f9;
+  color: #26384a;
+  font-weight: 700;
+}
+
+.choice-table td small {
+  display: block;
+  margin-top: 4px;
+  color: #6a7682;
+}
+
+.risk {
+  display: inline-flex;
+  min-width: 32px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+.risk.冲 {
+  background: #c53a32;
+}
+
+.risk.稳 {
+  background: #0f7cba;
+}
+
+.risk.保 {
+  background: #16854e;
+}
+
+.adjust {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.choice-table button {
+  min-width: 44px;
+  height: 28px;
+  margin-right: 6px;
+  background: #edf4fa;
+  color: #075f99;
+}
+
+.choice-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.choice-actions .submit-volunteer {
+  background: #bd1c23;
+}
+
+.choice-actions .unlock-volunteer {
+  background: #536475;
+}
+
+.review-list {
+  margin: 12px 0 0;
+  padding-left: 22px;
+  color: #4b5b69;
+  line-height: 1.9;
+}
+
+.empty-choice {
+  padding: 20px;
+  color: #7a8793;
+  text-align: center;
+}
+
 .rightbar {
   min-width: 0;
 }
@@ -1169,5 +1510,71 @@ body.score-mode main {
 
   .result-actions button {
     flex: 1;
+  }
+
+  .volunteer-top {
+    display: grid;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .volunteer-top strong {
+    font-size: 19px;
+  }
+
+  .volunteer-top button {
+    width: 100%;
+  }
+
+  .volunteer-shell {
+    display: block;
+    max-width: calc(100vw - 18px);
+    margin: 10px auto 28px;
+  }
+
+  .volunteer-sidebar {
+    margin-bottom: 12px;
+  }
+
+  .volunteer-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .volunteer-steps button {
+    font-size: 13px;
+  }
+
+  .notice-panel,
+  .batch-panel,
+  .search-panel,
+  .choice-panel,
+  .review-panel {
+    padding: 16px 14px;
+  }
+
+  .panel-head {
+    display: block;
+  }
+
+  .panel-head span {
+    display: block;
+    margin-top: 6px;
+  }
+
+  .filter-row {
+    grid-template-columns: 1fr;
+  }
+
+  .school-card {
+    grid-template-columns: 1fr;
+  }
+
+  .school-card button {
+    width: 100%;
+  }
+
+  .choice-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 }
