@@ -1784,6 +1784,11 @@ body.score-mode main {
   box-shadow: 0 1px 2px rgba(0,0,0,.03);
 }
 
+.history-normal-page .official-history-result {
+  border-radius: 0;
+  box-shadow: none;
+}
+
 .history-normal-page .data-table-header {
   display: flex;
   align-items: center;
@@ -1812,7 +1817,7 @@ body.score-mode main {
 }
 
 .history-normal-page .system-table {
-  min-width: 1400px;
+  min-width: 1200px;
 }
 
 .history-normal-page .history-result-table th,
@@ -1820,77 +1825,257 @@ body.score-mode main {
   white-space: nowrap;
 }
 
-.history-normal-page .history-result-table td:first-child {
-  white-space: normal;
-  min-width: 300px;
+.history-normal-page .history-result-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.history-normal-page .history-result-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  padding: 0 12px;
+  background: #fff;
 }
 
 .history-normal-page .history-result-years {
   display: flex;
-  gap: 10px;
-  padding: 14px 20px;
-  border-bottom: 1px solid #e5e6eb;
+  align-self: stretch;
+  gap: 0;
+  min-width: 620px;
 }
 
 .history-normal-page .history-result-years button {
-  min-width: 78px;
-  height: 32px;
-  border: 1px solid #e5e6eb;
-  border-radius: 2px;
+  min-width: 182px;
+  height: 72px;
+  border: 0;
+  border-bottom: 5px solid transparent;
   background: #fff;
   color: #4e5969;
+  font-size: 18px;
+  font-weight: 500;
   cursor: pointer;
 }
 
 .history-normal-page .history-result-years button.active {
-  border-color: #165dff;
-  background: #165dff;
-  color: #fff;
+  border-color: #1d64ff;
+  background: #fff;
+  color: #1d64ff;
+  font-weight: 700;
 }
 
-.history-normal-page .history-batch-row td {
-  background: #f2f3f5;
+.history-normal-page .history-sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: #1d2129;
+  font-size: 15px;
   font-weight: 600;
 }
 
-.history-normal-page .history-school-row td {
+.history-normal-page .history-sort-controls select {
+  width: 140px;
+  height: 38px;
+  border: 0;
+  border-radius: 2px;
+  padding: 0 34px 0 15px;
+  background: #f3f5f8;
+  color: #4e5969;
+  font-size: 14px;
+}
+
+.history-normal-page .history-result-table th {
+  height: 60px;
+  border: 0;
+  background: #173966;
+  color: #f5f8ff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.history-normal-page .history-result-table th:nth-child(1) {
+  width: 74px;
+}
+
+.history-normal-page .history-result-table th:nth-child(2) {
+  width: 430px;
+  text-align: left;
+}
+
+.history-normal-page .history-result-table th:nth-child(3) {
+  width: 430px;
+  text-align: left;
+}
+
+.history-normal-page .history-result-table th:nth-child(4) {
+  width: 148px;
+}
+
+.history-normal-page .history-result-table th:nth-child(5),
+.history-normal-page .history-result-table th:nth-child(7) {
+  width: 170px;
+}
+
+.history-normal-page .history-result-table th:nth-child(6) {
+  width: 96px;
+}
+
+.history-normal-page .history-result-table th:nth-child(8),
+.history-normal-page .history-result-table th:nth-child(9) {
+  width: 84px;
+}
+
+.history-normal-page .history-result-table td {
+  height: 102px;
+  border: 0;
+  border-bottom: 1px solid #e5e8ef;
+  padding: 0 12px;
   background: #fff;
+  color: #1d2129;
+  font-size: 14px;
+  vertical-align: middle;
 }
 
-.history-normal-page .history-major-row td {
-  background: #fbfcff;
+.history-normal-page .history-program-row:nth-child(even) td {
+  background: #f7f8fb;
 }
 
-.history-normal-page .tree-toggle {
+.history-normal-page .expand-cell {
+  text-align: center;
+}
+
+.history-normal-page .official-expand {
   display: inline-flex;
-  width: 18px;
-  height: 18px;
+  width: 46px;
+  height: 46px;
   align-items: center;
   justify-content: center;
-  margin-right: 8px;
-  border: 1px solid #c9cdd4;
+  border: 0;
   border-radius: 2px;
-  background: #fff;
+  background: #e9edf3;
   color: #4e5969;
-  line-height: 1;
+  font-size: 30px;
+  font-weight: 300;
   cursor: pointer;
 }
 
-.history-normal-page .tree-indent {
+.history-normal-page .official-linkmark {
+  color: #1d64ff;
+}
+
+.history-normal-page .official-blue {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #1d64ff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.history-normal-page .school-info p,
+.history-normal-page .major-info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 0;
+  color: #1d2129;
+  font-size: 14px;
+}
+
+.history-normal-page .school-info i,
+.history-normal-page .major-info span:before,
+.history-normal-page .score-cell i,
+.history-normal-page .count-cell i {
   display: inline-block;
-  width: 26px;
+  width: 1px;
+  height: 15px;
+  background: #d8dde6;
+  content: "";
 }
 
-.history-normal-page .tree-indent.deep {
-  width: 58px;
+.history-normal-page .chapter-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+  color: #1d64ff;
 }
 
-.history-normal-page .history-result-table small {
-  display: inline;
-  margin-left: 10px;
-  color: #86909c;
-  font-weight: 400;
+.history-normal-page .major-info p span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.history-normal-page .major-info b,
+.history-normal-page .school-info b,
+.history-normal-page .count-cell b,
+.history-normal-page .score-cell b {
+  color: #1b3764;
+  font-weight: 800;
+}
+
+.history-normal-page .count-cell,
+.history-normal-page .score-cell {
+  text-align: center;
+  color: #9aa4b3;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.history-normal-page .count-cell,
+.history-normal-page .score-cell {
+  display: table-cell;
+}
+
+.history-normal-page .count-cell i,
+.history-normal-page .score-cell i {
+  margin: 0 14px;
+  vertical-align: middle;
+}
+
+.history-normal-page .score-cell span {
+  color: #9aa4b3;
+  font-weight: 700;
+}
+
+.history-normal-page .icon-cell {
+  text-align: center;
+}
+
+.history-normal-page .icon-cell button {
+  display: inline-flex;
+  width: 46px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 3px;
+  background: #f0f2f5;
+  color: #4e5969;
+}
+
+.history-normal-page .history-result-table .arco-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.history-normal-page .icon-cell .arco-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.history-normal-page .history-expand-row td {
+  height: auto;
+  padding: 14px 20px;
+  background: #eef3fb;
+  color: #4e5969;
 }
 
 .history-normal-page .history-result-foot {

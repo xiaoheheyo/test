@@ -857,9 +857,9 @@
         cityValue ? "院校省份：" + cityValue : "院校省份：全部",
         rangeByScore ? "查询范围：分数" : "查询范围：位次"
       ].join("　");
-      list.innerHTML = '<div class="main-data"><div class="data-table-header"><div class="data-table-header-left"><h5>查询结果</h5><span>共 ' + filtered.length + ' 条</span></div><div class="data-table-header-right">' + escapeHtml(condition) + '</div></div><div class="history-result-years"><button type="button" data-result-year="2025"' + (resultYear === "2025" ? ' class="active"' : "") + '>2025</button><button type="button" data-result-year="2024"' + (resultYear === "2024" ? ' class="active"' : "") + '>2024</button><button type="button" data-result-year="2023"' + (resultYear === "2023" ? ' class="active"' : "") + '>2023</button></div><div class="choice-table-wrap"><table class="choice-table system-table history-result-table"><thead><tr><th>批次 / 院校 / 专业</th><th>院校代号</th><th>专业代号</th><th>计划数</th><th>录取数</th><th>最低分</th><th>最低位次</th><th>最高分</th><th>最高位次</th><th>平均分</th><th>备注</th></tr></thead><tbody>' +
+      list.innerHTML = '<div class="main-data official-history-result" data-condition="' + escapeHtml(condition) + '"><div class="history-result-toolbar"><div class="history-result-years"><button type="button" data-result-year="2025"' + (resultYear === "2025" ? ' class="active"' : "") + '>2025年</button><button type="button" data-result-year="2024"' + (resultYear === "2024" ? ' class="active"' : "") + '>2024年</button><button type="button" data-result-year="2023"' + (resultYear === "2023" ? ' class="active"' : "") + '>2023年</button></div><div class="history-sort-controls"><span>结果排序：</span><select aria-label="结果排序"><option>最低分位次</option><option>最高分位次</option><option>平均分</option></select><select aria-label="排序方向"><option>从高到低</option><option>从低到高</option></select></div></div><div class="choice-table-wrap"><table class="choice-table system-table history-result-table"><thead><tr><th>展开</th><th>院校信息</th><th>专业信息</th><th>原始计划<br>及录取人数</th><th>最高分及位次</th><th>平均分</th><th>最低分及位次</th><th>近三年<br>数据</th><th>删除</th></tr></thead><tbody>' +
         renderHistoryResultRows(filtered, subject) +
-      '</tbody></table></div><div class="history-result-foot">点击批次前“+”展开院校，点击院校名称前“+”查看该院校专业录取数据。</div></div>';
+      '</tbody></table></div></div>';
 
       list.querySelectorAll("[data-result-year]").forEach(function (button) {
         button.addEventListener("click", function () {
@@ -885,43 +885,69 @@
 
     function renderHistoryResultRows(filtered, subject) {
       if (!filtered.length) {
-        return '<tr><td colspan="11" class="empty-choice"><div class="table-empty-title">暂无数据</div><p>请调整批次、省份、院校、专业或查询范围后重新查询。</p></td></tr>';
+        return '<tr><td colspan="9" class="empty-choice"><div class="table-empty-title">暂无数据</div><p>请调整批次、省份、院校、专业或查询范围后重新查询。</p></td></tr>';
       }
-      var batches = {};
-      filtered.forEach(function (school, index) {
-        var batchName = index % 5 === 0 ? "本科提前批B段" : currentBatch;
-        if (!batches[batchName]) batches[batchName] = [];
-        batches[batchName].push({ school: school, index: index });
-      });
-      return Object.keys(batches).map(function (batchName) {
-        var batchRows = batches[batchName];
-        var batchKey = resultYear + "-" + batchName;
-        var expandedBatch = expandedBatches[batchKey] !== false;
-        var batchMin = Math.min.apply(null, batchRows.map(function (item) { return scoreForYear(item.school) - (2025 - Number(resultYear)); }));
-        var batchRank = Math.min.apply(null, batchRows.map(function (item) { return rankOfSchool(item.school); }));
-        var html = '<tr class="history-batch-row"><td><button type="button" class="tree-toggle" data-expand-batch="' + escapeHtml(batchKey) + '">' + (expandedBatch ? "-" : "+") + '</button><b>' + escapeHtml(resultYear + "年 " + batchName + " 普通类（" + subject + "）") + '</b><small>院校 ' + batchRows.length + ' 所，专业 ' + (batchRows.length * 2) + ' 个</small></td><td></td><td></td><td>' + (batchRows.length * 4) + '</td><td>' + (batchRows.length * 4) + '</td><td>' + batchMin + '</td><td>' + batchRank + '</td><td>' + (batchMin + 18) + '</td><td>' + Math.max(1, batchRank - 1600) + '</td><td>' + (batchMin + 8) + '</td><td>批次汇总</td></tr>';
-        if (!expandedBatch) return html;
-        html += batchRows.slice(0, 18).map(function (item) {
-          var school = item.school;
-          var schoolKey = batchKey + "-" + school.name;
-          var expandedSchool = !!expandedSchools[schoolKey];
-          var minScore = scoreForYear(school) - (2025 - Number(resultYear));
-          var rank = rankOfSchool(school) + (2025 - Number(resultYear)) * 320;
-          var schoolHtml = '<tr class="history-school-row"><td><span class="tree-indent"></span><button type="button" class="tree-toggle" data-expand-school="' + escapeHtml(schoolKey) + '">' + (expandedSchool ? "-" : "+") + '</button><b>' + escapeHtml(school.name) + '</b><small>' + escapeHtml(school.city) + ' · ' + escapeHtml((school.tags || []).join(" / ")) + '</small></td><td>' + String(5000 + item.index).padStart(5, "0") + '</td><td></td><td>' + (4 + (item.index % 5)) + '</td><td>' + (4 + (item.index % 5)) + '</td><td>' + minScore + '</td><td>' + rank + '</td><td>' + (minScore + 16) + '</td><td>' + Math.max(1, rank - 1200) + '</td><td>' + (minScore + 7) + '</td><td>院校汇总</td></tr>';
-          if (!expandedSchool) return schoolHtml;
-          return schoolHtml + renderMajorRows(school, item.index, minScore, rank);
-        }).join("");
+      var officialRows = buildOfficialHistoryRows(filtered, subject);
+      return officialRows.slice(0, 30).map(function (row, index) {
+        var rowKey = resultYear + "-" + row.schoolCode + "-" + row.majorCode + "-" + index;
+        var expanded = !!expandedSchools[rowKey];
+        var expandCell = row.expandable ? '<button type="button" class="official-expand" data-expand-school="' + escapeHtml(rowKey) + '">' + (expanded ? "-" : "+") + '</button>' : '<span class="official-linkmark">' + linkIconMarkup() + '</span>';
+        var schoolTags = [row.city, "公办"].concat(row.tags).filter(Boolean).join('<i></i>');
+        var html = '<tr class="history-program-row">' +
+          '<td class="expand-cell">' + expandCell + '</td>' +
+          '<td class="school-info"><a class="official-blue">' + linkIconMarkup() + ' [' + escapeHtml(row.schoolCode) + '] ' + escapeHtml(row.schoolName) + '</a><p>' + schoolTags + '<a class="chapter-link">' + linkIconMarkup() + ' 招生章程</a></p></td>' +
+          '<td class="major-info"><a class="official-blue">' + linkIconMarkup() + ' ' + escapeHtml(row.majorName) + '</a><p>专业代号：<b>' + escapeHtml(row.majorCode) + '</b><span>选科要求：<b>' + escapeHtml(row.requirement) + '</b></span></p></td>' +
+          '<td class="count-cell"><b>' + row.plan + '</b><i></i><b>' + row.admit + '</b></td>' +
+          '<td class="score-cell"><span>' + row.highScore + '</span><i></i><b>' + row.highRank + '</b></td>' +
+          '<td class="score-cell"><span>' + row.avgScore + '</span></td>' +
+          '<td class="score-cell"><span>' + row.lowScore + '</span><i></i><b>' + row.lowRank + '</b></td>' +
+          '<td class="icon-cell"><button type="button" aria-label="近三年数据">' + searchIconMarkup() + '</button></td>' +
+          '<td class="icon-cell"><button type="button" aria-label="删除">' + trashIconMarkup() + '</button></td>' +
+          '</tr>';
+        if (expanded) {
+          html += '<tr class="history-expand-row"><td></td><td colspan="8"><div>近三年录取：' + (row.lowScore - 2) + '分 / ' + (row.lowRank + 520) + '位（2024年），' + (row.lowScore - 5) + '分 / ' + (row.lowRank + 980) + '位（2023年）</div></td></tr>';
+        }
         return html;
       }).join("");
     }
 
-    function renderMajorRows(school, index, minScore, rank) {
-      var majors = school.major.split(" / ");
-      return majors.map(function (majorName, majorIndex) {
-        var score = minScore - majorIndex * 2;
-        var majorRank = rank + majorIndex * 340;
-        return '<tr class="history-major-row"><td><span class="tree-indent deep"></span>' + escapeHtml(majorName) + '<small>再选科目：不提科目要求</small></td><td>' + String(5000 + index).padStart(5, "0") + '</td><td>' + String(100 + index + majorIndex).padStart(3, "0") + '</td><td>' + (2 + majorIndex) + '</td><td>' + (2 + majorIndex) + '</td><td><b>' + score + '</b></td><td>' + majorRank + '</td><td>' + (score + 8) + '</td><td>' + Math.max(1, majorRank - 650) + '</td><td>' + (score + 4) + '</td><td>专业录取数据</td></tr>';
-      }).join("");
+    function buildOfficialHistoryRows(filtered, subject) {
+      var fixed = [
+        { schoolCode: "2201", schoolName: "吉林大学", city: "吉林", tags: ["985", "211"], majorName: "法学", majorCode: "513", requirement: "不限", plan: 2, admit: 2, highScore: 628, highRank: 4748, avgScore: 628, lowScore: 627, lowRank: 4946, expandable: false },
+        { schoolCode: "1116", schoolName: "中国农业大学", city: "北京", tags: ["985", "211"], majorName: "机械类", majorCode: "500", requirement: "化学", plan: 4, admit: 4, highScore: 631, highRank: 4220, avgScore: 629, lowScore: 627, lowRank: 4946, expandable: true },
+        { schoolCode: "1116", schoolName: "中国农业大学", city: "北京", tags: ["985", "211"], majorName: "农业工程类", majorCode: "514", requirement: "化学", plan: 3, admit: 3, highScore: 629, highRank: 4544, avgScore: 628, lowScore: 627, lowRank: 4946, expandable: true },
+        { schoolCode: "1108", schoolName: "北京科技大学", city: "北京", tags: ["211"], majorName: "数学类", majorCode: "50L", requirement: "化学", plan: 2, admit: 3, highScore: 628, highRank: 4748, avgScore: 628, lowScore: 627, lowRank: 4946, expandable: true },
+        { schoolCode: "1202", schoolName: "天津大学", city: "天津", tags: ["985", "211"], majorName: "经济管理试验班", majorCode: "524", requirement: "化学", plan: 10, admit: 10, highScore: 646, highRank: 2108, avgScore: 632, lowScore: 627, lowRank: 4946, expandable: true }
+      ];
+      var extra = filtered.slice(0, 25).map(function (school, index) {
+        var score = scoreForYear(school) - Math.max(0, 2025 - Number(resultYear));
+        var lowRank = Math.max(360, Math.round(rankOfSchool(school) + index * 38));
+        var majorName = school.major.split(" / ")[0];
+        return {
+          schoolCode: String(5000 + index).slice(-4),
+          schoolName: school.name,
+          city: school.city,
+          tags: (school.tags || []).filter(function (tag) { return tag.indexOf("工程") >= 0 || tag.indexOf("双一流") >= 0; }).map(function (tag) { return tag.replace("工程高校", "").replace("高校", ""); }).slice(0, 2),
+          majorName: majorName,
+          majorCode: String(530 + index).padStart(3, "0"),
+          requirement: subject === "物理" ? (index % 3 === 0 ? "不限" : "化学") : "不限",
+          plan: 2 + index % 8,
+          admit: 2 + index % 8,
+          highScore: score + 4 + index % 9,
+          highRank: Math.max(1, lowRank - 420 - index * 9),
+          avgScore: score + 2,
+          lowScore: score,
+          lowRank: lowRank,
+          expandable: true
+        };
+      });
+      var seen = {};
+      return fixed.concat(extra).filter(function (row) {
+        var key = row.schoolCode + row.majorCode;
+        if (seen[key]) return false;
+        seen[key] = true;
+        return true;
+      });
     }
 
     function scoreForYear(school) {
@@ -1083,6 +1109,18 @@
 
   function plusCircleIconMarkup() {
     return '<svg viewBox="0 0 1024 1024" class="arco-icon icon-plus-circle" fill="currentColor" aria-hidden="true"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm192 480H544v160h-64V544H320v-64h160V320h64v160h160v64z"></path></svg>';
+  }
+
+  function linkIconMarkup() {
+    return '<svg viewBox="0 0 1024 1024" class="arco-icon icon-link" fill="currentColor" aria-hidden="true"><path d="M574.1 292.7l63.9-63.9c70.6-70.6 185-70.6 255.6 0s70.6 185 0 255.6l-111 111c-70.6 70.6-185 70.6-255.6 0-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0c45.6 45.6 119.5 45.6 165.1 0l111-111c45.6-45.6 45.6-119.5 0-165.1s-119.5-45.6-165.1 0l-63.9 63.9c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.2zM449.9 731.3L386 795.2c-70.6 70.6-185 70.6-255.6 0s-70.6-185 0-255.6l111-111c70.6-70.6 185-70.6 255.6 0 12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0c-45.6-45.6-119.5-45.6-165.1 0l-111 111c-45.6 45.6-45.6 119.5 0 165.1s119.5 45.6 165.1 0l63.9-63.9c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.2z"></path><path d="M366.1 657.9c-12.5-12.5-12.5-32.8 0-45.3l246.5-246.5c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3L411.4 657.9c-12.5 12.5-32.8 12.5-45.3 0z"></path></svg>';
+  }
+
+  function searchIconMarkup() {
+    return '<svg viewBox="0 0 1024 1024" class="arco-icon icon-search" fill="none" stroke="currentColor" stroke-width="80" stroke-linecap="round" aria-hidden="true"><circle cx="430" cy="430" r="246"></circle><path d="M610 610l240 240"></path></svg>';
+  }
+
+  function trashIconMarkup() {
+    return '<svg viewBox="0 0 1024 1024" class="arco-icon icon-trash" fill="none" stroke="currentColor" stroke-width="70" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M250 310h524M404 310V206h216v104M332 310l38 548h284l38-548"></path><path d="M454 454v260M570 454v260"></path></svg>';
   }
 
   function maskId(value) {
