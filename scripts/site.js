@@ -772,14 +772,45 @@
         return '<div class="zy-page-card zy-closed-card"><h2>' + escapeHtml(titleMap[view]) + '</h2><div class="closed-message">' + msg + '</div></div>';
       }
       if (view === "major") {
-        return '<div class="zy-page-card major-library"><h2>专业知识库</h2><div class="major-search"><input placeholder="请输入专业名称"><button type="button">搜 索</button></div><p class="major-note">如您所查的门类（专业大类)、专业类、专业与专业目录有出入，请以专业目录为准。</p><div class="major-tabs"><button class="active">本科（普通教育）专业目录</button><button>本科（职业教育）专业目录</button><button>高职（专科）专业目录</button></div><div class="major-layout"><aside><h3>专业大类</h3><button class="active">哲学</button><button>经济学</button><button>法学</button><button>教育学</button><button>文学</button><button>历史学</button><button>理学</button><button>工学</button><button>农学</button><button>医学</button><button>管理学</button><button>艺术学</button></aside><section><h3>专业类</h3><button class="active">哲学类</button></section><section class="major-table"><table><thead><tr><th>专业名称</th><th>专业代码</th><th>开设院校</th></tr></thead><tbody><tr><td colspan="3">暂无数据</td></tr></tbody></table></section></div><p class="major-tip">温馨提示：本系统【专业知识库】相关信息均整理自教育部阳光高考信息平台（https://gaokao.chsi.com.cn），其版权及解释权均归教育部阳光高考信息平台所有。</p></div>';
+        var majorRows = [["哲学", "010101"], ["逻辑学", "010102"], ["宗教学", "010103"], ["伦理学", "010104"], ["哲学类", "101"]];
+        return '<div class="major-library official-major">' +
+          '<section class="major-hero"><h2>专业知识库</h2><div class="major-search"><input aria-label="专业名称"><button type="button">搜 索</button></div><p>如您所查的门类（专业大类)、专业类、专业与专业目录有出入，请以专业目录为准。</p><div class="major-links"><a>本科（普通教育）专业目录</a><a>本科（职业教育）专业目录</a><a>高职（专科）专业目录</a></div></section>' +
+          '<div class="major-education-tabs"><button class="active">本科（普通教育）</button><button>本科（职业教育）</button><button>高职（专科）</button></div>' +
+          '<div class="major-layout"><aside><h3>专业大类</h3><button class="active">哲学</button><button>经济学</button><button>法学</button><button>教育学</button><button>文学</button><button>历史学</button><button>理学</button><button>工学</button><button>农学</button><button>医学</button><button>管理学</button><button>艺术学</button></aside><section><h3>专业类</h3><button class="active">哲学类</button></section><section class="major-table"><table><thead><tr><th>专业名称</th><th>专业代码</th><th>开设院校</th></tr></thead><tbody>' +
+          majorRows.map(function (row) { return '<tr><td>' + row[0] + '</td><td>' + row[1] + '</td><td><button type="button">查看</button></td></tr>'; }).join("") +
+          '</tbody></table></section></div><div class="major-tip">温馨提示：本系统【专业知识库】相关信息均整理自教育部阳光高考信息平台（<a>https://gaokao.chsi.com.cn</a>），其版权及解释权均归教育部阳光高考信息平台所有。</div></div>';
       }
       if (view === "video") {
-        var videos = ["助力志愿填报 圆梦最美青春", "聚焦2024年重庆高考志愿填报①(该视频录制于2024年6月)", "聚焦2024年重庆高考志愿填报②(该视频录制于2024年6月)", "高考志愿如何填报？市教育考试院为你答疑解惑(该视频录制于2024年6月)", "重庆市教育事业发展“十四五”规划", "办好中国的世界一流大学", "艺术类 | 艺术专业统考“考评分离”解读", "高考护航行动 | “重庆市2025年统一高考志愿填报辅助系统”", "数学类 | 这些问题，都有“数”了！", "化学类 | 揭开“宝藏”化学的奥秘", "生物科学类 | 揭开生命奥秘，生物科学专业等你来了解", "力学类 | 力学笃行，履践致远"];
-        return '<div class="zy-page-card"><h2>视频专区</h2><h3 class="video-group">政策解读</h3><div class="video-grid">' + videos.map(function (item) { return '<article><div class="video-thumb"><img src="https://www.cqzk.com.cn/apps/zyfz/static/images/record.png" alt=""></div><p>' + escapeHtml(item) + '</p></article>'; }).join("") + '</div></div>';
+        var policyVideos = [
+          ["助力志愿填报 圆梦最美青春", "https://cdn.cqzk.com.cn/zyfz/image/Image_1750855224471-5208-1L7GRMCVW6GQCKF-331916225.png"],
+          ["聚焦2024年重庆高考志愿填报①(该视频录制于2024年6月)", "https://cdn.cqzk.com.cn/zyfz/image/Image_1747533382939-6963-0U8W766H7HFLYZW-2131453384.png"],
+          ["聚焦2024年重庆高考志愿填报②(该视频录制于2024年6月)", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395117009-4080-OQ3D0U7BKFA0FHC-1246089682.png"],
+          ["高考志愿如何填报？市教育考试院为你答疑解惑(该视频录制于2024年6月)", "https://cdn.cqzk.com.cn/zyfz/image/Image_1747533382955-6866-UKWBHG5RSHOAVH5-20557370.png"],
+          ["重庆市教育事业发展“十四五”规划", "https://cdn.cqzk.com.cn/zyfz/image/Image_1747533382964-7065-U1NB6W0D34P56GP-1443911807.png"],
+          ["办好中国的世界一流大学", "https://cdn.cqzk.com.cn/zyfz/image/Image_1747533382973-2101-RGIYYHR91KI8MEI-177596801.png"],
+          ["艺术类 | 艺术专业统考“考评分离”解读", "https://cdn.cqzk.com.cn/zyfz/image/Image_1747533382991-5035-DILT2AIRPY12PNL-1362684916.png"],
+          ["高考护航行动 | “重庆市2025年统一高考志愿填报辅助系统”", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395118615-3697-6HNPAOQH2Z2WF9L-1718836431.png"]
+        ];
+        var majorVideos = [
+          ["数学类 | 这些问题，都有“数”了！", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395118111-6993-7OY7YSB0QH2XSS3-1934014292.jpg"],
+          ["化学类 | 揭开“宝藏”化学的奥秘", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395118053-3108-UXVHSMJFR7ABLTE-1725265938.jpg"],
+          ["生物科学类 | 揭开生命奥秘，生物科学专业等你来了解", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395117993-3655-XDEWL05S8GZXFT2-439699124.jpg"],
+          ["力学类 | 力学笃行，履践致远", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395117919-4369-WUMLQMBLST4OOYN-1926311785.jpg"],
+          ["交通运输类 | 与世界相“交”，与时代相“通”", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395117853-7227-RWY3Z154OIQPL3T-781141509.jpg"],
+          ["环境科学与工程类 | 环境专业，海纳百川", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395117788-6961-SFRM1HH54JTIJ3H-2115412954.jpg"],
+          ["医学门类 | 何以为医", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395117702-3222-85X14V6L8616EC2-746104010.jpg"],
+          ["农学门类 | 7x5等于多少？这位教授带来不一样的答案", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395117599-1647-WFUA0OH1Y1WALRB-1284522809.jpg"],
+          ["航空航天类 | 叩问苍穹，筑梦空天", "https://cdn.cqzk.com.cn/zyfz/image/Image_1748395117541-1341-I6JEMLD60HLJD3P-1102302008.jpg"]
+        ];
+        function videoGroup(title, items) {
+          return '<h3 class="video-group">' + title + '</h3><div class="video-grid official-video-grid">' + items.map(function (item) {
+            return '<article><img class="video-cover" src="' + item[1] + '" alt=""><p>' + escapeHtml(item[0]) + '</p></article>';
+          }).join("") + '</div>';
+        }
+        return '<div class="official-video-page">' + videoGroup("政策解读", policyVideos) + videoGroup("视频看专业", majorVideos) + '</div>';
       }
       if (view === "manual") {
-        return '<div class="manual-page"><aside><h3>使用手册</h3><a>系统简介</a><a>系统登录</a><a>历史数据查询</a><a>招生计划查询</a><a>备选志愿参考</a><h3>常见问题</h3><a>1. 能用手机或者平板登录志愿辅助系统吗？</a><a>2. 遇到无法正常登录或者登录后系统页面显示不正常怎么办？</a><a>3. 忘记密码怎么办？</a><a>4. 如何查看目标院校历年录取分数？</a><a>5. 如何查看院校招生章程？</a></aside><article><div class="zy-breadcrumb manual-crumb"><a>主页</a><span>/</span><a>知识库</a><span>/</span><strong>正文</strong></div><h1>使用手册</h1><h2>系统简介</h2><p>为切实帮助考生及家长合理填报志愿，重庆市教育考试院门户网（www.cqksy.cn）和重庆招考信息网（www.cqzk.com.cn）现已开通“重庆市统一高考志愿填报辅助系统”线上服务入口，向参加全市2026年普通高考全国统考的考生提供志愿填报辅助公益服务。</p><p>该系统有三项功能：一是历史数据查询（该功能已上线）；二是招生计划查询（该功能预计高考成绩查询前上线）；三是备选志愿参考（该功能预计志愿填报前上线）。</p><h2>系统登录</h2><p>通过电脑浏览器登录，推荐使用谷歌（Chrome）、微软（EDGE）浏览器或360、QQ等浏览器的极速模式。</p><h2>历史数据查询</h2><p>本功能用于查询2023年至2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息。</p><h2>招生计划查询</h2><p>本功能用于查询2026年全国在渝招生高校普通类、艺术类、体育类各批次招生计划。</p><h2>备选志愿参考</h2><p>本功能为考生填报普通类本科批及普通类专科批志愿提供备选志愿参考。</p></article></div>';
+        return '<div class="manual-page official-manual"><aside><a class="root">使用手册</a><a class="active">系统简介</a><a>系统登录</a><a>历史数据查询</a><a>招生计划查询</a><a>备选志愿参考</a><a class="root">常见问题</a><a>1. 能用手机或者平板登录志愿辅助系统吗？</a><a>2. 遇到无法正常登录或者登录后系统页面显示不正常怎么办？</a><a>3. 忘记密码怎么办？</a><a>4. 如何查看目标院校历年录取分数？</a><a>5. 如何查看院校招生章程？</a></aside><article><div class="zy-breadcrumb manual-crumb"><a>主页</a><span>/</span><a>知识库</a><span>/</span><strong>正文</strong></div><h1>使用手册</h1><h2>系统简介</h2><p>为切实帮助考生及家长合理填报志愿，重庆市教育考试院门户网（www.cqksy.cn）和重庆招考信息网（www.cqzk.com.cn）现已开通“重庆市统一高考志愿填报辅助系统”线上服务入口，向参加全市2026年普通高考全国统考的考生提供志愿填报辅助公益服务。</p><p>该系统有三项功能：一是历史数据查询（该功能已上线）；二是招生计划查询（该功能预计高考成绩查询前上线）；三是备选志愿参考（该功能预计志愿填报前上线）。</p><h2>系统登录</h2><p>通过电脑浏览器登录，推荐使用谷歌（Chrome）、微软（EDGE）浏览器或360、QQ等浏览器的极速模式。</p><h2>历史数据查询</h2><p>本功能用于查询2023年至2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息。</p><h2>招生计划查询</h2><p>本功能用于查询2026年全国在渝招生高校普通类、艺术类、体育类各批次招生计划。</p><h2>备选志愿参考</h2><p>本功能为考生填报普通类本科批及普通类专科批志愿提供备选志愿参考。</p><h2>常见问题</h2><p><strong>1. 能用手机或者平板登录志愿辅助系统吗？</strong></p><p>建议使用电脑端浏览器访问系统，以保证查询和表格展示正常。</p><p><strong>2. 遇到无法正常登录或者登录后系统页面显示不正常怎么办？</strong></p><p>请检查浏览器版本并切换极速模式，清理缓存后重新登录。</p></article></div>';
       }
       return '<div class="zy-page-card"><h2>' + escapeHtml(titleMap[view] || "主页") + '</h2></div>';
     }
