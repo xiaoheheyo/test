@@ -580,6 +580,8 @@
     var submitted = localStorage.getItem("volunteerSubmitted") === "1";
     var currentBatch = localStorage.getItem("volunteerBatch") || "本科批";
     var currentYear = "2025";
+    var resultPage = 1;
+    var resultPageSize = 10;
 
     var back = document.querySelector(".back-score");
     var list = document.querySelector(".school-list");
@@ -619,6 +621,7 @@
           currentBatch = field.value;
           localStorage.setItem("volunteerBatch", currentBatch);
         }
+        resultPage = 1;
         renderSchools();
       });
     });
@@ -626,6 +629,7 @@
     document.querySelectorAll('input[name="subjectFilter"], input[name="majorMode"], input[name="rangeMode"], input[name="schoolTags"]').forEach(function (input) {
       input.addEventListener("change", function () {
         updateRangeMode();
+        resultPage = 1;
         renderSchools();
       });
     });
@@ -650,6 +654,7 @@
     });
 
     document.querySelector(".history-search").addEventListener("click", function () {
+      resultPage = 1;
       renderSchools();
       toastVolunteer("查询完成。");
     });
@@ -668,6 +673,7 @@
       var rangeDefault = document.querySelector('input[name="rangeMode"][value="rank"]');
       if (rangeDefault) rangeDefault.checked = true;
       updateRangeMode();
+      resultPage = 1;
       renderSchools();
     });
 
@@ -743,27 +749,46 @@
           (lowRange === null || (rangeByScore ? score >= lowRange : rank >= lowRange)) &&
           (highRange === null || (rangeByScore ? score <= highRange : rank <= highRange));
       });
-      list.innerHTML = '<div class="main-data"><div class="data-table-header"><div class="data-table-header-left"><h5>普通类历史数据查询</h5><span>共 ' + filtered.length + ' 条</span></div><div class="data-table-header-right">录取年份：2023-2025 · 首选科目：' + escapeHtml(subject) + '</div></div><div class="choice-table-wrap"><table class="choice-table system-table"><thead><tr><th>年份</th><th>院校代号</th><th>院校名称</th><th>专业代号</th><th>专业名称</th><th>批次</th><th>计划数</th><th>录取数</th><th>最低分</th><th>最低位次</th><th>操作</th></tr></thead><tbody>' +
-        (filtered.map(function (school, index) {
-          var plan = 2 + (index % 6);
-          var admitted = plan + (index % 2);
+      var totalPages = Math.max(1, Math.ceil(filtered.length / resultPageSize));
+      if (resultPage > totalPages) resultPage = totalPages;
+      var pageStart = (resultPage - 1) * resultPageSize;
+      var pageRows = filtered.slice(pageStart, pageStart + resultPageSize);
+      var condition = [
+        "录取年份：2023-2025",
+        "首选科目：" + subject,
+        "批次：" + currentBatch,
+        cityValue ? "院校省份：" + cityValue : "院校省份：全部",
+        rangeByScore ? "查询范围：分数" : "查询范围：位次"
+      ].join("　");
+      list.innerHTML = '<div class="main-data"><div class="data-table-header"><div class="data-table-header-left"><h5>查询结果</h5><span>共 ' + filtered.length + ' 条</span></div><div class="data-table-header-right">' + escapeHtml(condition) + '</div></div><div class="choice-table-wrap"><table class="choice-table system-table history-result-table"><thead><tr><th>年份</th><th>批次</th><th>科类</th><th>院校代号</th><th>院校名称</th><th>专业代号</th><th>专业名称</th><th>计划数</th><th>录取数</th><th>最低分</th><th>最低位次</th><th>平均分</th></tr></thead><tbody>' +
+        (pageRows.map(function (school, index) {
+          var globalIndex = pageStart + index;
+          var plan = 2 + (globalIndex % 6);
+          var admitted = plan + (globalIndex % 2);
           var rank = rankOfSchool(school);
-          return '<tr><td>' + (2025 - (index % 3)) + '</td><td>' + String(5000 + index).padStart(5, "0") + '</td><td><b>' + escapeHtml(school.name) + '</b><small>' + escapeHtml(school.city) + ' · ' + escapeHtml((school.tags || []).join(" / ")) + '</small></td><td>' + String(100 + index).padStart(3, "0") + '</td><td>' + escapeHtml(school.major) + '<small>专业备注：不提科目要求</small></td><td>' + escapeHtml(currentBatch) + '</td><td>' + plan + '</td><td>' + admitted + '</td><td><b>' + scoreForYear(school) + '</b></td><td>' + rank + '</td><td><button type="button" data-school-index="' + index + '"' + (submitted ? " disabled" : "") + '>加入备选</button></td></tr>';
-        }).join("") || '<tr><td colspan="11" class="empty-choice">没有符合条件的历史数据。</td></tr>') +
-      '</tbody></table></div></div>';
+          var minScore = scoreForYear(school);
+          return '<tr><td>' + (2025 - (globalIndex % 3)) + '</td><td>' + escapeHtml(currentBatch) + '</td><td>普通类（' + escapeHtml(subject) + '）</td><td>' + String(5000 + globalIndex).padStart(5, "0") + '</td><td><b>' + escapeHtml(school.name) + '</b><small>' + escapeHtml(school.city) + ' · ' + escapeHtml((school.tags || []).join(" / ")) + '</small></td><td>' + String(100 + globalIndex).padStart(3, "0") + '</td><td>' + escapeHtml(school.major) + '<small>再选科目：不提科目要求</small></td><td>' + plan + '</td><td>' + admitted + '</td><td><b>' + minScore + '</b></td><td>' + rank + '</td><td>' + (minScore + 3 + (globalIndex % 4)) + '</td></tr>';
+        }).join("") || '<tr><td colspan="12" class="empty-choice"><div class="table-empty-title">暂无数据</div><p>请调整批次、省份、院校、专业或查询范围后重新查询。</p></td></tr>') +
+      '</tbody></table></div>' + renderHistoryPager(filtered.length, totalPages) + '</div>';
 
-      list.querySelectorAll("button[data-school-index]").forEach(function (button) {
+      list.querySelectorAll("[data-history-page]").forEach(function (button) {
         button.addEventListener("click", function () {
-          if (submitted) return toastVolunteer("已提交状态不能修改志愿。");
-          if (choices.length >= maxChoices) return toastVolunteer("最多填报 96 个志愿。");
-          var school = filtered[Number(button.dataset.schoolIndex)];
-          if (choices.some(function (item) { return item.name === school.name && item.major === school.major; })) return toastVolunteer("该志愿已添加。");
-          choices.push({ name: school.name, major: school.major, city: school.city, risk: school.risk, adjust: true, batch: currentBatch });
-          persistVolunteer();
-          renderChoices();
-          toastVolunteer("已加入志愿表。");
+          var next = button.dataset.historyPage;
+          if (next === "prev") resultPage = Math.max(1, resultPage - 1);
+          else if (next === "next") resultPage = Math.min(totalPages, resultPage + 1);
+          else resultPage = Number(next) || 1;
+          renderSchools();
         });
       });
+    }
+
+    function renderHistoryPager(total, totalPages) {
+      var buttons = "";
+      for (var page = 1; page <= totalPages && page <= 7; page += 1) {
+        buttons += '<button type="button" data-history-page="' + page + '"' + (page === resultPage ? ' class="active"' : "") + '>' + page + '</button>';
+      }
+      if (totalPages > 7) buttons += '<span>...</span><button type="button" data-history-page="' + totalPages + '">' + totalPages + '</button>';
+      return '<div class="history-pagination"><div>共 ' + total + ' 条</div><select aria-label="每页条数"><option selected>10条/页</option></select><button type="button" data-history-page="prev"' + (resultPage === 1 ? " disabled" : "") + '>‹</button>' + buttons + '<button type="button" data-history-page="next"' + (resultPage === totalPages ? " disabled" : "") + '>›</button><span>前往</span><input value="' + resultPage + '" readonly><span>页</span></div>';
     }
 
     function scoreForYear(school) {

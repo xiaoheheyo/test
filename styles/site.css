@@ -1771,7 +1771,78 @@ body.score-mode main {
 }
 
 .history-normal-page .system-table {
-  min-width: 1280px;
+  min-width: 1400px;
+}
+
+.history-normal-page .history-result-table th,
+.history-normal-page .history-result-table td {
+  white-space: nowrap;
+}
+
+.history-normal-page .history-result-table td:nth-child(5),
+.history-normal-page .history-result-table td:nth-child(7) {
+  white-space: normal;
+  min-width: 160px;
+}
+
+.history-normal-page .table-empty-title {
+  margin-bottom: 6px;
+  color: #4e5969;
+  font-size: 15px;
+}
+
+.history-normal-page .empty-choice p {
+  margin: 0;
+  color: #86909c;
+}
+
+.history-normal-page .history-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid #e5e6eb;
+  color: #4e5969;
+  font-size: 14px;
+}
+
+.history-normal-page .history-pagination button,
+.history-normal-page .history-pagination select,
+.history-normal-page .history-pagination input {
+  box-sizing: border-box;
+  height: 32px;
+  border: 1px solid #e5e6eb;
+  border-radius: 2px;
+  background: #fff;
+  color: #1d2129;
+  font: inherit;
+}
+
+.history-normal-page .history-pagination button {
+  min-width: 32px;
+  padding: 0 9px;
+  cursor: pointer;
+}
+
+.history-normal-page .history-pagination button.active {
+  border-color: #165dff;
+  background: #165dff;
+  color: #fff;
+}
+
+.history-normal-page .history-pagination button:disabled {
+  color: #c9cdd4;
+  cursor: not-allowed;
+}
+
+.history-normal-page .history-pagination select {
+  padding: 0 24px 0 8px;
+}
+
+.history-normal-page .history-pagination input {
+  width: 42px;
+  text-align: center;
 }
 
 .history-normal-page .choice-panel,
