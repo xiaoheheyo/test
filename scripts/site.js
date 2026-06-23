@@ -545,17 +545,17 @@
           '</div>' +
           '<div class="search-footer"><button type="button" class="history-search">查 询</button><button type="button" class="history-reset">重 置</button></div>' +
         '</section>' +
-        '<section class="history-tip history-section"><h3>温馨提示</h3><p>本系统提供重庆市2023年、2024年、2025年普通高校在渝招生录取历史数据查询，可按物理、历史首选科目及批次、院校、省份、专业、分数或位次条件筛选。</p><p><a href="javascript:;">重庆市2025年全国普通高校各类招生录取最低控制分数线</a><a href="javascript:;">重庆市2024年全国普通高校各类招生录取最低控制分数线</a><a href="javascript:;">重庆市2023年全国普通高校各类招生录取最低控制分数线</a><a href="javascript:;">阳光高考</a><a href="javascript:;">第二轮“双一流”建设高校及建设学科名单</a><a href="javascript:;">第四轮学科评估结果</a></p></section>' +
+        '<section class="history-tip history-section"><h3>温馨提示</h3><p>本系统用于查询2023年、2024年和2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息，以上信息所涉考生成绩均包含政策性加分。</p><p><a href="javascript:;">重庆市2025年全国普通高校各类招生录取最低控制分数线</a><a href="javascript:;">重庆市2024年全国普通高校各类招生录取最低控制分数线</a><a href="javascript:;">重庆市2023年全国普通高校各类招生录取最低控制分数线</a></p><p>使用【指定院校】查询，每次可选择院校数量不超过5所。</p><p>使用【位次】查询功能时，用户可根据实际情况填写位次数值，点击查询即可筛选出相应年份录取最低位次及最高位次包含该查询位次的院校；点击院校名称前“+”，可查询该院校录取最低位次低于所查询位次的所有专业（即专业录取最低位次数值大于所查询位次数值）。（“位次”是指某分数在对应的一分段表中的排名，累计人数即是这一分数对应的最低位次）</p><p>本查询功能显示的院校名称为2023年~2025年在渝招生的名称，有部分高校在2026年院校名称发生了变化或者办学性质发生了变化，具体可通过阳光高考平台查询。</p><p><a href="javascript:;">《教育部 财政部 国家发展改革委关于公布第二轮“双一流”建设高校及建设学科名单的通知》（点击进入教育部官网查看详情）。</a></p><p><a href="javascript:;">全国第四轮学科评估结果（点击进入中国学位与研究生教育信息网查看详情）。</a></p></section>' +
         '<section class="school-list history-section"></section>' +
         '<section class="zy-section-panel aux-section"></section>' +
-        '<section class="choice-panel choice-section">' +
+        '<section class="choice-panel choice-section" hidden>' +
           '<div class="panel-head"><h2>备选志愿参考</h2><span>已选 <strong data-choice-count>0</strong>/96 个</span></div>' +
           '<div class="choice-actions"><button type="button" class="fill-recommend">一键生成96个备选志愿</button><button type="button" class="clear-volunteer">清空</button><button type="button" class="save-volunteer">保存</button><button type="button" class="submit-volunteer">锁定参考表</button><button type="button" class="unlock-volunteer">解除锁定</button><button type="button" class="print-volunteer">打印</button></div>' +
           '<div class="choice-table-wrap"><table class="choice-table backup-choice-table"><thead><tr><th>序号</th><th>院校</th><th>专业</th><th>所在地</th><th>梯度</th><th>服从调剂</th><th>操作</th></tr></thead><tbody></tbody></table></div>' +
         '</section>' +
         '<footer class="zy-footer"><p>© 2021-2026 cqzk.com.cn All rights reserved.</p><p>渝ICP备案号：渝B2-20030020号　渝公网安备：50010302000805号</p></footer>' +
       '</div>' +
-      '<div class="zy-modal" role="dialog" aria-modal="true" aria-label="温馨提示"><div class="zy-modal-card"><h3>温馨提示</h3><p>本功能仅提供普通类历史数据查询和志愿填报参考。查询结果仅供考生填报志愿时参考，最终招生计划、录取规则及投档录取结果以重庆市教育考试院正式公布内容为准。</p><button type="button" class="modal-ok">确定</button></div></div>' +
+      '<div class="zy-modal" role="dialog" aria-modal="true" aria-label="温馨提示"><div class="zy-modal-card"><h3>温馨提示</h3><p>系统提供2023年、2024年和2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息。考生及家长在查阅院校录取历史数据时，还需密切关注教育部阳光高考平台、重庆市教育考试院门户网、重庆招考信息网、高校官方网站及重庆招考微信公众号等权威渠道发布的相关政策及解读，认真阅读《2026招生计划汇编》（本书预计将于2026年6月中旬出版）及本系统招生计划查询功能公布的在渝招生普通高校招生专业（类）选考科目要求，综合分析、谨慎抉择、合理参考使用录取历史数据。</p><button type="button" class="modal-ok">确定</button></div></div>' +
     '</section>';
 
     setupVolunteerAssist();
@@ -584,6 +584,7 @@
     var resultYear = "2025";
     var expandedBatches = {};
     var expandedSchools = {};
+    var hasSearched = false;
 
     var back = document.querySelector(".back-score");
     var list = document.querySelector(".school-list");
@@ -618,20 +619,22 @@
 
     [keyword, majorKeyword, city, batchSelect, rangeMin, rangeMax].forEach(function (field) {
       if (!field) return;
-      field.addEventListener("input", renderSchools);
+      field.addEventListener("input", function () {
+        if (hasSearched) renderSchools();
+      });
       field.addEventListener("change", function () {
         if (field === batchSelect) {
           currentBatch = field.value;
           localStorage.setItem("volunteerBatch", currentBatch);
         }
-        renderSchools();
+        if (hasSearched) renderSchools();
       });
     });
 
     document.querySelectorAll('input[name="subjectFilter"], input[name="majorMode"], input[name="rangeMode"], input[name="schoolTags"]').forEach(function (input) {
       input.addEventListener("change", function () {
         updateRangeMode();
-        renderSchools();
+        if (hasSearched) renderSchools();
       });
     });
 
@@ -655,8 +658,15 @@
     });
 
     document.querySelector(".history-search").addEventListener("click", function () {
+      var lowRange = rangeMin && rangeMin.value ? Number(rangeMin.value) : null;
+      var highRange = rangeMax && rangeMax.value ? Number(rangeMax.value) : null;
+      if (lowRange === null && highRange === null) {
+        hasSearched = false;
+        list.innerHTML = "";
+        return;
+      }
+      hasSearched = true;
       renderSchools();
-      toastVolunteer("查询完成。");
     });
     document.querySelector(".history-reset").addEventListener("click", function () {
       [keyword, majorKeyword, city, rangeMin, rangeMax].forEach(function (field) { if (field) field.value = ""; });
@@ -673,7 +683,8 @@
       var rangeDefault = document.querySelector('input[name="rangeMode"][value="rank"]');
       if (rangeDefault) rangeDefault.checked = true;
       updateRangeMode();
-      renderSchools();
+      hasSearched = false;
+      list.innerHTML = "";
     });
 
     document.querySelector(".save-volunteer").addEventListener("click", function () {
@@ -711,7 +722,6 @@
 
     updateRangeMode();
     setZyView("history");
-    renderSchools();
     renderChoices();
 
     function setZyView(view) {
@@ -720,7 +730,7 @@
       });
       document.querySelector(".volunteer-page").setAttribute("data-zy-view", view);
       if (auxSection) auxSection.innerHTML = renderZyAuxView(view);
-      if (view === "history") renderSchools();
+      if (view === "history" && hasSearched) renderSchools();
       if (view === "choice") renderChoices();
       updateBreadcrumb(view);
     }
@@ -746,7 +756,7 @@
     }
 
     function renderZyAuxView(view) {
-      if (view === "history" || view === "choice") return "";
+      if (view === "history") return "";
       var titleMap = {
         home: "主页",
         plan: "招生计划查询",
@@ -755,17 +765,21 @@
         manual: "使用手册"
       };
       if (view === "home") {
-        return '<div class="zy-dashboard"><div class="zy-dashboard-card" data-jump-view="history"><h3>历史数据查询</h3><p>普通类、艺术类、体育类历史录取数据查询。</p></div><div class="zy-dashboard-card" data-jump-view="plan"><h3>招生计划查询</h3><p>按年份、批次、院校和专业查询招生计划。</p></div><div class="zy-dashboard-card" data-jump-view="choice"><h3>备选志愿参考</h3><p>维护 96 个备选志愿并进行排序保存。</p></div><div class="zy-dashboard-card" data-jump-view="major"><h3>专业知识库</h3><p>查看专业门类、选科要求和培养方向。</p></div></div>';
+        return '<div class="zy-dashboard"><div class="zy-dashboard-card" data-jump-view="history"><h3>历史数据查询</h3><p>查询2023年至2025年在渝招生高校各专业录取人数、分数和位次。</p></div><div class="zy-dashboard-card" data-jump-view="plan"><h3>招生计划查询</h3><p>本功能暂未开放使用。</p></div><div class="zy-dashboard-card" data-jump-view="choice"><h3>备选志愿参考</h3><p>本功能暂未开放使用。</p></div><div class="zy-dashboard-card" data-jump-view="major"><h3>专业知识库</h3><p>查询专业大类、专业类、专业名称和开设院校。</p></div></div>';
       }
-      if (view === "plan") {
-        return '<div class="zy-page-card"><h2>招生计划查询</h2><div class="zy-mini-form"><label>年份<select><option>2026</option><option>2025</option></select></label><label>批次<select><option>本科批</option><option>高职专科批</option></select></label><label>院校省份<select><option>请选择省份</option><option>重庆</option><option>四川</option></select></label><label>院校名称<input placeholder="请输入院校名称"></label><button type="button">查 询</button><button type="button" class="plain">重 置</button></div><div class="choice-table-wrap"><table class="choice-table system-table"><thead><tr><th>院校代号</th><th>院校名称</th><th>专业代号</th><th>专业名称</th><th>计划数</th><th>学制</th><th>学费</th><th>选科要求</th></tr></thead><tbody><tr><td>5001</td><td>重庆大学</td><td>101</td><td>人文科学试验班</td><td>8</td><td>四年</td><td>5625</td><td>不提科目要求</td></tr><tr><td>5006</td><td>西南大学</td><td>102</td><td>法学</td><td>5</td><td>四年</td><td>4500</td><td>不提科目要求</td></tr></tbody></table></div></div>';
+      if (view === "plan" || view === "choice") {
+        var msg = view === "plan" ? "本功能暂未开放使用<br>（该功能在成绩查询之前上线）" : "本功能暂未开放使用<br>（该功能在志愿填报之前上线）";
+        return '<div class="zy-page-card zy-closed-card"><h2>' + escapeHtml(titleMap[view]) + '</h2><div class="closed-message">' + msg + '</div></div>';
       }
       if (view === "major") {
-        return '<div class="zy-page-card"><h2>专业知识库</h2><div class="major-grid"><button>哲学</button><button>经济学</button><button>法学</button><button>教育学</button><button>文学</button><button>历史学</button><button>理学</button><button>工学</button><button>医学</button><button>管理学</button></div><div class="zy-info-table"><h3>法学</h3><p>专业代码：030101K　授予学位：法学学士　修业年限：四年</p><p>培养方向：法律实务、公共治理、社会服务等。</p></div></div>';
+        return '<div class="zy-page-card major-library"><h2>专业知识库</h2><div class="major-search"><input placeholder="请输入专业名称"><button type="button">搜 索</button></div><p class="major-note">如您所查的门类（专业大类)、专业类、专业与专业目录有出入，请以专业目录为准。</p><div class="major-tabs"><button class="active">本科（普通教育）专业目录</button><button>本科（职业教育）专业目录</button><button>高职（专科）专业目录</button></div><div class="major-layout"><aside><h3>专业大类</h3><button class="active">哲学</button><button>经济学</button><button>法学</button><button>教育学</button><button>文学</button><button>历史学</button><button>理学</button><button>工学</button><button>农学</button><button>医学</button><button>管理学</button><button>艺术学</button></aside><section><h3>专业类</h3><button class="active">哲学类</button></section><section class="major-table"><table><thead><tr><th>专业名称</th><th>专业代码</th><th>开设院校</th></tr></thead><tbody><tr><td colspan="3">暂无数据</td></tr></tbody></table></section></div><p class="major-tip">温馨提示：本系统【专业知识库】相关信息均整理自教育部阳光高考信息平台（https://gaokao.chsi.com.cn），其版权及解释权均归教育部阳光高考信息平台所有。</p></div>';
       }
-      if (view === "video" || view === "manual") {
-        var items = view === "video" ? ["系统登录和信息确认", "历史数据查询操作说明", "备选志愿参考使用说明"] : ["重庆市统一高考志愿填报辅助系统使用手册", "历史数据查询说明", "招生计划查询说明", "备选志愿参考说明"];
-        return '<div class="zy-page-card"><h2>' + escapeHtml(titleMap[view]) + '</h2><ul class="zy-doc-list">' + items.map(function (item) { return '<li><a href="javascript:;">' + escapeHtml(item) + '</a><span>2026-06-23</span></li>'; }).join("") + '</ul></div>';
+      if (view === "video") {
+        var videos = ["助力志愿填报 圆梦最美青春", "聚焦2024年重庆高考志愿填报①(该视频录制于2024年6月)", "聚焦2024年重庆高考志愿填报②(该视频录制于2024年6月)", "高考志愿如何填报？市教育考试院为你答疑解惑(该视频录制于2024年6月)", "重庆市教育事业发展“十四五”规划", "办好中国的世界一流大学", "艺术类 | 艺术专业统考“考评分离”解读", "高考护航行动 | “重庆市2025年统一高考志愿填报辅助系统”", "数学类 | 这些问题，都有“数”了！", "化学类 | 揭开“宝藏”化学的奥秘", "生物科学类 | 揭开生命奥秘，生物科学专业等你来了解", "力学类 | 力学笃行，履践致远"];
+        return '<div class="zy-page-card"><h2>视频专区</h2><h3 class="video-group">政策解读</h3><div class="video-grid">' + videos.map(function (item) { return '<article><div class="video-thumb"></div><p>' + escapeHtml(item) + '</p></article>'; }).join("") + '</div></div>';
+      }
+      if (view === "manual") {
+        return '<div class="manual-page"><aside><h3>使用手册</h3><a>系统简介</a><a>系统登录</a><a>历史数据查询</a><a>招生计划查询</a><a>备选志愿参考</a><h3>常见问题</h3><a>1. 能用手机或者平板登录志愿辅助系统吗？</a><a>2. 遇到无法正常登录或者登录后系统页面显示不正常怎么办？</a><a>3. 忘记密码怎么办？</a><a>4. 如何查看目标院校历年录取分数？</a><a>5. 如何查看院校招生章程？</a></aside><article><div class="zy-breadcrumb manual-crumb"><a>主页</a><span>/</span><a>知识库</a><span>/</span><strong>正文</strong></div><h1>使用手册</h1><h2>系统简介</h2><p>为切实帮助考生及家长合理填报志愿，重庆市教育考试院门户网（www.cqksy.cn）和重庆招考信息网（www.cqzk.com.cn）现已开通“重庆市统一高考志愿填报辅助系统”线上服务入口，向参加全市2026年普通高考全国统考的考生提供志愿填报辅助公益服务。</p><p>该系统有三项功能：一是历史数据查询（该功能已上线）；二是招生计划查询（该功能预计高考成绩查询前上线）；三是备选志愿参考（该功能预计志愿填报前上线）。</p><h2>系统登录</h2><p>通过电脑浏览器登录，推荐使用谷歌（Chrome）、微软（EDGE）浏览器或360、QQ等浏览器的极速模式。</p><h2>历史数据查询</h2><p>本功能用于查询2023年至2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息。</p><h2>招生计划查询</h2><p>本功能用于查询2026年全国在渝招生高校普通类、艺术类、体育类各批次招生计划。</p><h2>备选志愿参考</h2><p>本功能为考生填报普通类本科批及普通类专科批志愿提供备选志愿参考。</p></article></div>';
       }
       return '<div class="zy-page-card"><h2>' + escapeHtml(titleMap[view] || "主页") + '</h2></div>';
     }
@@ -913,7 +927,7 @@
       tbody.querySelectorAll("[data-down]").forEach(function (button) {
         button.addEventListener("click", function () { moveChoice(Number(button.dataset.down), 1); });
       });
-      renderSchools();
+      if (hasSearched) renderSchools();
     }
 
     function moveChoice(index, offset) {
