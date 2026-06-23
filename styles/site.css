@@ -1575,6 +1575,35 @@ body.score-mode main {
   font-weight: 400;
 }
 
+.history-normal-page[data-zy-view="history"] .choice-section,
+.history-normal-page[data-zy-view="history"] .aux-section,
+.history-normal-page[data-zy-view="choice"] .history-section,
+.history-normal-page[data-zy-view="choice"] .aux-section,
+.history-normal-page[data-zy-view="home"] .history-section,
+.history-normal-page[data-zy-view="home"] .choice-section,
+.history-normal-page[data-zy-view="plan"] .history-section,
+.history-normal-page[data-zy-view="plan"] .choice-section,
+.history-normal-page[data-zy-view="major"] .history-section,
+.history-normal-page[data-zy-view="major"] .choice-section,
+.history-normal-page[data-zy-view="video"] .history-section,
+.history-normal-page[data-zy-view="video"] .choice-section,
+.history-normal-page[data-zy-view="manual"] .history-section,
+.history-normal-page[data-zy-view="manual"] .choice-section {
+  display: none;
+}
+
+.history-normal-page[data-zy-view="choice"] .choice-section {
+  display: block;
+}
+
+.history-normal-page[data-zy-view="home"] .aux-section,
+.history-normal-page[data-zy-view="plan"] .aux-section,
+.history-normal-page[data-zy-view="major"] .aux-section,
+.history-normal-page[data-zy-view="video"] .aux-section,
+.history-normal-page[data-zy-view="manual"] .aux-section {
+  display: block;
+}
+
 .history-normal-page .card-system-search {
   margin-bottom: 20px;
   border-radius: 3px;
@@ -1779,10 +1808,84 @@ body.score-mode main {
   white-space: nowrap;
 }
 
-.history-normal-page .history-result-table td:nth-child(5),
-.history-normal-page .history-result-table td:nth-child(7) {
+.history-normal-page .history-result-table td:first-child {
   white-space: normal;
-  min-width: 160px;
+  min-width: 300px;
+}
+
+.history-normal-page .history-result-years {
+  display: flex;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e5e6eb;
+}
+
+.history-normal-page .history-result-years button {
+  min-width: 78px;
+  height: 32px;
+  border: 1px solid #e5e6eb;
+  border-radius: 2px;
+  background: #fff;
+  color: #4e5969;
+  cursor: pointer;
+}
+
+.history-normal-page .history-result-years button.active {
+  border-color: #165dff;
+  background: #165dff;
+  color: #fff;
+}
+
+.history-normal-page .history-batch-row td {
+  background: #f2f3f5;
+  color: #1d2129;
+  font-weight: 600;
+}
+
+.history-normal-page .history-school-row td {
+  background: #fff;
+}
+
+.history-normal-page .history-major-row td {
+  background: #fbfcff;
+}
+
+.history-normal-page .tree-toggle {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  border: 1px solid #c9cdd4;
+  border-radius: 2px;
+  background: #fff;
+  color: #4e5969;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.history-normal-page .tree-indent {
+  display: inline-block;
+  width: 26px;
+}
+
+.history-normal-page .tree-indent.deep {
+  width: 58px;
+}
+
+.history-normal-page .history-result-table small {
+  display: inline;
+  margin-left: 10px;
+  color: #86909c;
+  font-weight: 400;
+}
+
+.history-normal-page .history-result-foot {
+  padding: 12px 20px;
+  border-top: 1px solid #e5e6eb;
+  color: #86909c;
+  font-size: 13px;
 }
 
 .history-normal-page .table-empty-title {
@@ -1796,53 +1899,143 @@ body.score-mode main {
   color: #86909c;
 }
 
-.history-normal-page .history-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.history-normal-page .zy-section-panel {
+  margin-bottom: 20px;
+}
+
+.history-normal-page .zy-dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.history-normal-page .zy-dashboard-card,
+.history-normal-page .zy-page-card {
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+}
+
+.history-normal-page .zy-dashboard-card {
+  min-height: 132px;
+  padding: 22px;
+  cursor: pointer;
+}
+
+.history-normal-page .zy-dashboard-card:hover {
+  box-shadow: 0 4px 14px rgba(22,93,255,.12);
+}
+
+.history-normal-page .zy-dashboard-card h3,
+.history-normal-page .zy-page-card h2 {
+  margin: 0;
+  color: #1d2129;
+}
+
+.history-normal-page .zy-dashboard-card h3 {
+  font-size: 18px;
+}
+
+.history-normal-page .zy-dashboard-card p {
+  margin: 12px 0 0;
+  color: #86909c;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.history-normal-page .zy-page-card {
+  padding: 22px;
+}
+
+.history-normal-page .zy-page-card h2 {
+  margin-bottom: 18px;
+  font-size: 18px;
+}
+
+.history-normal-page .zy-mini-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) 88px 88px;
+  gap: 12px;
+  margin-bottom: 18px;
+  align-items: end;
+}
+
+.history-normal-page .zy-mini-form label {
+  display: grid;
   gap: 8px;
-  padding: 14px 20px;
-  border-top: 1px solid #e5e6eb;
   color: #4e5969;
   font-size: 14px;
 }
 
-.history-normal-page .history-pagination button,
-.history-normal-page .history-pagination select,
-.history-normal-page .history-pagination input {
-  box-sizing: border-box;
-  height: 32px;
+.history-normal-page .zy-mini-form input,
+.history-normal-page .zy-mini-form select {
+  height: 34px;
+  border: 1px solid #e5e6eb;
+  border-radius: 2px;
+  padding: 0 10px;
+}
+
+.history-normal-page .zy-mini-form button {
+  height: 34px;
+  border: 0;
+  border-radius: 2px;
+  background: #165dff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.history-normal-page .zy-mini-form button.plain {
+  border: 1px solid #c9cdd4;
+  background: #fff;
+  color: #1d2129;
+}
+
+.history-normal-page .major-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.history-normal-page .major-grid button {
+  height: 38px;
   border: 1px solid #e5e6eb;
   border-radius: 2px;
   background: #fff;
   color: #1d2129;
-  font: inherit;
 }
 
-.history-normal-page .history-pagination button {
-  min-width: 32px;
-  padding: 0 9px;
-  cursor: pointer;
+.history-normal-page .zy-info-table {
+  border: 1px solid #e5e6eb;
+  padding: 16px;
+  color: #4e5969;
 }
 
-.history-normal-page .history-pagination button.active {
-  border-color: #165dff;
-  background: #165dff;
-  color: #fff;
+.history-normal-page .zy-info-table h3 {
+  margin: 0 0 10px;
+  color: #1d2129;
 }
 
-.history-normal-page .history-pagination button:disabled {
-  color: #c9cdd4;
-  cursor: not-allowed;
+.history-normal-page .zy-info-table p {
+  margin: 8px 0;
 }
 
-.history-normal-page .history-pagination select {
-  padding: 0 24px 0 8px;
+.history-normal-page .zy-doc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.history-normal-page .history-pagination input {
-  width: 42px;
-  text-align: center;
+.history-normal-page .zy-doc-list li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e6eb;
+  padding: 14px 0;
+  color: #86909c;
+}
+
+.history-normal-page .zy-doc-list a {
+  color: #1d2129;
 }
 
 .history-normal-page .choice-panel,
