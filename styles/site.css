@@ -531,7 +531,7 @@ main {
 
 body.score-mode {
   min-height: 100vh;
-  background: #fff;
+  background: #f2f4fb;
 }
 
 body.score-mode .topbar,
@@ -904,7 +904,7 @@ body.score-mode main {
   align-items: center;
   background: #fff;
   color: #1f2329;
-  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  box-shadow: 0 0 10px rgba(0,0,0,.10);
 }
 
 .zy-logo {
@@ -1566,9 +1566,24 @@ body.score-mode main {
 .history-normal-page .zy-content {
   box-sizing: border-box;
   width: 1200px;
-  max-width: calc(100vw - 40px);
+  max-width: calc(100vw - 74px);
   margin: 0 auto 40px;
-  padding-top: 18px;
+  padding-top: 20px;
+}
+
+.history-normal-page[data-zy-view="home"] .zy-content,
+.history-normal-page[data-zy-view="major"] .zy-content,
+.history-normal-page[data-zy-view="video"] .zy-content,
+.history-normal-page[data-zy-view="manual"] .zy-content {
+  width: min(1564px, calc(100vw - 74px));
+}
+
+.history-normal-page[data-zy-view="history"] .zy-content {
+  width: min(1748px, calc(100vw - 74px));
+}
+
+.history-normal-page[data-zy-view="home"] .zy-content {
+  padding-top: 34px;
 }
 
 .history-normal-page .zy-breadcrumb {
@@ -1817,7 +1832,7 @@ body.score-mode main {
 }
 
 .history-normal-page .system-table {
-  min-width: 1200px;
+  min-width: 0;
 }
 
 .history-normal-page .history-result-table th,
@@ -1844,11 +1859,11 @@ body.score-mode main {
   display: flex;
   align-self: stretch;
   gap: 0;
-  min-width: 620px;
+  min-width: 700px;
 }
 
 .history-normal-page .history-result-years button {
-  min-width: 182px;
+  min-width: 250px;
   height: 72px;
   border: 0;
   border-bottom: 5px solid transparent;
@@ -1876,7 +1891,7 @@ body.score-mode main {
 }
 
 .history-normal-page .history-sort-controls select {
-  width: 140px;
+  width: 196px;
   height: 38px;
   border: 0;
   border-radius: 2px;
@@ -1898,7 +1913,7 @@ body.score-mode main {
 }
 
 .history-normal-page .history-result-table th:nth-child(1) {
-  width: 74px;
+  width: 70px;
 }
 
 .history-normal-page .history-result-table th:nth-child(2) {
@@ -1912,21 +1927,21 @@ body.score-mode main {
 }
 
 .history-normal-page .history-result-table th:nth-child(4) {
-  width: 148px;
+  width: 160px;
 }
 
 .history-normal-page .history-result-table th:nth-child(5),
 .history-normal-page .history-result-table th:nth-child(7) {
-  width: 170px;
+  width: 180px;
 }
 
 .history-normal-page .history-result-table th:nth-child(6) {
-  width: 96px;
+  width: 105px;
 }
 
 .history-normal-page .history-result-table th:nth-child(8),
 .history-normal-page .history-result-table th:nth-child(9) {
-  width: 84px;
+  width: 80px;
 }
 
 .history-normal-page .history-result-table td {
@@ -1981,7 +1996,7 @@ body.score-mode main {
 .history-normal-page .major-info p {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   margin: 16px 0 0;
   color: #1d2129;
   font-size: 14px;
@@ -2024,7 +2039,7 @@ body.score-mode main {
 .history-normal-page .score-cell {
   text-align: center;
   color: #9aa4b3;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
 }
 
@@ -2035,7 +2050,7 @@ body.score-mode main {
 
 .history-normal-page .count-cell i,
 .history-normal-page .score-cell i {
-  margin: 0 14px;
+  margin: 0 16px;
   vertical-align: middle;
 }
 
@@ -2100,10 +2115,11 @@ body.score-mode main {
   margin-bottom: 20px;
 }
 
-.history-normal-page .zy-dashboard {
+.history-normal-page .zy-dashboard,
+.history-normal-page .official-home-cards {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
 .history-normal-page .zy-dashboard-card,
@@ -2114,8 +2130,9 @@ body.score-mode main {
 }
 
 .history-normal-page .zy-dashboard-card {
-  min-height: 132px;
-  padding: 22px;
+  box-sizing: border-box;
+  min-height: 172px;
+  padding: 30px;
   cursor: pointer;
 }
 
@@ -2130,14 +2147,15 @@ body.score-mode main {
 }
 
 .history-normal-page .zy-dashboard-card h3 {
-  font-size: 18px;
+  font-size: 22px;
+  line-height: 1.3;
 }
 
 .history-normal-page .zy-dashboard-card p {
-  margin: 12px 0 0;
+  margin: 20px 0 0;
   color: #86909c;
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.75;
 }
 
 .history-normal-page .zy-page-card {
@@ -2586,14 +2604,14 @@ body.score-mode main {
 }
 
 .history-normal-page .zy-footer {
-  padding: 20px;
+  padding: 30px 20px;
   color: #86909c;
-  font-size: 13px;
+  font-size: 16px;
   text-align: center;
 }
 
 .history-normal-page .zy-footer p {
-  margin: 5px 0;
+  margin: 8px 0;
 }
 
 .history-normal-page .zy-modal {

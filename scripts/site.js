@@ -765,7 +765,7 @@
         manual: "使用手册"
       };
       if (view === "home") {
-        return '<div class="zy-dashboard"><div class="zy-dashboard-card" data-jump-view="history"><h3>历史数据查询</h3><p>查询2023年至2025年在渝招生高校各专业录取人数、分数和位次。</p></div><div class="zy-dashboard-card" data-jump-view="plan"><h3>招生计划查询</h3><p>本功能暂未开放使用。</p></div><div class="zy-dashboard-card" data-jump-view="choice"><h3>备选志愿参考</h3><p>本功能暂未开放使用。</p></div><div class="zy-dashboard-card" data-jump-view="major"><h3>专业知识库</h3><p>查询专业大类、专业类、专业名称和开设院校。</p></div></div>';
+        return '<div class="official-home-cards"><div class="zy-dashboard-card" data-jump-view="history"><h3>历史数据查询</h3><p>查询2023年至2025年在渝招生高校各专业录取人数、分数和位次。</p></div><div class="zy-dashboard-card" data-jump-view="plan"><h3>招生计划查询</h3><p>本功能暂未开放使用。</p></div><div class="zy-dashboard-card" data-jump-view="choice"><h3>备选志愿参考</h3><p>本功能暂未开放使用。</p></div><div class="zy-dashboard-card" data-jump-view="major"><h3>专业知识库</h3><p>查询专业大类、专业类、专业名称和开设院校。</p></div></div>';
       }
       if (view === "plan" || view === "choice") {
         var msg = view === "plan" ? "本功能暂未开放使用<br>（该功能在成绩查询之前上线）" : "本功能暂未开放使用<br>（该功能在志愿填报之前上线）";
