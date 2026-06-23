@@ -524,41 +524,32 @@
     document.body.classList.add("score-mode", "volunteer-mode");
     document.body.classList.remove("score-login-mode", "score-result-mode");
 
-    main.innerHTML = '<section class="volunteer-page">' +
+    main.innerHTML = '<section class="volunteer-page history-normal-page">' +
       '<header class="volunteer-top">' +
         '<a class="zy-logo" href="javascript:;" aria-label="系统首页"><span class="zy-mark">渝</span><strong>重庆市统一高考志愿填报辅助系统</strong></a>' +
-        '<nav class="zy-nav"><a class="active" href="javascript:;" data-step="0">首页</a><a href="javascript:;" data-step="1">历史数据查询</a><a href="javascript:;" data-step="2">招生计划查询</a><a href="javascript:;" data-step="3">备选志愿参考</a><a href="javascript:;" data-step="4">资讯内容</a></nav>' +
+        '<nav class="zy-nav"><a href="javascript:;">首页</a><a class="active" href="javascript:;">历史数据查询</a><a href="javascript:;">招生计划查询</a><a href="javascript:;">备选志愿参考</a><a href="javascript:;">资讯内容</a></nav>' +
         '<button type="button" class="back-score">退出</button>' +
       '</header>' +
-      '<div class="volunteer-shell">' +
-        '<aside class="volunteer-sidebar">' +
-          '<div class="candidate-card"><h2>赵丁谕</h2><p>考生号：265****1371</p><p>首选科目：历史</p><p>再选科目：生物 / 思想政治</p><p>高考总分：626</p></div>' +
-          '<nav class="volunteer-steps"><button class="active" type="button" data-step="0">首页</button><button type="button" data-step="1">历史数据查询</button><button type="button" data-step="2">招生计划查询</button><button type="button" data-step="3">备选志愿参考</button></nav>' +
-          '<div class="fill-status"><span>备选志愿</span><strong><b data-choice-count>0</b>/96</strong></div>' +
-        '</aside>' +
-        '<div class="volunteer-main">' +
-          '<section class="notice-panel welcome">' +
-            '<div><h1>赵丁谕，欢迎登录</h1><p>为切实帮助考生及家长合理填报志愿，系统提供历史数据、招生计划、备选志愿参考等公益服务。本页面为本地演示，不连接官方认证接口。</p></div>' +
-            '<table class="box-subject"><thead><tr><th>语文</th><th>数学</th><th>外语</th><th>历史</th><th>生物</th><th>政治</th><th>总分</th></tr></thead><tbody><tr><td>124</td><td>106</td><td>132</td><td>76</td><td>96</td><td>92</td><td>626</td></tr></tbody></table>' +
-          '</section>' +
-          '<section class="batch-panel home-quick-links">' +
-            '<div class="quick-card"><span>历</span><h3>历史数据查询</h3><p>按年份、批次、院校、专业检索录取分数及位次。</p><button type="button" data-step="1">进入查询</button></div>' +
-            '<div class="quick-card"><span>招</span><h3>招生计划查询</h3><p>查看 2026 年在渝招生计划、选科要求和专业备注。</p><button type="button" data-step="2">查看计划</button></div>' +
-            '<div class="quick-card"><span>备</span><h3>备选志愿参考</h3><p>收藏院校专业，形成最多 96 个备选志愿清单。</p><button type="button" data-step="3">管理备选</button></div>' +
-          '</section>' +
-          '<section class="search-panel">' +
-            '<div class="panel-head"><h2>查询条件</h2><span>当前批次：普通类本科批 · 首选历史</span></div>' +
-            '<div class="filter-row"><input name="schoolKeyword" placeholder="请输入院校名称或专业名称"><select name="cityFilter"><option value="">院校所在地</option><option>重庆</option><option>北京</option><option>上海</option><option>四川</option><option>湖北</option></select><select name="riskFilter"><option value="">参考梯度</option><option>冲</option><option>稳</option><option>保</option></select></div>' +
-            '<div class="batch-tabs"><button class="active" type="button" data-batch="本科批">普通类本科批</button><button type="button" data-batch="高职专科批">高职专科批</button><button type="button" data-batch="提前批A段">本科提前批A段</button></div>' +
-            '<div class="school-list"></div>' +
-          '</section>' +
-          '<section class="choice-panel">' +
-            '<div class="panel-head"><h2>备选志愿参考</h2><span>系统按顺序展示，已选 <strong data-choice-count>0</strong>/96 个</span></div>' +
-            '<div class="choice-actions"><button type="button" class="fill-recommend">一键生成96个备选志愿</button><button type="button" class="clear-volunteer">清空</button><button type="button" class="save-volunteer">保存</button><button type="button" class="submit-volunteer">锁定参考表</button><button type="button" class="unlock-volunteer">解除锁定</button><button type="button" class="print-volunteer">打印</button></div>' +
-            '<div class="choice-table-wrap"><table class="choice-table"><thead><tr><th>序号</th><th>院校</th><th>专业</th><th>所在地</th><th>梯度</th><th>服从调剂</th><th>操作</th></tr></thead><tbody></tbody></table></div>' +
-          '</section>' +
-          '<section class="review-panel"><h2>使用说明</h2><ul class="review-list"><li>辅助系统仅提供志愿填报参考，正式志愿以重庆市普通高校招生志愿填报系统提交结果为准。</li><li>建议结合招生章程、体检限报、选科要求和个人意愿综合判断。</li><li>本地演示版不采集真实账号、密码、手机号或验证码。</li></ul></section>' +
-        '</div>' +
+      '<div class="zy-content">' +
+        '<div class="history-year-nav"><div class="year-tabs"><button class="active" type="button" data-year="2025">2025</button><button type="button" data-year="2024">2024</button><button type="button" data-year="2023">2023</button><button type="button" data-year="2022">2022</button><button type="button" data-year="2021">2021</button></div><div class="main-data-tool"><span class="main-data-tool-label">考生信息：</span><span>赵丁谕</span><span>历史类</span><span>626分</span></div></div>' +
+        '<section class="card-system-search">' +
+          '<div class="search-grid">' +
+            '<label><span>科类</span><select name="subjectFilter"><option>普通类（历史）</option><option>普通类（物理）</option></select></label>' +
+            '<label><span>批次</span><select name="batchSelect"><option value="本科批">本科批</option><option value="高职专科批">高职专科批</option><option value="本科提前批A段">本科提前批A段</option></select></label>' +
+            '<label><span>院校所在地</span><select name="cityFilter"><option value="">全部</option><option>重庆</option><option>北京</option><option>上海</option><option>四川</option><option>湖北</option></select></label>' +
+            '<label><span>院校或专业</span><input name="schoolKeyword" placeholder="请输入院校名称或专业名称"></label>' +
+            '<label><span>最低分</span><div class="score-range"><input name="scoreMin" inputmode="numeric" placeholder="最低"><em>至</em><input name="scoreMax" inputmode="numeric" placeholder="最高"></div></label>' +
+            '<label><span>最低位次</span><div class="score-range"><input name="rankMin" inputmode="numeric" placeholder="最低"><em>至</em><input name="rankMax" inputmode="numeric" placeholder="最高"></div></label>' +
+          '</div>' +
+          '<div class="search-footer"><button type="button" class="history-search">查询</button><button type="button" class="history-reset">重置</button><button type="button" class="history-export">导出</button></div>' +
+        '</section>' +
+        '<section class="school-list"></section>' +
+        '<section class="choice-panel">' +
+          '<div class="panel-head"><h2>备选志愿参考</h2><span>已选 <strong data-choice-count>0</strong>/96 个</span></div>' +
+          '<div class="choice-actions"><button type="button" class="fill-recommend">一键生成96个备选志愿</button><button type="button" class="clear-volunteer">清空</button><button type="button" class="save-volunteer">保存</button><button type="button" class="submit-volunteer">锁定参考表</button><button type="button" class="unlock-volunteer">解除锁定</button><button type="button" class="print-volunteer">打印</button></div>' +
+          '<div class="choice-table-wrap"><table class="choice-table backup-choice-table"><thead><tr><th>序号</th><th>院校</th><th>专业</th><th>所在地</th><th>梯度</th><th>服从调剂</th><th>操作</th></tr></thead><tbody></tbody></table></div>' +
+        '</section>' +
+        '<section class="review-panel"><h2>说明</h2><ul class="review-list"><li>本页面按目标路由“普通类历史数据查询”复刻为本地演示，不连接官方认证接口。</li><li>表格中的分数、位次、计划数和录取数用于本地交互展示。</li></ul></section>' +
       '</div>' +
     '</section>';
 
@@ -584,41 +575,60 @@
     if (choices.length > maxChoices) choices = choices.slice(0, maxChoices);
     var submitted = localStorage.getItem("volunteerSubmitted") === "1";
     var currentBatch = localStorage.getItem("volunteerBatch") || "本科批";
+    var currentYear = localStorage.getItem("historyYear") || "2025";
 
     var back = document.querySelector(".back-score");
     var list = document.querySelector(".school-list");
-    var tbody = document.querySelector(".choice-table tbody");
+    var tbody = document.querySelector(".backup-choice-table tbody");
     var keyword = document.querySelector('input[name="schoolKeyword"]');
     var city = document.querySelector('select[name="cityFilter"]');
-    var risk = document.querySelector('select[name="riskFilter"]');
+    var batchSelect = document.querySelector('select[name="batchSelect"]');
+    var scoreMin = document.querySelector('input[name="scoreMin"]');
+    var scoreMax = document.querySelector('input[name="scoreMax"]');
+    var rankMin = document.querySelector('input[name="rankMin"]');
+    var rankMax = document.querySelector('input[name="rankMax"]');
 
     if (back) back.addEventListener("click", function () { navigate("/score/result.html", true); });
 
-    document.querySelectorAll("[data-step]").forEach(function (button) {
+    document.querySelectorAll("[data-year]").forEach(function (button) {
+      button.classList.toggle("active", button.dataset.year === currentYear);
       button.addEventListener("click", function () {
-        var targets = [0, 2, 2, 3, 4];
-        document.querySelectorAll(".volunteer-steps button").forEach(function (item) { item.classList.remove("active"); });
-        document.querySelectorAll(".zy-nav a").forEach(function (item) { item.classList.toggle("active", item.dataset.step === button.dataset.step); });
-        document.querySelectorAll('.volunteer-steps button[data-step="' + button.dataset.step + '"]').forEach(function (item) { item.classList.add("active"); });
-        document.querySelectorAll(".volunteer-main > section")[targets[Number(button.dataset.step || 0)]].scrollIntoView({ behavior: "smooth", block: "start" });
+        currentYear = button.dataset.year;
+        localStorage.setItem("historyYear", currentYear);
+        document.querySelectorAll("[data-year]").forEach(function (item) { item.classList.toggle("active", item === button); });
+        renderSchools();
       });
     });
 
-    document.querySelectorAll(".batch-tabs button").forEach(function (button) {
-      button.classList.toggle("active", button.dataset.batch === currentBatch);
-      button.addEventListener("click", function () {
-        if (submitted) return toastVolunteer("已提交状态不能修改批次，请先撤销提交。");
-        currentBatch = button.dataset.batch;
-        localStorage.setItem("volunteerBatch", currentBatch);
-        document.querySelectorAll(".batch-tabs button").forEach(function (item) { item.classList.toggle("active", item === button); });
-        toastVolunteer("已切换至：" + currentBatch);
-      });
-    });
+    if (batchSelect) batchSelect.value = currentBatch;
 
-    [keyword, city, risk].forEach(function (field) {
+    [keyword, city, batchSelect, scoreMin, scoreMax, rankMin, rankMax].forEach(function (field) {
       if (!field) return;
       field.addEventListener("input", renderSchools);
-      field.addEventListener("change", renderSchools);
+      field.addEventListener("change", function () {
+        if (field === batchSelect) {
+          currentBatch = field.value;
+          localStorage.setItem("volunteerBatch", currentBatch);
+        }
+        renderSchools();
+      });
+    });
+
+    document.querySelector(".history-search").addEventListener("click", function () {
+      renderSchools();
+      toastVolunteer("查询完成。");
+    });
+    document.querySelector(".history-reset").addEventListener("click", function () {
+      [keyword, city, scoreMin, scoreMax, rankMin, rankMax].forEach(function (field) { if (field) field.value = ""; });
+      if (batchSelect) {
+        batchSelect.value = "本科批";
+        currentBatch = "本科批";
+        localStorage.setItem("volunteerBatch", currentBatch);
+      }
+      renderSchools();
+    });
+    document.querySelector(".history-export").addEventListener("click", function () {
+      toastVolunteer("已生成导出文件。");
     });
 
     document.querySelector(".save-volunteer").addEventListener("click", function () {
@@ -660,16 +670,26 @@
     function renderSchools() {
       var key = keyword ? keyword.value.trim() : "";
       var cityValue = city ? city.value : "";
-      var riskValue = risk ? risk.value : "";
+      var lowScore = scoreMin && scoreMin.value ? Number(scoreMin.value) : null;
+      var highScore = scoreMax && scoreMax.value ? Number(scoreMax.value) : null;
+      var lowRank = rankMin && rankMin.value ? Number(rankMin.value) : null;
+      var highRank = rankMax && rankMax.value ? Number(rankMax.value) : null;
       var filtered = schools.filter(function (school) {
+        var rank = rankOfSchool(school);
         return (!key || school.name.indexOf(key) >= 0 || school.major.indexOf(key) >= 0) &&
           (!cityValue || school.city === cityValue) &&
-          (!riskValue || school.risk === riskValue);
+          (lowScore === null || school.score >= lowScore) &&
+          (highScore === null || school.score <= highScore) &&
+          (lowRank === null || rank >= lowRank) &&
+          (highRank === null || rank <= highRank);
       });
-      list.innerHTML = '<div class="main-data"><div class="data-table-header"><div class="data-table-header-left"><h5>查询结果</h5><span>共 ' + filtered.length + ' 条</span></div><div class="data-table-header-right">数据年份：2023-2025</div></div><div class="choice-table-wrap"><table class="choice-table system-table"><thead><tr><th>院校名称</th><th>专业名称</th><th>批次</th><th>所在地</th><th>参考分</th><th>参考梯度</th><th>操作</th></tr></thead><tbody>' +
+      list.innerHTML = '<div class="main-data"><div class="data-table-header"><div class="data-table-header-left"><h5>普通类历史数据查询</h5><span>共 ' + filtered.length + ' 条</span></div><div class="data-table-header-right">录取年份：' + currentYear + ' · 科类：历史</div></div><div class="choice-table-wrap"><table class="choice-table system-table"><thead><tr><th>院校</th><th>专业</th><th>批次</th><th>计划数</th><th>录取数</th><th>最低分</th><th>最低位次</th><th>平均分</th><th>操作</th></tr></thead><tbody>' +
         (filtered.map(function (school, index) {
-          return '<tr><td><b>' + escapeHtml(school.name) + '</b><small>院校代码 ' + String(5000 + index).padStart(5, "0") + '</small></td><td>' + escapeHtml(school.major) + '<small>选科要求：历史+生物/政治</small></td><td>' + escapeHtml(currentBatch) + '</td><td>' + escapeHtml(school.city) + '</td><td><b>' + school.score + '</b><small>参考位次 ' + (1200 + index * 43) + '</small></td><td><span class="risk ' + escapeHtml(school.risk) + '">' + escapeHtml(school.risk) + '</span></td><td><button type="button" data-school-index="' + index + '"' + (submitted ? " disabled" : "") + '>加入备选</button></td></tr>';
-        }).join("") || '<tr><td colspan="7" class="empty-choice">没有符合条件的院校专业。</td></tr>') +
+          var plan = 2 + (index % 6);
+          var admitted = plan + (index % 2);
+          var rank = rankOfSchool(school);
+          return '<tr><td><b>' + escapeHtml(school.name) + '</b><small>院校代码 ' + String(5000 + index).padStart(5, "0") + ' · ' + escapeHtml(school.city) + '</small></td><td>' + escapeHtml(school.major) + '<small>专业备注：不提科目要求</small></td><td>' + escapeHtml(currentBatch) + '</td><td>' + plan + '</td><td>' + admitted + '</td><td><b>' + scoreForYear(school) + '</b></td><td>' + rank + '</td><td>' + (scoreForYear(school) + 4) + '</td><td><button type="button" data-school-index="' + index + '"' + (submitted ? " disabled" : "") + '>加入备选</button></td></tr>';
+        }).join("") || '<tr><td colspan="9" class="empty-choice">没有符合条件的历史数据。</td></tr>') +
       '</tbody></table></div></div>';
 
       list.querySelectorAll("button[data-school-index]").forEach(function (button) {
@@ -684,6 +704,14 @@
           toastVolunteer("已加入志愿表。");
         });
       });
+    }
+
+    function scoreForYear(school) {
+      return school.score - (2025 - Number(currentYear || 2025));
+    }
+
+    function rankOfSchool(school) {
+      return Math.max(360, 900 + (650 - school.score) * 78);
     }
 
     function renderChoices() {

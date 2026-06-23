@@ -1548,6 +1548,185 @@ body.score-mode main {
   color: #165dff;
 }
 
+.history-normal-page .zy-content {
+  box-sizing: border-box;
+  width: 1200px;
+  max-width: calc(100vw - 40px);
+  margin: 20px auto 40px;
+}
+
+.history-normal-page .history-year-nav {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  margin-bottom: 20px;
+}
+
+.history-normal-page .year-tabs {
+  display: flex;
+  padding: 4px;
+  line-height: 34px;
+  overflow: hidden;
+}
+
+.history-normal-page .year-tabs button {
+  position: relative;
+  min-width: 116px;
+  margin: 4px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 2px;
+  background: #fff;
+  color: #4e5969;
+  font-size: 14px;
+  line-height: 34px;
+  cursor: pointer;
+}
+
+.history-normal-page .year-tabs button:hover {
+  background: #f2f3f5;
+}
+
+.history-normal-page .year-tabs button.active {
+  color: #165dff;
+  font-weight: 700;
+}
+
+.history-normal-page .year-tabs button.active:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+  height: 3px;
+  background: #165dff;
+}
+
+.history-normal-page .main-data-tool {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 8px;
+  color: #4e5969;
+  font-size: 14px;
+}
+
+.history-normal-page .main-data-tool span:not(.main-data-tool-label) {
+  display: inline-flex;
+  height: 26px;
+  align-items: center;
+  padding: 0 9px;
+  border: 1px solid #e5e6eb;
+  border-radius: 2px;
+  background: #f7f8fa;
+}
+
+.history-normal-page .card-system-search {
+  margin-bottom: 20px;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+}
+
+.history-normal-page .search-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 18px;
+  padding: 20px;
+}
+
+.history-normal-page .search-grid label {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  color: #4e5969;
+  font-size: 14px;
+}
+
+.history-normal-page .search-grid label > span {
+  text-align: right;
+}
+
+.history-normal-page .search-grid input,
+.history-normal-page .search-grid select {
+  box-sizing: border-box;
+  width: 100%;
+  height: 34px;
+  border: 1px solid #e5e6eb;
+  border-radius: 2px;
+  padding: 0 10px;
+  background: #fff;
+  color: #1f2329;
+  font-size: 14px;
+}
+
+.history-normal-page .score-range {
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr;
+  align-items: center;
+}
+
+.history-normal-page .score-range em {
+  color: #86909c;
+  font-style: normal;
+  text-align: center;
+}
+
+.history-normal-page .search-footer {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 20px 20px;
+}
+
+.history-normal-page .search-footer button {
+  width: 120px;
+  height: 34px;
+  border: 0;
+  border-radius: 2px;
+  background: #165dff;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.history-normal-page .search-footer .history-reset {
+  background: #0fc6c2;
+}
+
+.history-normal-page .search-footer .history-export {
+  position: absolute;
+  right: 20px;
+  background: #fff;
+  color: #165dff;
+  border: 1px solid #165dff;
+}
+
+.history-normal-page .main-data {
+  margin: 0 0 20px;
+}
+
+.history-normal-page .data-table-header {
+  line-height: 28px;
+}
+
+.history-normal-page .system-table {
+  min-width: 1120px;
+}
+
+.history-normal-page .choice-panel,
+.history-normal-page .review-panel {
+  margin-top: 20px;
+  border: 0;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03);
+}
+
 .rightbar {
   min-width: 0;
 }
@@ -1949,5 +2128,42 @@ body.score-mode main {
 
   .volunteer-mode .quick-card + .quick-card {
     margin-top: 12px;
+  }
+
+  .history-normal-page .zy-content {
+    max-width: calc(100vw - 18px);
+    margin: 10px auto 28px;
+  }
+
+  .history-normal-page .history-year-nav {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .history-normal-page .year-tabs {
+    width: max-content;
+  }
+
+  .history-normal-page .main-data-tool {
+    width: max-content;
+  }
+
+  .history-normal-page .search-grid {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .history-normal-page .search-grid label {
+    grid-template-columns: 86px minmax(0, 1fr);
+  }
+
+  .history-normal-page .search-footer {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 0 14px 14px;
+  }
+
+  .history-normal-page .search-footer .history-export {
+    position: static;
   }
 }
