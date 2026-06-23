@@ -900,40 +900,26 @@ body.score-mode main {
   z-index: 50;
   width: 100%;
   height: 60px;
-  padding: 0 20px;
+  padding: 0 24px;
   align-items: center;
   background: #fff;
   color: #1f2329;
-  box-shadow: 0 0 10px rgba(0,0,0,.10);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
 
 .zy-logo {
   display: inline-flex;
-  flex: 0 0 auto;
+  flex: 0 0 269px;
   align-items: center;
-  gap: 10px;
   color: #1f326c;
   text-decoration: none;
 }
 
-.zy-mark {
-  display: inline-flex;
-  width: 36px;
-  height: 36px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #1a326a;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.volunteer-top strong {
+.zy-logo .logo {
   display: block;
-  font-size: 18px;
-  line-height: 1;
-  white-space: nowrap;
+  width: 269px;
+  height: 36px;
+  object-fit: contain;
 }
 
 .zy-nav {
@@ -942,19 +928,21 @@ body.score-mode main {
   flex: 1;
   height: 60px;
   align-items: center;
-  margin-left: 16px;
+  margin-left: 24px;
   overflow: hidden;
 }
 
 .zy-nav a {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   position: relative;
-  margin: 14px 7px;
+  margin: 0 2px;
   padding: 0 12px;
   border-radius: 2px;
   color: #4e5969;
   font-size: 14px;
-  line-height: 32px;
+  line-height: 60px;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -973,10 +961,16 @@ body.score-mode main {
   display: block;
   position: absolute;
   right: 12px;
-  bottom: -14px;
+  bottom: 0;
   left: 12px;
   height: 3px;
   background: #165dff;
+}
+
+.volunteer-top .arco-icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
 }
 
 .volunteer-top button,
@@ -988,12 +982,32 @@ body.score-mode main {
 }
 
 .volunteer-top button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   height: 38px;
-  padding: 0 18px;
+  padding: 0 10px;
   background: #fff;
   color: #075f99;
   font-size: 15px;
   font-weight: 700;
+}
+
+.user-avatar {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f2f3f5;
+  color: #4e5969;
+  font-size: 16px;
+}
+
+.user-avatar .arco-icon {
+  width: 16px;
+  height: 16px;
 }
 
 .volunteer-shell {
@@ -2084,8 +2098,17 @@ body.score-mode main {
 }
 
 .history-normal-page .video-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 118px;
-  background: linear-gradient(135deg, #dbe8ff, #f7f8fa);
+  background: #f7f8fa;
+}
+
+.history-normal-page .video-thumb img {
+  width: 32px;
+  height: 32px;
+  opacity: .78;
 }
 
 .history-normal-page .video-grid p {
@@ -2593,8 +2616,9 @@ body.score-mode main {
     padding: 14px 16px;
   }
 
-  .volunteer-top strong {
-    font-size: 19px;
+  .zy-logo .logo {
+    width: 240px;
+    height: 32px;
   }
 
   .volunteer-top button {
@@ -2664,8 +2688,13 @@ body.score-mode main {
     overflow-x: auto;
   }
 
-  .volunteer-mode .zy-logo strong {
-    font-size: 16px;
+  .volunteer-mode .zy-logo {
+    flex-basis: 240px;
+  }
+
+  .volunteer-mode .zy-logo .logo {
+    width: 240px;
+    height: 32px;
   }
 
   .volunteer-mode .zy-nav {

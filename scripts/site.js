@@ -526,10 +526,10 @@
     document.body.classList.remove("score-login-mode", "score-result-mode");
 
     main.innerHTML = '<section class="volunteer-page history-normal-page">' +
-      '<header class="volunteer-top">' +
-        '<a class="zy-logo" href="javascript:;" aria-label="系统首页"><span class="zy-mark">渝</span><strong>重庆市统一高考志愿填报辅助系统</strong></a>' +
-        '<nav class="zy-nav"><a href="javascript:;" data-zy-nav="home">主页</a><a class="active" href="javascript:;" data-zy-nav="history">历史数据查询</a><a href="javascript:;" data-zy-nav="plan">招生计划查询</a><a href="javascript:;" data-zy-nav="choice">备选志愿参考</a><a href="javascript:;" data-zy-nav="major">专业知识库</a><a href="javascript:;" data-zy-nav="video">视频专区</a><a href="javascript:;" data-zy-nav="manual">使用手册</a></nav>' +
-        '<button type="button" class="back-score">我的</button>' +
+      '<header class="volunteer-top arco-layout-header">' +
+        '<a class="zy-logo ac-navbar-logo" href="javascript:;" aria-label="系统首页"><img class="logo" src="https://www.cqzk.com.cn/apps/zyfz/file/upload/image/Image_1728611594151-8432-9FZ116B6CW26U8E-1153761511.svg" alt=""></a>' +
+        '<nav class="zy-nav ac-navigation"><a href="javascript:;" data-zy-nav="home">主页</a><a class="active" href="javascript:;" data-zy-nav="history">历史数据查询' + downIconMarkup() + '</a><a href="javascript:;" data-zy-nav="plan">招生计划查询</a><a href="javascript:;" data-zy-nav="choice">备选志愿参考</a><a href="javascript:;" data-zy-nav="major">专业知识库</a><a href="javascript:;" data-zy-nav="video">视频专区</a><a href="javascript:;" data-zy-nav="manual">使用手册</a></nav>' +
+        '<button type="button" class="back-score ac-nav-personal"><span class="user-avatar">' + userIconMarkup() + '</span><span class="text">我的</span>' + downIconMarkup() + '</button>' +
       '</header>' +
       '<div class="zy-content">' +
         '<div class="zy-breadcrumb"><a href="javascript:;">主页</a><span>/</span><a href="javascript:;">历史数据查询</a><span>/</span><strong>普通类</strong></div>' +
@@ -540,7 +540,7 @@
             '<div class="form-row"><div class="form-label">院校省份</div><div class="form-control"><select name="cityFilter"><option value="">请选择省份</option><option>重庆</option><option>北京</option><option>上海</option><option>四川</option><option>湖北</option><option>江苏</option><option>浙江</option><option>广东</option></select></div></div>' +
             '<div class="form-row"><div class="form-label">选择院校</div><div class="form-control school-picker"><button type="button" class="select-school">选择</button><input name="schoolKeyword" placeholder="请选择院校"></div></div>' +
             '<div class="form-row form-row-wide"><div class="form-label">院校标签</div><div class="form-control checkbox-line"><label><input type="checkbox" name="schoolTags" value="公办">公办</label><label><input type="checkbox" name="schoolTags" value="民办">民办</label><label><input type="checkbox" name="schoolTags" value="独立学院">独立学院</label><label><input type="checkbox" name="schoolTags" value="内地与港澳台地区合作办学">内地与港澳台地区合作办学</label><label><input type="checkbox" name="schoolTags" value="中外合作办学">中外合作办学</label><label><input type="checkbox" name="schoolTags" value="211工程高校">"211工程高校"</label><label><input type="checkbox" name="schoolTags" value="985工程高校">"985工程高校"</label><label><input type="checkbox" name="schoolTags" value="双一流">"双一流"建设高校及建设学科</label></div></div>' +
-            '<div class="form-row form-row-wide"><div class="form-label">专业名称</div><div class="form-control major-filter"><div class="radio-line"><label><input type="radio" name="majorMode" value="include" checked>只显示以下专业</label><label><input type="radio" name="majorMode" value="exclude">不显示以下专业</label></div><div class="major-input"><input name="majorKeyword" placeholder="请输入专业名称，多个专业请用英文逗号“,”分割，支持模糊查询，最多可输入5个专业名称"><button type="button" class="major-add">+</button></div></div></div>' +
+            '<div class="form-row form-row-wide"><div class="form-label">专业名称</div><div class="form-control major-filter"><div class="radio-line"><label><input type="radio" name="majorMode" value="include" checked>只显示以下专业</label><label><input type="radio" name="majorMode" value="exclude">不显示以下专业</label></div><div class="major-input"><input name="majorKeyword" placeholder="请输入专业名称，多个专业请用英文逗号“,”分割，支持模糊查询，最多可输入5个专业名称"><button type="button" class="major-add" aria-label="添加专业">' + plusCircleIconMarkup() + '</button></div></div></div>' +
             '<div class="form-row form-row-wide"><div class="form-label">查询范围</div><div class="form-control range-filter"><div class="radio-line"><label><input type="radio" name="rangeMode" value="rank" checked>位次</label><label><input type="radio" name="rangeMode" value="score">分数</label></div><div class="score-range"><input name="rankMin" inputmode="numeric" placeholder="最低"><em>至</em><input name="rankMax" inputmode="numeric" placeholder="最高"><span class="range-unit">名</span><small>（位次范围差不超过5000名）</small></div></div></div>' +
           '</div>' +
           '<div class="search-footer"><button type="button" class="history-search">查 询</button><button type="button" class="history-reset">重 置</button></div>' +
@@ -776,7 +776,7 @@
       }
       if (view === "video") {
         var videos = ["助力志愿填报 圆梦最美青春", "聚焦2024年重庆高考志愿填报①(该视频录制于2024年6月)", "聚焦2024年重庆高考志愿填报②(该视频录制于2024年6月)", "高考志愿如何填报？市教育考试院为你答疑解惑(该视频录制于2024年6月)", "重庆市教育事业发展“十四五”规划", "办好中国的世界一流大学", "艺术类 | 艺术专业统考“考评分离”解读", "高考护航行动 | “重庆市2025年统一高考志愿填报辅助系统”", "数学类 | 这些问题，都有“数”了！", "化学类 | 揭开“宝藏”化学的奥秘", "生物科学类 | 揭开生命奥秘，生物科学专业等你来了解", "力学类 | 力学笃行，履践致远"];
-        return '<div class="zy-page-card"><h2>视频专区</h2><h3 class="video-group">政策解读</h3><div class="video-grid">' + videos.map(function (item) { return '<article><div class="video-thumb"></div><p>' + escapeHtml(item) + '</p></article>'; }).join("") + '</div></div>';
+        return '<div class="zy-page-card"><h2>视频专区</h2><h3 class="video-group">政策解读</h3><div class="video-grid">' + videos.map(function (item) { return '<article><div class="video-thumb"><img src="https://www.cqzk.com.cn/apps/zyfz/static/images/record.png" alt=""></div><p>' + escapeHtml(item) + '</p></article>'; }).join("") + '</div></div>';
       }
       if (view === "manual") {
         return '<div class="manual-page"><aside><h3>使用手册</h3><a>系统简介</a><a>系统登录</a><a>历史数据查询</a><a>招生计划查询</a><a>备选志愿参考</a><h3>常见问题</h3><a>1. 能用手机或者平板登录志愿辅助系统吗？</a><a>2. 遇到无法正常登录或者登录后系统页面显示不正常怎么办？</a><a>3. 忘记密码怎么办？</a><a>4. 如何查看目标院校历年录取分数？</a><a>5. 如何查看院校招生章程？</a></aside><article><div class="zy-breadcrumb manual-crumb"><a>主页</a><span>/</span><a>知识库</a><span>/</span><strong>正文</strong></div><h1>使用手册</h1><h2>系统简介</h2><p>为切实帮助考生及家长合理填报志愿，重庆市教育考试院门户网（www.cqksy.cn）和重庆招考信息网（www.cqzk.com.cn）现已开通“重庆市统一高考志愿填报辅助系统”线上服务入口，向参加全市2026年普通高考全国统考的考生提供志愿填报辅助公益服务。</p><p>该系统有三项功能：一是历史数据查询（该功能已上线）；二是招生计划查询（该功能预计高考成绩查询前上线）；三是备选志愿参考（该功能预计志愿填报前上线）。</p><h2>系统登录</h2><p>通过电脑浏览器登录，推荐使用谷歌（Chrome）、微软（EDGE）浏览器或360、QQ等浏览器的极速模式。</p><h2>历史数据查询</h2><p>本功能用于查询2023年至2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息。</p><h2>招生计划查询</h2><p>本功能用于查询2026年全国在渝招生高校普通类、艺术类、体育类各批次招生计划。</p><h2>备选志愿参考</h2><p>本功能为考生填报普通类本科批及普通类专科批志愿提供备选志愿参考。</p></article></div>';
@@ -1040,6 +1040,18 @@
 
   function qrMarkup(extraClass, label) {
     return '<img class="qr ' + extraClass + '" src="/wechat.png" alt="' + escapeHtml(label) + '">';
+  }
+
+  function downIconMarkup() {
+    return '<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" class="arco-icon arco-icon-down" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M39.6 17.443 24.043 33 8.487 17.443"></path></svg>';
+  }
+
+  function userIconMarkup() {
+    return '<svg viewBox="0 0 1024 1024" class="arco-icon icon-user" fill="currentColor" aria-hidden="true"><path d="M512 512c113.1 0 204.8-91.7 204.8-204.8S625.1 102.4 512 102.4 307.2 194.1 307.2 307.2 398.9 512 512 512zm0 102.4c-170.7 0-307.2 91.7-307.2 204.8 0 56.6 34.1 102.4 76.8 102.4h460.8c42.7 0 76.8-45.8 76.8-102.4 0-113.1-136.5-204.8-307.2-204.8z"></path></svg>';
+  }
+
+  function plusCircleIconMarkup() {
+    return '<svg viewBox="0 0 1024 1024" class="arco-icon icon-plus-circle" fill="currentColor" aria-hidden="true"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm192 480H544v160h-64V544H320v-64h160V320h64v160h160v64z"></path></svg>';
   }
 
   function maskId(value) {
