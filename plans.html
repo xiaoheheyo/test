@@ -8,20 +8,28 @@
   <style>
     body.score-mode .topbar, body.score-mode .site-header, body.score-mode .footer { display:none; }
     body.score-mode main { padding: 0; min-height: 100vh; }
-    .plans-page { min-height: 100vh; background:#f2f4fb; }
-    .plans-shell { width:1200px; max-width:calc(100vw - 74px); margin:0 auto; padding-top:20px; }
-    .plans-top { height:62px; display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:4px solid #b20e17; padding:0 16px 0 12px; box-shadow:0 1px 2px rgba(0,0,0,.03); }
-    .plans-nav { display:flex; gap:18px; align-items:center; color:#4e5969; font-size:15px; white-space:nowrap; }
+    .plans-page { min-height:100vh; background:#f2f4fb; }
+    .plans-shell { width:min(1200px, calc(100vw - 80px)); margin:0 auto; padding-top:20px; }
+    .plans-top { height:60px; display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:4px solid #b20e17; padding:0 18px 0 12px; box-shadow:0 1px 2px rgba(0,0,0,.03); }
+    .plans-nav { display:flex; gap:30px; align-items:center; color:#4e5969; font-size:14px; white-space:nowrap; }
     .plans-nav a { color:#4e5969; position:relative; padding:0 2px; }
     .plans-nav a.active { color:#165dff; font-weight:700; }
-    .plans-nav a.active::after { content:""; position:absolute; left:0; right:0; bottom:-21px; height:3px; background:#165dff; }
-    .plans-logo { display:flex; align-items:center; gap:8px; }
-    .plans-logo img { height:30px; }
-    .plans-logo strong { font-size:16px; color:#1d2129; font-weight:700; }
-    .plans-user { display:flex; align-items:center; gap:8px; color:#4e5969; font-size:14px; }
-    .plans-user button { display:inline-flex; align-items:center; gap:6px; height:30px; border:0; background:transparent; color:#4e5969; font:inherit; cursor:pointer; }
+    .plans-nav a.active::after { content:""; position:absolute; left:0; right:0; bottom:-21px; height:4px; background:#1d64ff; }
+    .plans-logo { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
+    .plans-logo img { height:30px; width:auto; }
+    .plans-logo strong { font-size:15px; color:#1d2129; font-weight:700; white-space:nowrap; }
+    .plans-user { display:flex; align-items:center; gap:6px; color:#4e5969; font-size:14px; flex:0 0 auto; }
+    .plans-user button { display:inline-flex; align-items:center; gap:6px; height:30px; border:0; background:transparent; color:#4e5969; font:inherit; cursor:pointer; padding:0; }
+    .plans-user button::before { content:""; width:34px; height:34px; border-radius:50%; background:#d9dbe1; display:inline-block; }
     .plans-content { padding-top:20px; }
     .plan-section { margin-bottom:20px; }
+    .card-system-search.plan-section,
+    .history-tip.plan-section,
+    .plan-list { display:none !important; }
+    .plan-shell-card { border-radius:3px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.03); overflow:hidden; }
+    .plan-shell-head { height:46px; border-bottom:1px solid #eef1f6; }
+    .plan-shell-body { min-height:32px; }
+    .plan-shell-zoom { min-height:0; }
     .plan-list .history-result-table th:nth-child(1) { width:250px; }
     .plan-list .history-result-table th:nth-child(2) { width:280px; }
     .plan-list .history-result-table th:nth-child(3) { width:120px; }
@@ -36,10 +44,12 @@
     .plan-summary span { color:#86909c; font-size:14px; }
     .plan-summary .main-data-tool { color:#1d2129; font-size:14px; font-weight:600; }
     .history-tip.plan-section { padding:18px 28px; }
+    .history-tip.plan-section h3 { margin:0 0 10px; font-size:16px; }
     .history-tip.plan-section p { margin:8px 0; line-height:1.9; }
     .history-tip.plan-section a { margin-right:18px; color:#165dff; white-space:nowrap; }
     .card-system-search.plan-section { border-radius:3px; box-shadow:0 1px 2px rgba(0,0,0,.03); overflow:hidden; }
     .plan-list .main-data { margin-top:0; }
+    .plan-section .search-footer { gap:22px; padding:6px 20px 26px; }
     .plan-section .search-footer button { width:190px; height:56px; border:0; border-radius:2px; background:#165dff; color:#fff; font-size:22px; cursor:pointer; }
     .plan-section .search-footer .plan-reset { background:#fff; color:#1d2129; border:1px solid #e5e6eb; }
     .plan-section .system-form { padding:30px 32px 20px; }
@@ -51,7 +61,7 @@
     .plan-section .school-picker { display:grid; grid-template-columns:84px minmax(0,1fr); gap:10px; }
     .plan-section .major-input { display:grid; grid-template-columns:minmax(0,1fr) 36px; gap:10px; }
     .plan-section .school-picker button, .plan-section .major-input button { height:36px; border:1px solid #165dff; border-radius:2px; color:#165dff; background:#fff; }
-    .plans-modal { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.34); z-index:99; }
+    .plans-modal { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.34); z-index:99; }
     .plans-modal.hidden { display:none; }
     .plans-modal-card { width:min(760px, calc(100vw - 40px)); border-radius:3px; background:#fff; padding:26px 30px 22px; box-shadow:0 20px 50px rgba(36,93,132,.14); }
     .plans-modal-card h3 { margin:0 0 12px; color:#1d2129; font-size:18px; }
@@ -60,7 +70,7 @@
     .hidden { display:none !important; }
   </style>
 </head>
-<body class="score-mode volunteer-mode">
+  <body class="score-mode volunteer-mode">
   <main>
     <div class="plans-page history-normal-page" data-zy-view="plan">
       <div class="plans-shell">
@@ -71,22 +81,31 @@
           </div>
           <nav class="plans-nav">
             <a href="/apps/zyfz/system/history/normal">主页</a>
-            <a class="active" href="/apps/zyfz/system/plans">历史数据查询</a>
-            <a href="/apps/zyfz/system/plans">招生计划查询</a>
+            <a href="/apps/zyfz/system/history/normal">历史数据查询</a>
+            <a class="active" href="/apps/zyfz/system/plans">招生计划查询</a>
             <a href="javascript:;">备选志愿参考</a>
             <a href="javascript:;">专业知识库</a>
             <a href="javascript:;">视频专区</a>
             <a href="javascript:;">使用手册</a>
           </nav>
-          <div class="plans-user">
-            <button type="button">我的</button>
-          </div>
+          <div class="plans-user"><button type="button"><span>我的</span></button></div>
         </header>
 
         <div class="plans-content">
-          <div class="zy-breadcrumb"><a href="javascript:;">主页</a><span>/</span><strong>招生计划查询</strong></div>
+          <section class="plan-shell-card">
+            <div class="plan-shell-head">
+              <div class="zy-breadcrumb" style="margin:0;height:46px;padding:0 16px;"></div>
+            </div>
+            <div class="plan-shell-body">
+              <div class="plan-shell-zoom"></div>
+            </div>
+          </section>
+          <div class="zy-footer" style="margin-top:0;background:transparent;box-shadow:none;padding:18px 0 0;color:#4e5969;font-size:14px;">
+            <p style="margin:0 0 8px;text-align:center;">© 2021-2026 cqzk.com.cn All rights reserved.</p>
+            <p style="margin:0;text-align:center;">ICP备案号：渝B2-20030020-1　<a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010302000805">渝公网安备：50010302000805号</a></p>
+          </div>
 
-          <section class="card-system-search plan-section">
+          <section class="card-system-search plan-section" style="display:none;">
             <div class="system-form plan-form">
               <div class="form-row">
                 <div class="form-label">首选科目</div>
@@ -111,7 +130,7 @@
                 <div class="form-control">
                   <select name="planProvince">
                     <option value="">请选择省份</option>
-                    <option>重庆</option><option>四川</option><option>北京</option><option>上海</option><option>湖北</option><option>江苏</option><option>广东</option><option>陕西</option>
+                    <option>北京</option><option>天津</option><option>河北</option><option>山西</option><option>内蒙古</option><option>辽宁</option><option>吉林</option><option>黑龙江</option><option>上海</option><option>江苏</option><option>浙江</option><option>安徽</option><option>福建</option><option>江西</option><option>山东</option><option>河南</option><option>湖北</option><option>湖南</option><option>广东</option><option>广西</option><option>海南</option><option>重庆</option><option>四川</option><option>贵州</option><option>云南</option><option>西藏</option><option>陕西</option><option>甘肃</option><option>青海</option><option>宁夏</option><option>新疆</option><option>香港</option>
                   </select>
                 </div>
               </div>
@@ -148,7 +167,7 @@
     </div>
   </main>
 
-  <div class="plans-modal" role="dialog" aria-modal="true" aria-label="温馨提示">
+  <div class="plans-modal hidden" role="dialog" aria-modal="true" aria-label="温馨提示">
     <div class="plans-modal-card">
       <h3>温馨提示</h3>
       <p>本系统用于查询2026年全国在渝招生高校普通类、艺术类、体育类各批次招生计划信息。正式填报高考志愿前，考生要特别留意计划的增补或更正通知；部分招生计划要求考生须具备相应的资格条件，本系统所显示的招生计划与考生录取照顾资格、专项报考资格信息及选考科目相匹配。</p>
