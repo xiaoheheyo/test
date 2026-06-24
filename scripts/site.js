@@ -1083,7 +1083,13 @@
   }
 
   function scoreRows() {
-    return [["语文", "124"], ["数学", "106"], ["外语", "132"], ["历史", "76"], ["生物", "96"], ["思想政治", "92"], ["总分", "626"]];
+    var subjects = [["语文", 124], ["数学", 103], ["外语", 132], ["历史", 76], ["生物", 96], ["思想政治", 92]];
+    var total = subjects.reduce(function (sum, row) {
+      return sum + row[1];
+    }, 0);
+    return subjects.concat([["总分", total]]).map(function (row) {
+      return [row[0], String(row[1])];
+    });
   }
 
   function watermarkMarkup(candidate) {
