@@ -1641,21 +1641,22 @@ body.score-mode main {
 .history-normal-page .system-form {
   display: grid;
   gap: 16px;
-  padding: 24px 30px 18px;
+  padding: 30px 32px 20px;
 }
 
 .history-normal-page .form-row {
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 16px;
   align-items: center;
   color: #4e5969;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .history-normal-page .form-label {
   color: #1d2129;
   text-align: right;
+  font-size: 18px;
 }
 
 .history-normal-page .form-control input[type="text"],
@@ -1680,9 +1681,44 @@ body.score-mode main {
 .history-normal-page .checkbox-line {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
   flex-wrap: wrap;
   min-height: 34px;
+}
+
+.history-normal-page .segmented-line {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid #e5e6eb;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.history-normal-page .segmented {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  height: 38px;
+  margin: 0;
+  padding: 0 18px;
+  color: #4e5969;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.history-normal-page .segmented input {
+  display: none;
+}
+
+.history-normal-page .segmented.active,
+.history-normal-page .segmented:has(input:checked) {
+  color: #1d64ff;
+  background: #fff;
+}
+
+.history-normal-page .segmented:has(input:checked) {
+  border-color: #1d64ff;
 }
 
 .history-normal-page .radio-line label,
@@ -1694,21 +1730,26 @@ body.score-mode main {
   white-space: nowrap;
 }
 
+.history-normal-page .tag-sep {
+  color: #c9cdd4;
+  margin: 0 2px 0 4px;
+}
+
 .history-normal-page .school-picker,
 .history-normal-page .major-input {
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr);
-  gap: 8px;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 10px;
 }
 
 .history-normal-page .major-input {
   grid-template-columns: minmax(0, 1fr) 36px;
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .history-normal-page .school-picker button,
 .history-normal-page .major-input button {
-  height: 34px;
+  height: 36px;
   border: 1px solid #165dff;
   border-radius: 2px;
   background: #fff;
@@ -1719,13 +1760,13 @@ body.score-mode main {
 .history-normal-page .range-filter {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .history-normal-page .score-range {
   display: grid;
-  grid-template-columns: 120px 28px 120px 24px auto;
+  grid-template-columns: 106px 26px 106px 30px auto;
   gap: 0;
   align-items: center;
 }
@@ -1745,31 +1786,31 @@ body.score-mode main {
   display: flex;
   position: relative;
   justify-content: center;
-  gap: 16px;
-  padding: 0 20px 20px;
+  gap: 22px;
+  padding: 6px 20px 26px;
 }
 
 .history-normal-page .search-footer button {
-  width: 120px;
-  height: 34px;
+  width: 190px;
+  height: 56px;
   border: 0;
   border-radius: 2px;
   background: #165dff;
   color: #fff;
-  font-size: 14px;
+  font-size: 22px;
   cursor: pointer;
 }
 
 .history-normal-page .search-footer .history-reset {
   background: #fff;
   color: #1d2129;
-  border: 1px solid #c9cdd4;
+  border: 1px solid #e5e6eb;
 }
 
 .history-normal-page .history-tip {
   margin-bottom: 20px;
   border-radius: 3px;
-  padding: 18px 22px;
+  padding: 18px 28px;
   background: #fff;
   color: #4e5969;
   box-shadow: 0 1px 2px rgba(0,0,0,.03);
@@ -1804,40 +1845,8 @@ body.score-mode main {
   box-shadow: none;
 }
 
-.history-normal-page .data-table-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e6eb;
-  line-height: 28px;
-}
-
-.history-normal-page .data-table-header h5 {
-  margin: 0;
-  color: #1d2129;
-  font-size: 16px;
-}
-
-.history-normal-page .data-table-header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.history-normal-page .data-table-header-left span,
-.history-normal-page .data-table-header-right {
-  color: #86909c;
-  font-size: 13px;
-}
-
 .history-normal-page .system-table {
   min-width: 0;
-}
-
-.history-normal-page .history-result-table th,
-.history-normal-page .history-result-table td {
-  white-space: nowrap;
 }
 
 .history-normal-page .history-result-table {
@@ -1846,24 +1855,25 @@ body.score-mode main {
   table-layout: fixed;
 }
 
-.history-normal-page .history-result-toolbar {
+.history-normal-page .history-year-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 72px;
-  padding: 0 12px;
+  padding: 0 14px;
   background: #fff;
 }
 
-.history-normal-page .history-result-years {
+.history-normal-page .history-year-nav .arco-radio-group-button {
   display: flex;
   align-self: stretch;
   gap: 0;
-  min-width: 700px;
+  min-width: 620px;
 }
 
-.history-normal-page .history-result-years button {
-  min-width: 250px;
+.history-normal-page .history-year-nav .arco-radio-button {
+  position: relative;
+  min-width: 188px;
   height: 72px;
   border: 0;
   border-bottom: 5px solid transparent;
@@ -1874,14 +1884,34 @@ body.score-mode main {
   cursor: pointer;
 }
 
-.history-normal-page .history-result-years button.active {
+.history-normal-page .history-year-nav .arco-radio-button.arco-radio-checked {
   border-color: #1d64ff;
   background: #fff;
   color: #1d64ff;
   font-weight: 700;
 }
 
-.history-normal-page .history-sort-controls {
+.history-normal-page .history-year-nav .arco-radio-button::before {
+  content: none;
+}
+
+.history-normal-page .history-year-nav .arco-radio-button span {
+  position: relative;
+  display: inline-block;
+  padding: 0 16px;
+}
+
+.history-normal-page .history-year-nav .arco-radio-button.arco-radio-checked span:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: -12px;
+  height: 4px;
+  background: #1d64ff;
+}
+
+.history-normal-page .main-data-tool {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1890,7 +1920,7 @@ body.score-mode main {
   font-weight: 600;
 }
 
-.history-normal-page .history-sort-controls select {
+.history-normal-page .main-data-tool-select {
   width: 196px;
   height: 38px;
   border: 0;
@@ -1913,17 +1943,17 @@ body.score-mode main {
 }
 
 .history-normal-page .history-result-table th:nth-child(1) {
-  width: 70px;
+  width: 420px;
+  text-align: left;
 }
 
 .history-normal-page .history-result-table th:nth-child(2) {
-  width: 430px;
+  width: 420px;
   text-align: left;
 }
 
 .history-normal-page .history-result-table th:nth-child(3) {
-  width: 430px;
-  text-align: left;
+  width: 150px;
 }
 
 .history-normal-page .history-result-table th:nth-child(4) {
@@ -1940,8 +1970,22 @@ body.score-mode main {
 }
 
 .history-normal-page .history-result-table th:nth-child(8),
-.history-normal-page .history-result-table th:nth-child(9) {
+.history-normal-page .history-result-table th:nth-child(8) {
   width: 80px;
+}
+
+.history-normal-page .history-result-table th:nth-child(1),
+.history-normal-page .history-result-table th:nth-child(2) {
+  text-align: left;
+}
+
+.history-normal-page .history-result-table th:nth-child(3),
+.history-normal-page .history-result-table th:nth-child(4),
+.history-normal-page .history-result-table th:nth-child(5),
+.history-normal-page .history-result-table th:nth-child(6),
+.history-normal-page .history-result-table th:nth-child(7),
+.history-normal-page .history-result-table th:nth-child(8) {
+  text-align: center;
 }
 
 .history-normal-page .history-result-table td {
@@ -1955,8 +1999,31 @@ body.score-mode main {
   vertical-align: middle;
 }
 
-.history-normal-page .history-program-row:nth-child(even) td {
+.history-normal-page .history-result-table tbody tr:nth-child(even) td {
   background: #f7f8fb;
+}
+
+.history-normal-page .history-result-table thead th:first-child,
+.history-normal-page .history-result-table tbody td:first-child {
+  padding-left: 24px;
+}
+
+.history-normal-page .history-result-table thead th:last-child,
+.history-normal-page .history-result-table tbody td:last-child {
+  padding-right: 24px;
+}
+
+.history-normal-page .history-result-table thead th {
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+
+.history-normal-page .history-result-table tbody td {
+  border-right: 1px solid #eef1f6;
+}
+
+.history-normal-page .history-result-table tbody td:last-child,
+.history-normal-page .history-result-table thead th:last-child {
+  border-right: 0;
 }
 
 .history-normal-page .expand-cell {
@@ -1987,7 +2054,7 @@ body.score-mode main {
   align-items: center;
   gap: 5px;
   color: #1d64ff;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.3;
 }
@@ -2039,7 +2106,7 @@ body.score-mode main {
 .history-normal-page .score-cell {
   text-align: center;
   color: #9aa4b3;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 700;
 }
 
@@ -2091,6 +2158,10 @@ body.score-mode main {
   padding: 14px 20px;
   background: #eef3fb;
   color: #4e5969;
+}
+
+.history-normal-page .history-result-table tbody tr:hover td {
+  background: #eef4ff;
 }
 
 .history-normal-page .history-result-foot {
