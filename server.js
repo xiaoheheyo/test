@@ -4,6 +4,7 @@ const path = require("path");
 
 const root = __dirname;
 const port = Number(process.env.PORT || 3456);
+const zyfzSecret = "CwnXDUjZifq/DZIhIo1O3kHARUVbP/CnPZ2n6Do432j0s5gSAt9/7zl9GZ9rO1C5p1h2ieZpUJ+CH7XBthAXXCsCF4rMsSu6DQvXdzLNBXeYnr1g7Hpcf6XT5GF1GXf+aRgmjJ/wM9MIli3ih8iLgJUg8uf3ha3DhBVVg5qi71s=";
 const types = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
@@ -19,6 +20,11 @@ http.createServer((req, res) => {
   const url = new URL(req.url, `http://localhost:${port}`);
   const pathname = decodeURIComponent(url.pathname);
   let filePath = path.join(root, pathname);
+
+  if (pathname === "/api/zyfz/history/art-sports") {
+    proxyZyfzHistory(req, res);
+    return;
+  }
 
   if (pathname.endsWith("/styles/site.css")) {
     filePath = path.join(root, "styles", "site.css");
@@ -45,3 +51,48 @@ http.createServer((req, res) => {
 }).listen(port, () => {
   console.log(`Serving clone on http://localhost:${port}`);
 });
+
+function proxyZyfzHistory(req, res) {
+  if (req.method !== "POST") {
+    sendJson(res, 405, { success: false, msg: "Method Not Allowed" });
+    return;
+  }
+
+  let body = "";
+  req.on("data", chunk => {
+    body += chunk;
+    if (body.length > 1024 * 1024) req.destroy();
+  });
+  req.on("end", async () => {
+    try {
+      const payload = JSON.parse(body || "{}");
+      const upstream = await fetch("https://applet.cqzk.com.cn/prod/history/front/history/ystySearchMajorList", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json, text/javascript, */*; q=0.01",
+          "Content-Type": "application/json; charset=UTF-8",
+          "Referer": "https://www.cqzk.com.cn/apps/zyfz/system/history/art&sports",
+          "Secret": zyfzSecret,
+          "User-Agent": "Mozilla/5.0"
+        },
+        body: JSON.stringify(payload)
+      });
+      const text = await upstream.text();
+      res.writeHead(upstream.ok ? 200 : upstream.status, {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store"
+      });
+      res.end(text);
+    } catch (error) {
+      sendJson(res, 502, { success: false, msg: "原站数据接口暂时不可用" });
+    }
+  });
+}
+
+function sendJson(res, status, data) {
+  res.writeHead(status, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store"
+  });
+  res.end(JSON.stringify(data));
+}

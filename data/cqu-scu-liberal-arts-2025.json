@@ -1,0 +1,108 @@
+{
+  "source": "https://applet.cqzk.com.cn/prod/history/front/history/ptwlSearchMajorList",
+  "route": "https://www.cqzk.com.cn/apps/zyfz/system/history/normal",
+  "year": 2025,
+  "subject": "历史",
+  "batch": "本科批",
+  "rows": [
+    {
+      "college": "重庆大学",
+      "code": "5001",
+      "majorCode": "130",
+      "major": "人文科学试验班(法学新闻类)",
+      "minScore": 603,
+      "minRank": 1407,
+      "avgScore": 608,
+      "maxScore": 621,
+      "maxRank": 593
+    },
+    {
+      "college": "重庆大学",
+      "code": "5001",
+      "majorCode": "192",
+      "major": "汉语言文学(博雅类，含中文、历史、哲学专业)",
+      "minScore": 610,
+      "minRank": 1038,
+      "avgScore": 611,
+      "maxScore": 613,
+      "maxRank": 901
+    },
+    {
+      "college": "重庆大学",
+      "code": "5001",
+      "majorCode": "111",
+      "major": "马克思主义理论",
+      "minScore": 603,
+      "minRank": 1407,
+      "avgScore": 606,
+      "maxScore": 611,
+      "maxRank": 985
+    },
+    {
+      "college": "四川大学",
+      "code": "5127",
+      "majorCode": "1W3",
+      "major": "法学",
+      "minScore": 625,
+      "minRank": 477,
+      "avgScore": 627,
+      "maxScore": 632,
+      "maxRank": 311
+    },
+    {
+      "college": "四川大学",
+      "code": "5127",
+      "majorCode": "127",
+      "major": "外国语言文学类(含双学士学位)",
+      "minScore": 608,
+      "minRank": 1141,
+      "avgScore": 613,
+      "maxScore": 622,
+      "maxRank": 559
+    },
+    {
+      "college": "四川大学",
+      "code": "5127",
+      "majorCode": "1W4",
+      "major": "人文科学试验班(中文与新闻传播)",
+      "minScore": 617,
+      "minRank": 749,
+      "avgScore": 622,
+      "maxScore": 628,
+      "maxRank": 393
+    },
+    {
+      "college": "四川大学",
+      "code": "5127",
+      "majorCode": "1W6",
+      "major": "历史学类",
+      "minScore": 615,
+      "minRank": 830,
+      "avgScore": 618,
+      "maxScore": 622,
+      "maxRank": 559
+    },
+    {
+      "college": "四川大学",
+      "code": "5127",
+      "majorCode": "1W1",
+      "major": "哲学",
+      "minScore": 610,
+      "minRank": 1038,
+      "avgScore": 613,
+      "maxScore": 618,
+      "maxRank": 707
+    },
+    {
+      "college": "四川大学",
+      "code": "5127",
+      "majorCode": "1W2",
+      "major": "经济学类",
+      "minScore": 617,
+      "minRank": 749,
+      "avgScore": 619,
+      "maxScore": 623,
+      "maxRank": 531
+    }
+  ]
+}

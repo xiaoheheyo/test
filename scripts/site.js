@@ -532,12 +532,13 @@
         '<button type="button" class="back-score ac-nav-personal"><span class="user-avatar">' + userIconMarkup() + '</span><span class="text">我的</span>' + downIconMarkup() + '</button>' +
       '</header>' +
       '<div class="zy-content">' +
-        '<div class="zy-breadcrumb"><a href="javascript:;">主页</a><span>/</span><a href="javascript:;">历史数据查询</a><span>/</span><strong>普通类</strong></div>' +
+        '<div class="zy-breadcrumb"><a href="javascript:;">主页</a><span>/</span><a href="javascript:;">历史数据查询</a><span>/</span><strong>艺术类、体育类</strong></div>' +
         '<section class="card-system-search history-section">' +
           '<div class="system-form">' +
-            '<div class="form-row"><div class="form-label">首选科目</div><div class="form-control radio-line"><label><input type="radio" name="subjectFilter" value="物理" checked>物理</label><label><input type="radio" name="subjectFilter" value="历史">历史</label></div></div>' +
-            '<div class="form-row"><div class="form-label">选择批次</div><div class="form-control"><select name="batchSelect"><option value="本科批">本科批</option><option value="高职专科批">高职专科批</option><option value="本科提前批A段">本科提前批A段</option><option value="本科提前批B段">本科提前批B段</option></select></div></div>' +
-            '<div class="form-row"><div class="form-label">院校省份</div><div class="form-control"><select name="cityFilter"><option value="">请选择省份</option><option>重庆</option><option>北京</option><option>上海</option><option>四川</option><option>湖北</option><option>江苏</option><option>浙江</option><option>广东</option></select></div></div>' +
+            '<div class="form-row"><div class="form-label">首选科目</div><div class="form-control radio-line"><label><input type="radio" name="subjectFilter" value="4" checked>艺术类</label><label><input type="radio" name="subjectFilter" value="3">体育类</label></div></div>' +
+            '<div class="form-row"><div class="form-label">选择批次</div><div class="form-control"><select name="batchSelect"><option value="J">艺术类本科批</option><option value="L">艺术类高职专科批</option><option value="D">体育类本科批</option><option value="F">体育类高职专科批</option></select></div></div>' +
+            '<div class="form-row form-row-wide"><div class="form-label">艺术类别</div><div class="form-control radio-line art-category-line"><label><input type="radio" name="artCategory" value="Y0,A1" checked>美术与设计类</label><label><input type="radio" name="artCategory" value="Y1,A2">音乐教育</label><label><input type="radio" name="artCategory" value="Y2,A3">音乐表演(声乐)</label><label><input type="radio" name="artCategory" value="Y3,A4,A5">音乐表演(器乐)</label><label><input type="radio" name="artCategory" value="Y4,A7">舞蹈类</label><label><input type="radio" name="artCategory" value="Y5,A8">戏剧影视表演</label><label><input type="radio" name="artCategory" value="Y6">服装表演</label><label><input type="radio" name="artCategory" value="Y7">戏剧影视导演</label><label><input type="radio" name="artCategory" value="Y8,A9">播音与主持类</label><label><input type="radio" name="artCategory" value="Y9">书法类</label></div></div>' +
+            '<div class="form-row"><div class="form-label">院校省份</div><div class="form-control"><select name="cityFilter"><option value="">请选择省份</option><option>北京</option><option>天津</option><option>河北</option><option>山西</option><option>内蒙古</option><option>辽宁</option><option>吉林</option><option>黑龙江</option><option>上海</option><option>江苏</option><option>浙江</option><option>安徽</option><option>福建</option><option>江西</option><option>山东</option><option>河南</option><option>湖北</option><option>湖南</option><option>广东</option><option>广西</option><option>海南</option><option>重庆</option><option>四川</option><option>贵州</option><option>云南</option><option>西藏</option><option>陕西</option><option>甘肃</option><option>青海</option><option>宁夏</option><option>新疆</option><option>香港</option></select></div></div>' +
             '<div class="form-row"><div class="form-label">选择院校</div><div class="form-control school-picker"><button type="button" class="select-school">选择</button><input name="schoolKeyword" placeholder="请选择院校"></div></div>' +
             '<div class="form-row form-row-wide"><div class="form-label">院校标签</div><div class="form-control checkbox-line"><label><input type="checkbox" name="schoolTags" value="公办">公办</label><label><input type="checkbox" name="schoolTags" value="民办">民办</label><label><input type="checkbox" name="schoolTags" value="独立学院">独立学院</label><label><input type="checkbox" name="schoolTags" value="内地与港澳台地区合作办学">内地与港澳台地区合作办学</label><label><input type="checkbox" name="schoolTags" value="中外合作办学">中外合作办学</label><label><input type="checkbox" name="schoolTags" value="211工程高校">"211工程高校"</label><label><input type="checkbox" name="schoolTags" value="985工程高校">"985工程高校"</label><label><input type="checkbox" name="schoolTags" value="双一流">"双一流"建设高校及建设学科</label></div></div>' +
             '<div class="form-row form-row-wide"><div class="form-label">专业名称</div><div class="form-control major-filter"><div class="radio-line"><label><input type="radio" name="majorMode" value="include" checked>只显示以下专业</label><label><input type="radio" name="majorMode" value="exclude">不显示以下专业</label></div><div class="major-input"><input name="majorKeyword" placeholder="请输入专业名称，多个专业请用英文逗号“,”分割，支持模糊查询，最多可输入5个专业名称"><button type="button" class="major-add" aria-label="添加专业">' + plusCircleIconMarkup() + '</button></div></div></div>' +
@@ -545,7 +546,7 @@
           '</div>' +
           '<div class="search-footer"><button type="button" class="history-search">查 询</button><button type="button" class="history-reset">重 置</button></div>' +
         '</section>' +
-        '<section class="history-tip history-section"><h3>温馨提示</h3><p>本系统用于查询2023年、2024年和2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息，以上信息所涉考生成绩均包含政策性加分。</p><p><a href="javascript:;">重庆市2025年全国普通高校各类招生录取最低控制分数线</a><a href="javascript:;">重庆市2024年全国普通高校各类招生录取最低控制分数线</a><a href="javascript:;">重庆市2023年全国普通高校各类招生录取最低控制分数线</a></p><p>使用【指定院校】查询，每次可选择院校数量不超过5所。</p><p>使用【位次】查询功能时，用户可根据实际情况填写位次数值，点击查询即可筛选出相应年份录取最低位次及最高位次包含该查询位次的院校；点击院校名称前“+”，可查询该院校录取最低位次低于所查询位次的所有专业（即专业录取最低位次数值大于所查询位次数值）。（“位次”是指某分数在对应的一分段表中的排名，累计人数即是这一分数对应的最低位次）</p><p>本查询功能显示的院校名称为2023年~2025年在渝招生的名称，有部分高校在2026年院校名称发生了变化或者办学性质发生了变化，具体可通过阳光高考平台查询。</p><p><a href="javascript:;">《教育部 财政部 国家发展改革委关于公布第二轮“双一流”建设高校及建设学科名单的通知》（点击进入教育部官网查看详情）。</a></p><p><a href="javascript:;">全国第四轮学科评估结果（点击进入中国学位与研究生教育信息网查看详情）。</a></p></section>' +
+        '<section class="history-tip history-section"><h3>温馨提示</h3><p>系统所提供的艺术类、体育类历史数据，仅包含认定我市专业统考成绩的招生院校及专业(即专业平行志愿批次)。</p><p>使用【指定院校】查询功能时，每次可选择院校数量不超过5所。</p><p>艺术类本科批和艺术类专科批使用我市统考成绩作为专业考试成绩，实行专业平行志愿。体育类按综合成绩确定投档排序位次。</p></section>' +
         '<section class="school-list history-section"></section>' +
         '<section class="zy-section-panel aux-section"></section>' +
         '<section class="choice-panel choice-section" hidden>' +
@@ -564,13 +565,21 @@
   function setupVolunteerAssist() {
     var maxChoices = 96;
     var seedSchools = [
-      { name: "重庆大学", major: "人文科学试验班 / 法学", city: "重庆", risk: "冲", score: 641, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "重庆大学", major: "人文科学试验班(法学新闻类)", city: "重庆", risk: "稳", score: 603, rank: 1407, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "重庆大学", major: "汉语言文学(博雅类，含中文、历史、哲学专业)", city: "重庆", risk: "稳", score: 610, rank: 1038, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "重庆大学", major: "马克思主义理论", city: "重庆", risk: "稳", score: 603, rank: 1407, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "四川大学", major: "法学", city: "四川", risk: "冲", score: 625, rank: 477, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "四川大学", major: "外国语言文学类(含双学士学位)", city: "四川", risk: "冲", score: 608, rank: 1141, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "四川大学", major: "人文科学试验班(中文与新闻传播)", city: "四川", risk: "冲", score: 617, rank: 749, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "四川大学", major: "历史学类", city: "四川", risk: "冲", score: 615, rank: 830, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "四川大学", major: "哲学", city: "四川", risk: "稳", score: 610, rank: 1038, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
+      { name: "四川大学", major: "经济学类", city: "四川", risk: "冲", score: 617, rank: 749, tags: ["公办", "985工程高校", "211工程高校", "双一流"] },
       { name: "西南大学", major: "思想政治教育 / 历史学", city: "重庆", risk: "冲", score: 628, tags: ["公办", "211工程高校", "双一流"] },
       { name: "重庆师范大学", major: "汉语言文学 / 英语", city: "重庆", risk: "稳", score: 594, tags: ["公办"] },
       { name: "四川外国语大学", major: "英语 / 新闻传播学类", city: "重庆", risk: "稳", score: 586, tags: ["公办"] },
       { name: "西南政法大学", major: "政治学与行政学 / 社会工作", city: "重庆", risk: "稳", score: 612, tags: ["公办"] },
       { name: "华中师范大学", major: "历史学类 / 教育学类", city: "湖北", risk: "冲", score: 632, tags: ["公办", "211工程高校", "双一流"] },
-      { name: "四川师范大学", major: "生物科学 / 历史学", city: "四川", risk: "保", score: 571, tags: ["公办"] },
+      { name: "四川师范大学", major: "汉语言文学 / 历史学", city: "四川", risk: "保", score: 571, tags: ["公办"] },
       { name: "上海政法学院", major: "法学 / 行政管理", city: "上海", risk: "稳", score: 602, tags: ["公办"] },
       { name: "北京语言大学", major: "外国语言文学类", city: "北京", risk: "冲", score: 625, tags: ["公办"] },
       { name: "重庆文理学院", major: "思想政治教育 / 生物技术", city: "重庆", risk: "保", score: 532, tags: ["公办"] }
@@ -579,12 +588,18 @@
     var choices = JSON.parse(localStorage.getItem("volunteerChoices") || "[]");
     if (choices.length > maxChoices) choices = choices.slice(0, maxChoices);
     var submitted = localStorage.getItem("volunteerSubmitted") === "1";
-    var currentBatch = localStorage.getItem("volunteerBatch") || "本科批";
+    var currentBatch = localStorage.getItem("volunteerBatch") || "J";
     var currentYear = "2025";
     var resultYear = "2025";
     var expandedBatches = {};
     var expandedSchools = {};
     var hasSearched = false;
+    var historyRows = [];
+    var historyTotal = 0;
+    var historyPage = 1;
+    var historyPageSize = 100;
+    var historyLoading = false;
+    var historyError = "";
 
     var back = document.querySelector(".back-score");
     var list = document.querySelector(".school-list");
@@ -616,25 +631,28 @@
     }
 
     if (batchSelect) batchSelect.value = currentBatch;
+    if (rangeMin) rangeMin.value = "1";
+    if (rangeMax) rangeMax.value = "5000";
 
     [keyword, majorKeyword, city, batchSelect, rangeMin, rangeMax].forEach(function (field) {
       if (!field) return;
       field.addEventListener("input", function () {
-        if (hasSearched) renderSchools();
+        if (hasSearched) loadHistoryRows(1);
       });
       field.addEventListener("change", function () {
         if (field === batchSelect) {
           currentBatch = field.value;
           localStorage.setItem("volunteerBatch", currentBatch);
         }
-        if (hasSearched) renderSchools();
+        if (hasSearched) loadHistoryRows(1);
       });
     });
 
-    document.querySelectorAll('input[name="subjectFilter"], input[name="majorMode"], input[name="rangeMode"], input[name="schoolTags"]').forEach(function (input) {
+    document.querySelectorAll('input[name="subjectFilter"], input[name="artCategory"], input[name="majorMode"], input[name="rangeMode"], input[name="schoolTags"]').forEach(function (input) {
       input.addEventListener("change", function () {
         updateRangeMode();
-        if (hasSearched) renderSchools();
+        updateSubjectMode();
+        if (hasSearched) loadHistoryRows(1);
       });
     });
 
@@ -666,23 +684,28 @@
         return;
       }
       hasSearched = true;
-      renderSchools();
+      loadHistoryRows(1);
     });
     document.querySelector(".history-reset").addEventListener("click", function () {
       [keyword, majorKeyword, city, rangeMin, rangeMax].forEach(function (field) { if (field) field.value = ""; });
       if (batchSelect) {
-        batchSelect.value = "本科批";
-        currentBatch = "本科批";
+        batchSelect.value = "J";
+        currentBatch = "J";
         localStorage.setItem("volunteerBatch", currentBatch);
       }
       document.querySelectorAll('input[name="schoolTags"]').forEach(function (input) { input.checked = false; });
-      var subjectDefault = document.querySelector('input[name="subjectFilter"][value="物理"]');
+      var subjectDefault = document.querySelector('input[name="subjectFilter"][value="4"]');
       if (subjectDefault) subjectDefault.checked = true;
+      var artDefault = document.querySelector('input[name="artCategory"][value="Y0,A1"]');
+      if (artDefault) artDefault.checked = true;
       var majorDefault = document.querySelector('input[name="majorMode"][value="include"]');
       if (majorDefault) majorDefault.checked = true;
       var rangeDefault = document.querySelector('input[name="rangeMode"][value="rank"]');
       if (rangeDefault) rangeDefault.checked = true;
+      if (rangeMin) rangeMin.value = "1";
+      if (rangeMax) rangeMax.value = "5000";
       updateRangeMode();
+      updateSubjectMode();
       hasSearched = false;
       list.innerHTML = "";
     });
@@ -721,6 +744,7 @@
     document.querySelector(".print-volunteer").addEventListener("click", function () { window.print(); });
 
     updateRangeMode();
+    updateSubjectMode();
     setZyView("history");
     renderChoices();
 
@@ -822,6 +846,25 @@
       if (rangeHint) rangeHint.textContent = isScore ? "（请输入分数范围）" : "（位次范围差不超过5000名）";
       if (rangeMin) rangeMin.placeholder = isScore ? "最低分" : "最低";
       if (rangeMax) rangeMax.placeholder = isScore ? "最高分" : "最高";
+    }
+
+    function updateSubjectMode() {
+      var subjectValue = document.querySelector('input[name="subjectFilter"]:checked');
+      var isArt = !subjectValue || subjectValue.value === "4";
+      var artCategory = document.querySelector(".art-category-line");
+      if (artCategory) artCategory.closest(".form-row").hidden = !isArt;
+      if (batchSelect && !isArt && (batchSelect.value === "J" || batchSelect.value === "L")) {
+        batchSelect.value = "D";
+        currentBatch = "D";
+      }
+      if (batchSelect && isArt && (batchSelect.value === "D" || batchSelect.value === "F")) {
+        batchSelect.value = "J";
+        currentBatch = "J";
+      }
+    }
+
+    function loadHistoryRows() {
+      renderSchools();
     }
 
     function renderSchools() {
@@ -955,6 +998,7 @@
     }
 
     function rankOfSchool(school) {
+      if (school.rank) return school.rank;
       return Math.max(360, 900 + (650 - school.score) * 78);
     }
 
@@ -1017,7 +1061,7 @@
 
     function buildVolunteerSchools(seed) {
       var names = [
-        "重庆大学", "西南大学", "西南政法大学", "重庆师范大学", "四川外国语大学", "重庆邮电大学",
+        "西南大学", "西南政法大学", "重庆师范大学", "四川外国语大学", "重庆邮电大学",
         "重庆交通大学", "重庆工商大学", "重庆理工大学", "重庆文理学院", "四川师范大学", "成都大学",
         "西华师范大学", "湖北大学", "华中师范大学", "中南民族大学", "上海政法学院", "北京语言大学",
         "天津师范大学", "南京晓庄学院", "浙江传媒学院", "湖南师范大学", "广东外语外贸大学", "海南师范大学"
