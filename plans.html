@@ -10,17 +10,18 @@
     body.score-mode main { padding: 0; min-height: 100vh; }
     .plans-page { min-height: 100vh; background:#f2f4fb; }
     .plans-shell { width:1200px; max-width:calc(100vw - 74px); margin:0 auto; padding-top:20px; }
-    .plans-top { height:64px; display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:4px solid #b20e17; padding:0 24px; }
-    .plans-nav { display:flex; gap:26px; align-items:center; color:#4e5969; font-size:15px; }
+    .plans-top { height:62px; display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:4px solid #b20e17; padding:0 16px 0 12px; box-shadow:0 1px 2px rgba(0,0,0,.03); }
+    .plans-nav { display:flex; gap:18px; align-items:center; color:#4e5969; font-size:15px; white-space:nowrap; }
+    .plans-nav a { color:#4e5969; position:relative; padding:0 2px; }
     .plans-nav a.active { color:#165dff; font-weight:700; }
-    .plans-logo { display:flex; align-items:center; gap:12px; }
-    .plans-logo img { height:34px; }
+    .plans-nav a.active::after { content:""; position:absolute; left:0; right:0; bottom:-21px; height:3px; background:#165dff; }
+    .plans-logo { display:flex; align-items:center; gap:8px; }
+    .plans-logo img { height:30px; }
+    .plans-logo strong { font-size:16px; color:#1d2129; font-weight:700; }
+    .plans-user { display:flex; align-items:center; gap:8px; color:#4e5969; font-size:14px; }
+    .plans-user button { display:inline-flex; align-items:center; gap:6px; height:30px; border:0; background:transparent; color:#4e5969; font:inherit; cursor:pointer; }
     .plans-content { padding-top:20px; }
-    .plan-grid { display:grid; grid-template-columns: 1fr; gap:20px; }
-    .plan-head { display:flex; align-items:center; justify-content:space-between; padding:18px 28px; background:#fff; border-radius:3px; }
-    .plan-head h1 { margin:0; font-size:20px; color:#1d2129; }
-    .plan-head p { margin:6px 0 0; color:#86909c; font-size:14px; }
-    .plan-section { margin-bottom: 20px; }
+    .plan-section { margin-bottom:20px; }
     .plan-list .history-result-table th:nth-child(1) { width:250px; }
     .plan-list .history-result-table th:nth-child(2) { width:280px; }
     .plan-list .history-result-table th:nth-child(3) { width:120px; }
@@ -30,9 +31,32 @@
     .plan-list .history-result-table th:nth-child(7) { width:110px; }
     .plan-list .history-result-table th:nth-child(8) { width:auto; }
     .plan-note, .plan-require { line-height:1.5; font-size:14px; color:#1d2129; }
-    .plan-summary { display:flex; justify-content:space-between; align-items:center; }
+    .plan-summary { display:flex; justify-content:space-between; align-items:center; height:72px; padding:0 14px; }
     .plan-summary strong { color:#1d2129; font-size:18px; }
     .plan-summary span { color:#86909c; font-size:14px; }
+    .plan-summary .main-data-tool { color:#1d2129; font-size:14px; font-weight:600; }
+    .history-tip.plan-section { padding:18px 28px; }
+    .history-tip.plan-section p { margin:8px 0; line-height:1.9; }
+    .history-tip.plan-section a { margin-right:18px; color:#165dff; white-space:nowrap; }
+    .card-system-search.plan-section { border-radius:3px; box-shadow:0 1px 2px rgba(0,0,0,.03); overflow:hidden; }
+    .plan-list .main-data { margin-top:0; }
+    .plan-section .search-footer button { width:190px; height:56px; border:0; border-radius:2px; background:#165dff; color:#fff; font-size:22px; cursor:pointer; }
+    .plan-section .search-footer .plan-reset { background:#fff; color:#1d2129; border:1px solid #e5e6eb; }
+    .plan-section .system-form { padding:30px 32px 20px; }
+    .plan-section .form-label { font-size:18px; color:#1d2129; }
+    .plan-section .form-control input[type="text"], .plan-section .form-control input:not([type]), .plan-section .form-control select { height:34px; border:1px solid #e5e6eb; border-radius:2px; font-size:14px; color:#1f2329; }
+    .plan-section .segmented-line { border-radius:2px; }
+    .plan-section .segmented { font-size:18px; min-width:70px; height:38px; padding:0 18px; }
+    .plan-section .radio-line label, .plan-section .checkbox-line label { gap:6px; white-space:nowrap; }
+    .plan-section .school-picker { display:grid; grid-template-columns:84px minmax(0,1fr); gap:10px; }
+    .plan-section .major-input { display:grid; grid-template-columns:minmax(0,1fr) 36px; gap:10px; }
+    .plan-section .school-picker button, .plan-section .major-input button { height:36px; border:1px solid #165dff; border-radius:2px; color:#165dff; background:#fff; }
+    .plans-modal { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.34); z-index:99; }
+    .plans-modal.hidden { display:none; }
+    .plans-modal-card { width:min(760px, calc(100vw - 40px)); border-radius:3px; background:#fff; padding:26px 30px 22px; box-shadow:0 20px 50px rgba(36,93,132,.14); }
+    .plans-modal-card h3 { margin:0 0 12px; color:#1d2129; font-size:18px; }
+    .plans-modal-card p { margin:0; color:#4e5969; font-size:15px; line-height:1.9; }
+    .plans-modal-card button { display:block; width:110px; height:42px; margin:20px auto 0; border:0; border-radius:2px; background:#165dff; color:#fff; font-size:16px; cursor:pointer; }
     .hidden { display:none !important; }
   </style>
 </head>
@@ -46,13 +70,17 @@
             <strong>重庆市统一高考志愿填报辅助系统</strong>
           </div>
           <nav class="plans-nav">
-            <a href="/apps/zyfz/system/history/normal">历史数据查询</a>
-            <a class="active" href="/apps/zyfz/system/plans">招生计划查询</a>
+            <a href="/apps/zyfz/system/history/normal">主页</a>
+            <a class="active" href="/apps/zyfz/system/plans">历史数据查询</a>
+            <a href="/apps/zyfz/system/plans">招生计划查询</a>
             <a href="javascript:;">备选志愿参考</a>
             <a href="javascript:;">专业知识库</a>
             <a href="javascript:;">视频专区</a>
             <a href="javascript:;">使用手册</a>
           </nav>
+          <div class="plans-user">
+            <button type="button">我的</button>
+          </div>
         </header>
 
         <div class="plans-content">
@@ -120,6 +148,14 @@
     </div>
   </main>
 
+  <div class="plans-modal" role="dialog" aria-modal="true" aria-label="温馨提示">
+    <div class="plans-modal-card">
+      <h3>温馨提示</h3>
+      <p>本系统用于查询2026年全国在渝招生高校普通类、艺术类、体育类各批次招生计划信息。正式填报高考志愿前，考生要特别留意计划的增补或更正通知；部分招生计划要求考生须具备相应的资格条件，本系统所显示的招生计划与考生录取照顾资格、专项报考资格信息及选考科目相匹配。</p>
+      <button type="button" class="modal-ok">确定</button>
+    </div>
+  </div>
+
   <script>
     (function () {
       const planDataset = [
@@ -139,7 +175,8 @@
       const state = { subject:"历史", electives:["生物学","思想政治"], province:"", school:"", major:"", majorMode:"include" };
       const root = document.querySelector('.plans-page');
       const list = document.querySelector('.plan-list');
-      const modal = document.querySelector('.plan-search');
+      const modal = document.querySelector('.plans-modal');
+      const modalOk = document.querySelector('.modal-ok');
       const inputs = {
         subject: [...document.querySelectorAll('input[name="planSubject"]')],
         elective: [...document.querySelectorAll('input[name="planElective"]')],
@@ -155,6 +192,7 @@
         state.subject = '历史'; state.electives = ['生物学','思想政治']; state.province=''; state.school=''; state.major=''; state.majorMode='include';
         sync(); render(true);
       });
+      if (modalOk) modalOk.addEventListener('click', () => modal.classList.add('hidden'));
       [...inputs.subject, ...inputs.elective, ...inputs.majorMode, inputs.province, inputs.school, inputs.major].forEach(el => {
         if (!el) return;
         el.addEventListener('change', sync);
