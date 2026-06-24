@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>重庆市统一高考志愿填报辅助系统</title>
+  <link rel="stylesheet" href="/styles/site.css?v=1">
+  <style>
+    body.score-mode .topbar, body.score-mode .site-header, body.score-mode .footer { display:none; }
+    body.score-mode main { padding: 0; min-height: 100vh; }
+    .plans-page { min-height: 100vh; background:#f2f4fb; }
+    .plans-shell { width:1200px; max-width:calc(100vw - 74px); margin:0 auto; padding-top:20px; }
+    .plans-top { height:64px; display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:4px solid #b20e17; padding:0 24px; }
+    .plans-nav { display:flex; gap:26px; align-items:center; color:#4e5969; font-size:15px; }
+    .plans-nav a.active { color:#165dff; font-weight:700; }
+    .plans-logo { display:flex; align-items:center; gap:12px; }
+    .plans-logo img { height:34px; }
+    .plans-content { padding-top:20px; }
+    .plan-grid { display:grid; grid-template-columns: 1fr; gap:20px; }
+    .plan-head { display:flex; align-items:center; justify-content:space-between; padding:18px 28px; background:#fff; border-radius:3px; }
+    .plan-head h1 { margin:0; font-size:20px; color:#1d2129; }
+    .plan-head p { margin:6px 0 0; color:#86909c; font-size:14px; }
+    .plan-section { margin-bottom: 20px; }
+    .plan-list .history-result-table th:nth-child(1) { width:250px; }
+    .plan-list .history-result-table th:nth-child(2) { width:280px; }
+    .plan-list .history-result-table th:nth-child(3) { width:120px; }
+    .plan-list .history-result-table th:nth-child(4) { width:165px; }
+    .plan-list .history-result-table th:nth-child(5) { width:90px; }
+    .plan-list .history-result-table th:nth-child(6) { width:90px; }
+    .plan-list .history-result-table th:nth-child(7) { width:110px; }
+    .plan-list .history-result-table th:nth-child(8) { width:auto; }
+    .plan-note, .plan-require { line-height:1.5; font-size:14px; color:#1d2129; }
+    .plan-summary { display:flex; justify-content:space-between; align-items:center; }
+    .plan-summary strong { color:#1d2129; font-size:18px; }
+    .plan-summary span { color:#86909c; font-size:14px; }
+    .hidden { display:none !important; }
+  </style>
+</head>
+<body class="score-mode volunteer-mode">
+  <main>
+    <div class="plans-page history-normal-page" data-zy-view="plan">
+      <div class="plans-shell">
+        <header class="plans-top">
+          <div class="plans-logo">
+            <img src="https://www.cqzk.com.cn/apps/zyfz/file/upload/image/Image_1728611594151-8432-9FZ116B6CW26U8E-1153761511.svg" alt="重庆招考">
+            <strong>重庆市统一高考志愿填报辅助系统</strong>
+          </div>
+          <nav class="plans-nav">
+            <a href="/apps/zyfz/system/history/normal">历史数据查询</a>
+            <a class="active" href="/apps/zyfz/system/plans">招生计划查询</a>
+            <a href="javascript:;">备选志愿参考</a>
+            <a href="javascript:;">专业知识库</a>
+            <a href="javascript:;">视频专区</a>
+            <a href="javascript:;">使用手册</a>
+          </nav>
+        </header>
+
+        <div class="plans-content">
+          <div class="zy-breadcrumb"><a href="javascript:;">主页</a><span>/</span><strong>招生计划查询</strong></div>
+
+          <section class="card-system-search plan-section">
+            <div class="system-form plan-form">
+              <div class="form-row">
+                <div class="form-label">首选科目</div>
+                <div class="form-control">
+                  <div class="segmented-line">
+                    <label class="segmented"><input type="radio" name="planSubject" value="历史" checked><span>历史</span></label>
+                    <label class="segmented"><input type="radio" name="planSubject" value="物理"><span>物理</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label">再选科目</div>
+                <div class="form-control checkbox-line">
+                  <label><input type="checkbox" name="planElective" value="生物学" checked>生物学</label>
+                  <label><input type="checkbox" name="planElective" value="思想政治" checked>思想政治</label>
+                  <label><input type="checkbox" name="planElective" value="化学">化学</label>
+                  <label><input type="checkbox" name="planElective" value="地理">地理</label>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label">院校省份</div>
+                <div class="form-control">
+                  <select name="planProvince">
+                    <option value="">请选择省份</option>
+                    <option>重庆</option><option>四川</option><option>北京</option><option>上海</option><option>湖北</option><option>江苏</option><option>广东</option><option>陕西</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-label">选择院校</div>
+                <div class="form-control school-picker"><button type="button" class="select-plan-school">选择</button><input name="planSchool" placeholder="请选择院校"></div>
+              </div>
+              <div class="form-row form-row-wide">
+                <div class="form-label">专业名称</div>
+                <div class="form-control major-filter">
+                  <div class="radio-line">
+                    <label><input type="radio" name="planMajorMode" value="include" checked>只显示以下专业</label>
+                    <label><input type="radio" name="planMajorMode" value="exclude">不显示以下专业</label>
+                  </div>
+                  <div class="major-input"><input name="planMajor" placeholder="请输入专业名称，多个专业请用英文逗号“,”分割，支持模糊查询，最多可输入5个专业名称"><button type="button" class="plan-major-add" aria-label="添加专业">+</button></div>
+                </div>
+              </div>
+            </div>
+            <div class="search-footer"><button type="button" class="plan-search">查 询</button><button type="button" class="plan-reset">重 置</button></div>
+          </section>
+
+          <section class="history-tip plan-section">
+            <h3>温馨提示</h3>
+            <p>本系统用于查询2026年全国在渝招生高校普通类、艺术类、体育类各批次招生计划信息。</p>
+            <p>正式填报高考志愿前，考生要特别留意计划的增补或更正通知。如有增补或更正，将在志愿填报网站上进行公布，请在填报志愿前认真查看。</p>
+            <p>部分招生计划要求考生须具备相应的资格条件；本系统所显示的招生计划与考生录取照顾资格、专项报考资格信息及选考科目相匹配。</p>
+            <p>招生计划的显示顺序按批次代码、院校代号、专业代号依次排序。使用【指定院校】功能查询时，每次可选择院校数量不超过5所。</p>
+            <p><a href="https://www.moe.gov.cn/srcsite/A22/s7065/202202/t20220211_598710.html">《教育部 财政部 国家发展改革委关于公布第二轮“双一流”建设高校及建设学科名单的通知》（点击进入教育部官网查看详情）。</a><a href="https://www.cdgdc.edu.cn/dslxkpgjggb/">全国第四轮学科评估结果（点击进入中国学位与研究生教育信息网查看详情）。</a></p>
+          </section>
+
+          <section class="plan-list plan-section"></section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const planDataset = [
+        { subject:"历史", requirements:["不限"], province:"重庆", college:"重庆大学", code:"5001", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"101", major:"人文科学试验班(法学新闻类)", plan:18, duration:"四年", tuition:"5625", campus:"虎溪校区", note:"含法学、新闻学、广播电视学" },
+        { subject:"历史", requirements:["思想政治"], province:"重庆", college:"重庆大学", code:"5001", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"102", major:"马克思主义理论", plan:8, duration:"四年", tuition:"4500", campus:"虎溪校区", note:"要求思想政治合格" },
+        { subject:"历史", requirements:["不限"], province:"重庆", college:"重庆大学", code:"5001", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"103", major:"汉语言文学", plan:12, duration:"四年", tuition:"4500", campus:"A区", note:"博雅类培养" },
+        { subject:"历史", requirements:["不限"], province:"四川", college:"四川大学", code:"5127", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"1W3", major:"法学", plan:6, duration:"四年", tuition:"6000", campus:"江安校区", note:"国家级一流本科专业" },
+        { subject:"历史", requirements:["不限"], province:"四川", college:"四川大学", code:"5127", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"1W4", major:"人文科学试验班(中文与新闻传播)", plan:10, duration:"四年", tuition:"6000", campus:"江安校区", note:"含汉语言文学、新闻学、广告学" },
+        { subject:"历史", requirements:["地理"], province:"北京", college:"中国人民大学", code:"1102", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"105", major:"人文科学试验班", plan:3, duration:"四年", tuition:"5000", campus:"北京", note:"含哲学、历史学等专业" },
+        { subject:"历史", requirements:["思想政治"], province:"北京", college:"中国政法大学", code:"1141", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"011", major:"政治学与行政学", plan:2, duration:"四年", tuition:"5000", campus:"昌平校区", note:"外语语种不限" },
+        { subject:"物理", requirements:["化学"], province:"重庆", college:"重庆大学", code:"5001", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"301", major:"计算机科学与技术", plan:32, duration:"四年", tuition:"5625", campus:"虎溪校区", note:"大类招生分流培养" },
+        { subject:"物理", requirements:["化学"], province:"重庆", college:"重庆大学", code:"5001", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"302", major:"电气工程及其自动化", plan:28, duration:"四年", tuition:"5625", campus:"虎溪校区", note:"国家级一流本科专业" },
+        { subject:"物理", requirements:["化学"], province:"四川", college:"四川大学", code:"5127", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"401", major:"临床医学", plan:12, duration:"五年", tuition:"7250", campus:"江安校区", note:"不招色盲、色弱考生" },
+        { subject:"物理", requirements:["化学"], province:"四川", college:"四川大学", code:"5127", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"402", major:"口腔医学", plan:5, duration:"五年", tuition:"7250", campus:"华西校区", note:"不招色盲、色弱考生" },
+        { subject:"物理", requirements:["不限"], province:"上海", college:"上海财经大学", code:"3120", nature:"公办 双一流", batchCode:"B", batch:"本科批", majorCode:"018", major:"金融学", plan:4, duration:"四年", tuition:"7150", campus:"主校区", note:"双一流建设学科相关专业" }
+      ];
+      const state = { subject:"历史", electives:["生物学","思想政治"], province:"", school:"", major:"", majorMode:"include" };
+      const root = document.querySelector('.plans-page');
+      const list = document.querySelector('.plan-list');
+      const modal = document.querySelector('.plan-search');
+      const inputs = {
+        subject: [...document.querySelectorAll('input[name="planSubject"]')],
+        elective: [...document.querySelectorAll('input[name="planElective"]')],
+        province: document.querySelector('select[name="planProvince"]'),
+        school: document.querySelector('input[name="planSchool"]'),
+        major: document.querySelector('input[name="planMajor"]'),
+        majorMode: [...document.querySelectorAll('input[name="planMajorMode"]')]
+      };
+      document.querySelector('.select-plan-school').addEventListener('click', () => inputs.school.focus());
+      document.querySelector('.plan-major-add').addEventListener('click', () => inputs.major.focus());
+      document.querySelector('.plan-search').addEventListener('click', render);
+      document.querySelector('.plan-reset').addEventListener('click', () => {
+        state.subject = '历史'; state.electives = ['生物学','思想政治']; state.province=''; state.school=''; state.major=''; state.majorMode='include';
+        sync(); render(true);
+      });
+      [...inputs.subject, ...inputs.elective, ...inputs.majorMode, inputs.province, inputs.school, inputs.major].forEach(el => {
+        if (!el) return;
+        el.addEventListener('change', sync);
+        el.addEventListener('input', sync);
+      });
+      sync(); render(false);
+      function sync() {
+        const checkedSubject = inputs.subject.find(el => el.checked);
+        const checkedMode = inputs.majorMode.find(el => el.checked);
+        state.subject = checkedSubject ? checkedSubject.value : '历史';
+        state.electives = inputs.elective.filter(el => el.checked).map(el => el.value);
+        state.province = inputs.province.value.trim();
+        state.school = inputs.school.value.trim();
+        state.major = inputs.major.value.trim();
+        state.majorMode = checkedMode ? checkedMode.value : 'include';
+      }
+      function render(empty) {
+        sync();
+        if (empty) { list.innerHTML = '<div class="main-data plan-empty-panel"><div class="empty-choice"><div class="table-empty-title">请设置查询条件后点击“查 询”</div><p>当前默认条件：首选科目历史，再选科目生物学、思想政治。</p></div></div>'; return; }
+        const rows = planDataset.filter(row => {
+          const subjectOk = row.subject === state.subject;
+          const provinceOk = !state.province || row.province === state.province;
+          const schoolOk = !state.school || row.college.includes(state.school) || row.code.includes(state.school);
+          const terms = state.major.split(',').map(v => v.trim()).filter(Boolean).slice(0,5);
+          const majorMatch = !terms.length || terms.some(t => row.major.includes(t) || row.majorCode.includes(t));
+          const majorOk = state.majorMode === 'include' ? majorMatch : !majorMatch;
+          const electiveOk = !row.requirements.length || row.requirements.every(v => v === '不限' || v === state.subject || state.electives.includes(v));
+          return subjectOk && provinceOk && schoolOk && majorOk && electiveOk;
+        }).sort((a,b) => a.batchCode.localeCompare(b.batchCode) || a.code.localeCompare(b.code) || a.majorCode.localeCompare(b.majorCode));
+        list.innerHTML = '<div class="main-data"><div class="history-year-nav plan-summary"><div><strong>2026年招生计划</strong><span> 共 ' + rows.length + ' 条</span></div><div class="main-data-tool"><span>显示顺序：批次代码、院校代号、专业代号</span></div></div><table class="history-result-table plan-result-table"><thead><tr><th>院校信息</th><th>专业信息</th><th>批次</th><th>选科要求</th><th>计划数</th><th>学制</th><th>学费</th><th>备注</th></tr></thead><tbody>' + (rows.length ? rows.map(row => '<tr><td class="school-info"><a class="official-blue">' + esc(row.college) + '</a><p><b>' + esc(row.code) + '</b><i></i>' + esc(row.province) + '　' + esc(row.nature) + '</p></td><td class="major-info"><a class="official-blue">' + esc(row.major) + '</a><p>专业代号：<b>' + esc(row.majorCode) + '</b><span>办学地点：' + esc(row.campus) + '</span></p></td><td class="score-cell"><span>' + esc(row.batch) + '</span></td><td class="plan-require">' + esc((row.requirements || []).join('、') || '不限') + '</td><td class="count-cell"><b>' + esc(row.plan) + '</b></td><td class="score-cell"><span>' + esc(row.duration) + '</span></td><td class="score-cell"><span>' + esc(row.tuition) + '</span></td><td class="plan-note">' + esc(row.note) + '</td></tr>').join('') : '<tr><td colspan="8" class="empty-choice"><div class="table-empty-title">暂无数据</div><p>请调整首选科目、再选科目、院校省份、院校或专业名称后重新查询。</p></td></tr>') + '</tbody></table><div class="history-result-foot">数据为本地复刻样例，用于还原页面查询逻辑和表格展示。</div></div>';
+      }
+      function esc(v){ return String(v ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
+    })();
+  </script>
+</body>
+</html>

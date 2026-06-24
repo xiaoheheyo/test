@@ -214,7 +214,9 @@
     } else if (route === "/score/result.html") {
       renderScoreResult();
     } else if (route === "/score/assist.html") {
-      renderVolunteerAssist();
+      renderVolunteerAssist("history");
+    } else if (route === "/apps/zyfz/system/plans" || route === "/apps/zyfz/system/plans/") {
+      renderVolunteerAssist("plan");
     } else if (/^\/score\//.test(route)) {
       renderScoreResult();
     } else if (/\.pdf$/i.test(route)) {
@@ -519,7 +521,7 @@
     });
   }
 
-  function renderVolunteerAssist() {
+  function renderVolunteerAssist(initialView) {
     if (!main) return;
     document.title = "重庆市统一高考志愿填报辅助系统";
     document.body.classList.add("score-mode", "volunteer-mode");
@@ -547,31 +549,55 @@
         '</section>' +
         '<section class="history-tip history-section"><h3>温馨提示</h3><p>系统提供2023年、2024年和2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息。考生及家长在查阅院校录取历史数据时，还需密切关注教育部阳光高考平台、重庆市教育考试院门户网、重庆招考信息网、高校官方网站及重庆招考微信公众号等权威渠道发布的相关政策及解读，综合分析、谨慎抉择、合理参考使用录取历史数据。</p></section>' +
         '<section class="school-list history-section"></section>' +
+        '<section class="card-system-search plan-section">' +
+          '<div class="system-form plan-form">' +
+            '<div class="form-row"><div class="form-label">首选科目</div><div class="form-control"><div class="segmented-line"><label class="segmented"><input type="radio" name="planSubject" value="历史" checked><span>历史</span></label><label class="segmented"><input type="radio" name="planSubject" value="物理"><span>物理</span></label></div></div></div>' +
+            '<div class="form-row"><div class="form-label">再选科目</div><div class="form-control checkbox-line"><label><input type="checkbox" name="planElective" value="生物学" checked>生物学</label><label><input type="checkbox" name="planElective" value="思想政治" checked>思想政治</label><label><input type="checkbox" name="planElective" value="化学">化学</label><label><input type="checkbox" name="planElective" value="地理">地理</label></div></div>' +
+            '<div class="form-row"><div class="form-label">院校省份</div><div class="form-control"><select name="planProvince"><option value="">请选择省份</option><option>重庆</option><option>四川</option><option>北京</option><option>上海</option><option>湖北</option><option>江苏</option><option>广东</option><option>陕西</option></select></div></div>' +
+            '<div class="form-row"><div class="form-label">选择院校</div><div class="form-control school-picker"><button type="button" class="select-plan-school">选择</button><input name="planSchool" placeholder="请选择院校"></div></div>' +
+            '<div class="form-row form-row-wide"><div class="form-label">专业名称</div><div class="form-control major-filter"><div class="radio-line"><label><input type="radio" name="planMajorMode" value="include" checked>只显示以下专业</label><label><input type="radio" name="planMajorMode" value="exclude">不显示以下专业</label></div><div class="major-input"><input name="planMajor" placeholder="请输入专业名称，多个专业请用英文逗号“,”分割，支持模糊查询，最多可输入5个专业名称"><button type="button" class="plan-major-add" aria-label="添加专业">' + plusCircleIconMarkup() + '</button></div></div></div>' +
+          '</div>' +
+          '<div class="search-footer"><button type="button" class="plan-search">查 询</button><button type="button" class="history-reset plan-reset">重 置</button></div>' +
+        '</section>' +
+        '<section class="history-tip plan-section"><h3>温馨提示</h3><p>本系统用于查询2026年全国在渝招生高校普通类、艺术类、体育类各批次招生计划信息。</p><p>正式填报高考志愿前，考生要特别留意计划的增补或更正通知。如有增补或更正，将在志愿填报网站上进行公布，请在填报志愿前认真查看。</p><p>部分招生计划要求考生须具备相应的资格条件；本系统所显示的招生计划与考生录取照顾资格、专项报考资格信息及选考科目相匹配。</p><p>招生计划的显示顺序按批次代码、院校代号、专业代号依次排序。使用【指定院校】功能查询时，每次可选择院校数量不超过5所。</p><p><a href="https://www.moe.gov.cn/srcsite/A22/s7065/202202/t20220211_598710.html">《教育部 财政部 国家发展改革委关于公布第二轮“双一流”建设高校及建设学科名单的通知》（点击进入教育部官网查看详情）。</a><a href="https://www.cdgdc.edu.cn/dslxkpgjggb/">全国第四轮学科评估结果（点击进入中国学位与研究生教育信息网查看详情）。</a></p></section>' +
+        '<section class="plan-list plan-section"></section>' +
         '<footer class="zy-footer"><p>© 2021-2026 cqzk.com.cn All rights reserved.</p><p>渝ICP备案号：渝B2-20030020号　渝公网安备：50010302000805号</p></footer>' +
       '</div>' +
       '<div class="zy-modal" role="dialog" aria-modal="true" aria-label="温馨提示"><div class="zy-modal-card"><h3>温馨提示</h3><p>系统提供2023年、2024年和2025年在渝招生高校各专业（分物理类、历史类）的录取人数、录取分数和位次等信息。考生及家长在查阅院校录取历史数据时，还需密切关注教育部阳光高考平台、重庆市教育考试院门户网、重庆招考信息网、高校官方网站及重庆招考微信公众号等权威渠道发布的相关政策及解读，认真阅读《2026招生计划汇编》（本书预计将于2026年6月中旬出版）及本系统招生计划查询功能公布的在渝招生普通高校招生专业（类）选考科目要求，综合分析、谨慎抉择、合理参考使用录取历史数据。</p><button type="button" class="modal-ok">确定</button></div></div>' +
     '</section>';
 
-    setupVolunteerAssist();
+    setupVolunteerAssist(initialView || "history");
   }
 
-  function setupVolunteerAssist() {
+  function setupVolunteerAssist(initialView) {
     var historyDataset = normalizeHistoryRows(readLocalHistoryDataset());
+    var historyRoute = null;
+    var historyYears = ["2025", "2024", "2023"];
+    var planDataset = readLocalPlanDataset();
     var state = {
       subject: "5",
       batch: "2",
       year: "2025",
       rangeMode: "rank",
+      sortKey: "minRank",
+      sortDir: "desc",
       rangeMin: "",
       rangeMax: "",
       city: "",
       school: "",
+      schoolCodes: [],
       major: "",
       majorMode: "include",
       tags: [],
-      hasSearched: false
+      hasSearched: false,
+      loading: false,
+      total: 0,
+      page: 1,
+      pageSize: 100,
+      error: ""
     };
     var list = document.querySelector(".school-list");
+    var planList = document.querySelector(".plan-list");
     var modal = document.querySelector(".zy-modal");
     var back = document.querySelector(".back-score");
     var keyword = document.querySelector('input[name="schoolKeyword"]');
@@ -583,6 +609,18 @@
     var rangeUnit = document.querySelector(".range-unit");
     var rangeHint = document.querySelector(".score-range small");
     var crumb = document.querySelector(".zy-breadcrumb");
+    var planSchool = document.querySelector('input[name="planSchool"]');
+    var planMajor = document.querySelector('input[name="planMajor"]');
+    var planProvince = document.querySelector('select[name="planProvince"]');
+    var planState = {
+      subject: "历史",
+      electives: ["生物学", "思想政治"],
+      province: "",
+      school: "",
+      major: "",
+      majorMode: "include",
+      hasSearched: false
+    };
 
     if (back) back.addEventListener("click", function () { navigate("/score/result.html", true); });
 
@@ -600,9 +638,15 @@
     document.querySelector(".select-school").addEventListener("click", function () {
       if (keyword) keyword.focus();
     });
+    document.querySelector(".select-plan-school").addEventListener("click", function () {
+      if (planSchool) planSchool.focus();
+    });
 
     document.querySelector(".major-add").addEventListener("click", function () {
       if (majorKeyword) majorKeyword.focus();
+    });
+    document.querySelector(".plan-major-add").addEventListener("click", function () {
+      if (planMajor) planMajor.focus();
     });
 
     document.querySelector(".history-search").addEventListener("click", function () {
@@ -619,12 +663,31 @@
       state.rangeMax = "";
       state.city = "";
       state.school = "";
+      state.schoolCodes = [];
       state.major = "";
       state.majorMode = "include";
       state.tags = [];
       state.hasSearched = false;
+      state.loading = false;
+      state.total = 0;
+      state.error = "";
       syncForm();
       list.innerHTML = "";
+    });
+    document.querySelector(".plan-search").addEventListener("click", function () {
+      planState.hasSearched = true;
+      renderPlanList();
+    });
+    document.querySelector(".plan-reset").addEventListener("click", function () {
+      planState.subject = "历史";
+      planState.electives = ["生物学", "思想政治"];
+      planState.province = "";
+      planState.school = "";
+      planState.major = "";
+      planState.majorMode = "include";
+      planState.hasSearched = false;
+      syncPlanForm();
+      planList.innerHTML = "";
     });
 
     [keyword, majorKeyword, city, batchSelect, rangeMin, rangeMax].forEach(function (field) {
@@ -635,6 +698,14 @@
         if (state.hasSearched) renderHistoryList();
       });
     });
+    [planSchool, planMajor, planProvince].forEach(function (field) {
+      if (!field) return;
+      field.addEventListener("input", updatePlanStateFromForm);
+      field.addEventListener("change", function () {
+        updatePlanStateFromForm();
+        if (planState.hasSearched) renderPlanList();
+      });
+    });
 
     document.querySelectorAll('input[name="subjectFilter"], input[name="majorMode"], input[name="rangeMode"], input[name="schoolTags"]').forEach(function (input) {
       input.addEventListener("change", function () {
@@ -643,11 +714,46 @@
         if (state.hasSearched) renderHistoryList();
       });
     });
+    document.querySelectorAll('input[name="planSubject"], input[name="planElective"], input[name="planMajorMode"]').forEach(function (input) {
+      input.addEventListener("change", function () {
+        updatePlanStateFromForm();
+        if (planState.hasSearched) renderPlanList();
+      });
+    });
 
+    loadHistoryConfig();
     updateRangeMode();
     syncForm();
-    updateBreadcrumb("history");
+    syncPlanForm();
+    setZyView(initialView || "history");
     list.innerHTML = "";
+    if (initialView === "plan") showPlanNotice();
+
+    function loadHistoryConfig() {
+      Promise.all([
+        fetchJson("/api/zyfz/route/history-normal"),
+        fetchJson("/api/zyfz/dict/history-years")
+      ]).then(function (responses) {
+        historyRoute = responses[0] && responses[0].data ? responses[0].data : null;
+        if (historyRoute && historyRoute.form) {
+          try {
+            var defaultForm = JSON.parse(historyRoute.form);
+            state.year = String(defaultForm.year || state.year);
+            state.pageSize = Number(historyRoute.pageSize || defaultForm.pageSize || state.pageSize);
+          } catch (error) {}
+        }
+        var years = normalizeApiData(responses[1]);
+        if (Array.isArray(years) && years.length) {
+          historyYears = years.map(function (item) {
+            return String(item.value || item.name || "");
+          }).filter(Boolean);
+          state.year = historyYears[0] || state.year;
+        }
+        syncForm();
+      }).catch(function () {
+        historyRoute = null;
+      });
+    }
 
     function setZyView(view) {
       document.querySelectorAll("[data-zy-nav]").forEach(function (item) {
@@ -655,6 +761,7 @@
       });
       document.querySelector(".volunteer-page").setAttribute("data-zy-view", view);
       updateBreadcrumb(view);
+      if (view === "plan" && !planState.hasSearched) showPlanNotice();
     }
 
     function updateBreadcrumb(view) {
@@ -722,36 +829,108 @@
       });
       updateRangeMode();
     }
+    function updatePlanStateFromForm() {
+      var subject = document.querySelector('input[name="planSubject"]:checked');
+      var majorMode = document.querySelector('input[name="planMajorMode"]:checked');
+      planState.subject = subject ? subject.value : "历史";
+      planState.province = planProvince ? planProvince.value : "";
+      planState.school = planSchool ? planSchool.value.trim() : "";
+      planState.major = planMajor ? planMajor.value.trim() : "";
+      planState.majorMode = majorMode ? majorMode.value : "include";
+      planState.electives = Array.prototype.slice.call(document.querySelectorAll('input[name="planElective"]:checked')).map(function (input) {
+        return input.value;
+      });
+    }
+
+    function syncPlanForm() {
+      var subject = document.querySelector('input[name="planSubject"][value="' + planState.subject + '"]');
+      if (subject) subject.checked = true;
+      if (planProvince) planProvince.value = planState.province;
+      if (planSchool) planSchool.value = planState.school;
+      if (planMajor) planMajor.value = planState.major;
+      var majorMode = document.querySelector('input[name="planMajorMode"][value="' + planState.majorMode + '"]');
+      if (majorMode) majorMode.checked = true;
+      document.querySelectorAll('input[name="planElective"]').forEach(function (input) {
+        input.checked = planState.electives.indexOf(input.value) >= 0;
+      });
+    }
+
+    function showPlanNotice() {
+      if (!planList) return;
+      planList.innerHTML = '<div class="main-data plan-empty-panel"><div class="empty-choice"><div class="table-empty-title">请设置查询条件后点击“查 询”</div><p>当前默认条件：首选科目历史，再选科目生物学、思想政治。</p></div></div>';
+    }
+
+    function renderPlanList() {
+      updatePlanStateFromForm();
+      var rows = planDataset.filter(function (row) {
+        var subjectOk = row.subject === planState.subject;
+        var provinceOk = !planState.province || row.province === planState.province;
+        var schoolOk = !planState.school || row.college.indexOf(planState.school) >= 0 || row.code.indexOf(planState.school) >= 0;
+        var terms = planState.major.split(",").map(function (item) { return item.trim(); }).filter(Boolean).slice(0, 5);
+        var majorMatch = !terms.length || terms.some(function (term) { return row.major.indexOf(term) >= 0 || row.majorCode.indexOf(term) >= 0; });
+        var majorOk = planState.majorMode === "include" ? majorMatch : !majorMatch;
+        var electiveOk = !row.requirements.length || row.requirements.every(function (item) {
+          return item === "不限" || item === planState.subject || planState.electives.indexOf(item) >= 0;
+        });
+        return subjectOk && provinceOk && schoolOk && majorOk && electiveOk;
+      }).sort(function (a, b) {
+        return a.batchCode.localeCompare(b.batchCode) || a.code.localeCompare(b.code) || a.majorCode.localeCompare(b.majorCode);
+      });
+      planList.innerHTML = renderPlanResultTable(rows);
+    }
+
+    function renderPlanResultTable(rows) {
+      var tool = '<div class="history-year-nav plan-summary"><div><strong>2026年招生计划</strong><span> 共 ' + rows.length + ' 条</span></div><div class="main-data-tool"><span>显示顺序：批次代码、院校代号、专业代号</span></div></div>';
+      var table = '<div class="main-data"><table class="history-result-table plan-result-table"><thead><tr>' +
+        '<th>院校信息</th><th>专业信息</th><th>批次</th><th>选科要求</th><th>计划数</th><th>学制</th><th>学费</th><th>备注</th>' +
+        '</tr></thead><tbody>';
+      var body = rows.length ? rows.map(function (row) {
+        return '<tr>' +
+          '<td class="school-info"><a class="official-blue">' + escapeHtml(row.college) + '</a><p><b>' + escapeHtml(row.code) + '</b><i></i>' + escapeHtml(row.province) + '　' + escapeHtml(row.nature) + '</p></td>' +
+          '<td class="major-info"><a class="official-blue">' + escapeHtml(row.major) + '</a><p>专业代号：<b>' + escapeHtml(row.majorCode) + '</b><span>办学地点：' + escapeHtml(row.campus) + '</span></p></td>' +
+          '<td class="score-cell"><span>' + escapeHtml(row.batch) + '</span></td>' +
+          '<td class="plan-require">' + escapeHtml(row.requirements.join("、") || "不限") + '</td>' +
+          '<td class="count-cell"><b>' + escapeHtml(row.plan) + '</b></td>' +
+          '<td class="score-cell"><span>' + escapeHtml(row.duration) + '</span></td>' +
+          '<td class="score-cell"><span>' + escapeHtml(row.tuition) + '</span></td>' +
+          '<td class="plan-note">' + escapeHtml(row.note) + '</td>' +
+        '</tr>';
+      }).join("") : '<tr><td colspan="8" class="empty-choice"><div class="table-empty-title">暂无数据</div><p>请调整首选科目、再选科目、院校省份、院校或专业名称后重新查询。</p></td></tr>';
+      return tool + table + body + '</tbody></table><div class="history-result-foot">数据为本地复刻样例，用于还原页面查询逻辑和表格展示。</div></div>';
+    }
 
     function renderHistoryList() {
       updateStateFromForm();
-      var filtered = historyDataset.filter(function (row) {
-        var subjectOk = state.subject === "5" ? row.subject === "物理" : row.subject === "历史";
-        var schoolOk = !state.school || row.college.indexOf(state.school) >= 0 || row.major.indexOf(state.school) >= 0;
-        var cityOk = !state.city || row.province === state.city;
-        var majorTerms = state.major.split(",").map(function (item) { return item.trim(); }).filter(Boolean).slice(0, 5);
-        var majorMatch = !majorTerms.length || majorTerms.some(function (term) { return row.major.indexOf(term) >= 0; });
-        var majorOk = state.majorMode === "include" ? majorMatch : !majorMatch;
-        var tagsOk = !state.tags.length || state.tags.every(function (tag) { return (row.tags || []).indexOf(tag) >= 0; });
-        var rangeMinValue = state.rangeMin ? Number(state.rangeMin) : null;
-        var rangeMaxValue = state.rangeMax ? Number(state.rangeMax) : null;
-        var metric = state.rangeMode === "score" ? row.minScore : row.minRank;
-        var lowOk = rangeMinValue === null || metric >= rangeMinValue;
-        var highOk = rangeMaxValue === null || metric <= rangeMaxValue;
-        return subjectOk && schoolOk && cityOk && majorOk && tagsOk && lowOk && highOk;
-      });
-      list.innerHTML = renderHistoryResultTable(filtered);
-      list.querySelectorAll("[data-result-year]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          state.year = button.dataset.resultYear || "2025";
-          renderHistoryList();
-        });
+      state.loading = true;
+      state.error = "";
+      list.innerHTML = renderHistoryResultTable([]);
+      fetchJson("/api/zyfz/history/normal/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildHistoryPayload())
+      }).then(function (body) {
+        var data = normalizeApiData(body);
+        if (!data || !Array.isArray(data.list)) throw new Error(body && body.msg ? body.msg : "查询失败");
+        var rows = applyHistoryFilters(normalizeHistoryRows(data.list));
+        state.total = Number(rows.length || data.count || 0);
+        state.page = Number(data.page || 1);
+        state.pageSize = Number(data.pageSize || state.pageSize);
+        state.loading = false;
+        list.innerHTML = renderHistoryResultTable(rows);
+        bindResultControls();
+      }).catch(function () {
+        var fallback = filterFallbackRows();
+        state.total = fallback.length;
+        state.loading = false;
+        state.error = "原站接口暂时不可用，当前显示本地兜底数据。";
+        list.innerHTML = renderHistoryResultTable(fallback);
+        bindResultControls();
       });
     }
 
     function renderHistoryResultTable(rows) {
       var yearTabs = '<div class="history-year-nav"><div class="arco-radio-group-button" role="tablist">' +
-        ['2025', '2024', '2023'].map(function (year) {
+        historyYears.map(function (year) {
           return '<button type="button" class="arco-radio-button' + (state.year === year ? ' arco-radio-checked' : '') + '" data-result-year="' + year + '"><span>' + year + '年</span></button>';
         }).join("") +
       '</div><div class="main-data-tool"><span class="main-data-tool-label">结果排序：</span><select class="main-data-tool-select"><option>最低分位次</option><option>最高分位次</option><option>平均分</option></select><select class="main-data-tool-select"><option>从高到低</option><option>从低到高</option></select></div></div>';
@@ -765,11 +944,11 @@
         '<th>近三年<br>数据</th>' +
         '<th>删除</th>' +
       '</tr></thead><tbody>';
-      var body = rows.length ? rows.map(function (row) {
-        var tags = [row.province, "公办"].concat(row.tags || []).filter(Boolean).join("　");
+      var body = state.loading ? '<tr><td colspan="8" class="empty-choice"><div class="table-empty-title">正在请求原站数据...</div><p>请稍候。</p></td></tr>' : rows.length ? rows.map(function (row) {
+        var tags = [row.province, row.nature].concat(row.tags || []).filter(Boolean).join("　");
         return '<tr>' +
-          '<td class="school-info"><a class="official-blue">' + escapeHtml(row.college) + '</a><p>' + escapeHtml(tags) + '</p></td>' +
-          '<td class="major-info"><a class="official-blue">' + escapeHtml(row.major) + '</a><p>专业代号：<b>' + escapeHtml(row.majorCode) + '</b></p></td>' +
+          '<td class="school-info"><a class="official-blue">' + escapeHtml(formatCollegeName(row)) + '</a><p>' + escapeHtml(tags) + '</p></td>' +
+          '<td class="major-info"><a class="official-blue">' + escapeHtml(row.major) + '</a><p><span>专业代号：<b>' + escapeHtml(row.majorCode) + '</b></span><span>选科要求：<b>' + escapeHtml(row.requirement || "不限") + '</b></span></p></td>' +
           '<td class="count-cell"><b>' + escapeHtml(row.plan || "1") + '</b><i></i><b>' + escapeHtml(row.admit || "1") + '</b></td>' +
           '<td class="score-cell"><span>' + escapeHtml(row.maxScore || row.minScore) + '</span><i></i><b>' + escapeHtml(row.maxRank || row.minRank) + '</b></td>' +
           '<td class="score-cell"><span>' + escapeHtml(row.avgScore || row.minScore) + '</span></td>' +
@@ -778,26 +957,34 @@
           '<td class="icon-cell"><button type="button" aria-label="删除">' + trashIconMarkup() + '</button></td>' +
         '</tr>';
       }).join("") : '<tr><td colspan="8" class="empty-choice"><div class="table-empty-title">暂无数据</div><p>请调整批次、省份、院校、专业或查询范围后重新查询。</p></td></tr>';
-      return yearTabs + headers + body + "</tbody></table></div>";
+      var foot = '<div class="history-result-foot">' + (state.error ? escapeHtml(state.error) + "　" : "") + '共 ' + escapeHtml(String(state.total || rows.length || 0)) + ' 条数据</div>';
+      return yearTabs + headers + body + "</tbody></table>" + foot + "</div>";
     }
 
     function normalizeHistoryRows(source) {
       return source.map(function (row) {
+        var tags = [];
+        if (Number(row.is985)) tags.push("985");
+        if (Number(row.is211)) tags.push("211");
+        if (Number(row.sfyldx) || Number(row.isYLYXJSGX) || Number(row.isYLXKJSGX)) tags.push("双一流");
         return {
-          college: row.college || row.schoolName || "",
-          collegeCode: row.code || row.schoolCode || "",
-          majorCode: row.majorCode || "",
-          major: row.major || "",
-          minScore: Number(row.minScore || row.lowScore || 0),
-          minRank: Number(row.minRank || row.lowRank || 0),
-          avgScore: Number(row.avgScore || row.minScore || 0),
-          maxScore: Number(row.maxScore || row.highScore || 0),
-          maxRank: Number(row.maxRank || row.highRank || 0),
-          plan: row.plan || "1",
-          admit: row.admit || "1",
-          province: row.province || inferProvince(row.college || row.schoolName || ""),
-          subject: row.subject || "历史",
-          tags: row.tags || ["985工程高校", "211工程高校", "双一流"]
+          college: row.collageName || row.college || row.schoolName || "",
+          collegeNo: row.collage || row.code || "",
+          collegeCode: row.collageCode || row.code || row.schoolCode || "",
+          majorCode: row.major || row.majorCode || "",
+          major: row.majorName || row.major || "",
+          minScore: Number(row.majorMinScore || row.minScore || row.lowScore || 0),
+          minRank: Number(row.majorMinScoreRank || row.minRank || row.lowRank || 0),
+          avgScore: Number(row.majorAvgScore || row.avgScore || row.minScore || 0),
+          maxScore: Number(row.majorMaxScore || row.maxScore || row.highScore || 0),
+          maxRank: Number(row.majorMaxScoreRank || row.maxRank || row.highRank || 0),
+          plan: row.majorPlan || row.plan || "1",
+          admit: row.majorReal || row.admit || "1",
+          province: row.province || inferProvince(row.collageName || row.college || row.schoolName || ""),
+          subject: row.majorRequirementName || row.subject || "历史",
+          nature: row.yxxz || row.nature || "公办",
+          requirement: normalizeRequirement(row.majorRequirementName || row.requirement || ""),
+          tags: tags.length ? tags : (row.tags || [])
         };
       });
     }
@@ -812,6 +999,141 @@
       return "";
     }
 
+    function formatCollegeName(row) {
+      return (row.collegeNo ? "[" + row.collegeNo + "] " : "") + row.college;
+    }
+
+    function normalizeRequirement(value) {
+      var text = String(value || "");
+      if (!text) return "不限";
+      if (text.indexOf("(") >= 0 && text.indexOf(")") > text.indexOf("(")) {
+        text = text.substring(text.indexOf("(") + 1, text.indexOf(")"));
+      }
+      return text.replace(/\+/g, "或").replace(/\*/g, "和");
+    }
+
+    function bindResultControls() {
+      var selects = list.querySelectorAll(".main-data-tool-select");
+      if (selects[0]) {
+        selects[0].value = sortKeyToLabel(state.sortKey);
+        selects[0].addEventListener("change", function () {
+          state.sortKey = valueToSortKey(selects[0].value);
+          if (state.hasSearched) renderHistoryList();
+        });
+      }
+      if (selects[1]) {
+        selects[1].value = state.sortDir === "asc" ? "从低到高" : "从高到低";
+        selects[1].addEventListener("change", function () {
+          state.sortDir = selects[1].value === "从低到高" ? "asc" : "desc";
+          if (state.hasSearched) renderHistoryList();
+        });
+      }
+      list.querySelectorAll("[data-result-year]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          state.year = button.dataset.resultYear || state.year;
+          renderHistoryList();
+        });
+      });
+    }
+
+    function filterFallbackRows() {
+      return applyHistoryFilters(historyDataset).sort(function (a, b) {
+        var left = Number(a[state.sortKey] || 0);
+        var right = Number(b[state.sortKey] || 0);
+        return state.sortDir === "asc" ? left - right : right - left;
+      });
+    }
+
+    function applyHistoryFilters(rows) {
+      return rows.filter(function (row) {
+        var subjectOk = state.subject === "5" ? row.subject === "物理" : row.subject === "历史";
+        var schoolOk = !state.school || row.college.indexOf(state.school) >= 0 || row.major.indexOf(state.school) >= 0;
+        var cityOk = !state.city || row.province === state.city;
+        var majorTerms = state.major.split(",").map(function (item) { return item.trim(); }).filter(Boolean).slice(0, 5);
+        var majorMatch = !majorTerms.length || majorTerms.some(function (term) { return row.major.indexOf(term) >= 0; });
+        var majorOk = state.majorMode === "include" ? majorMatch : !majorMatch;
+        var tagsOk = !state.tags.length || state.tags.every(function (tag) { return (row.tags || []).indexOf(tag) >= 0; });
+        var rangeMinValue = state.rangeMin ? Number(state.rangeMin) : null;
+        var rangeMaxValue = state.rangeMax ? Number(state.rangeMax) : null;
+        var metric = state.rangeMode === "score" ? row.minScore : row.minRank;
+        var lowOk = rangeMinValue === null || metric >= rangeMinValue;
+        var highOk = rangeMaxValue === null || metric <= rangeMaxValue;
+        return subjectOk && schoolOk && cityOk && majorOk && tagsOk && lowOk && highOk;
+      });
+    }
+
+    function buildHistoryPayload() {
+      var base = historyRoute && historyRoute.form ? JSON.parse(historyRoute.form) : {};
+      var range = normalizeRangeValues();
+      base.sxkm = state.subject;
+      base.pcdm = state.batch;
+      base.szsf = state.city ? [state.city] : [];
+      base.yxdh = [];
+      base.yxbq = state.tags.map(function (tag) {
+        if (tag === "985工程高校") return "985";
+        if (tag === "211工程高校") return "211";
+        return tag;
+      });
+      base.zycx = {
+        zydm: "",
+        zydh: "",
+        zymc: normalizeMajorKeyword(state.major),
+        display: state.majorMode === "exclude" ? "0" : "1"
+      };
+      base.cxlx = state.rangeMode === "score" ? "fsfw" : "wcfw";
+      base.wcfw = state.rangeMode === "score" ? [] : range;
+      base.fsfw = state.rangeMode === "score" ? range : [];
+      base.year = Number(state.year);
+      base.routeId = historyRoute && historyRoute.id ? historyRoute.id : base.routeId || "";
+      base.page = state.page || 1;
+      base.pageSize = state.pageSize || 100;
+      base.order = state.sortDir === "asc" ? "asc" : "desc";
+      base.orderBy = sortKeyToOrderBy(state.sortKey);
+      return base;
+    }
+
+    function normalizeRangeValues() {
+      var min = state.rangeMin ? Number(state.rangeMin) : null;
+      var max = state.rangeMax ? Number(state.rangeMax) : null;
+      if (min === null && max === null) {
+        return state.rangeMode === "score" ? [0, 750] : [1, 250000];
+      }
+      if (min === null) min = state.rangeMode === "score" ? 0 : 1;
+      if (max === null) max = state.rangeMode === "score" ? 750 : Math.min(min + 5000, 250000);
+      if (max < min) {
+        var tmp = min;
+        min = max;
+        max = tmp;
+      }
+      var diff = state.rangeMode === "score" ? 20 : 5000;
+      if (max - min > diff) max = min + diff;
+      return [min, max];
+    }
+
+    function normalizeMajorKeyword(value) {
+      return String(value || "").trim().replace(/，/g, ",").split(",").map(function (item) {
+        return item.trim();
+      }).filter(Boolean).slice(0, 5).join(",");
+    }
+
+    function fetchJson(url, options) {
+      return fetch(url, options || {}).then(function (response) {
+        return response.json();
+      });
+    }
+
+    function normalizeApiData(body) {
+      if (!body) return null;
+      if (body.success === false) throw new Error(body.msg || "查询失败");
+      return body.data !== undefined ? body.data : body;
+    }
+
+    function sortKeyToOrderBy(key) {
+      if (key === "maxRank") return "ZYLQZGFWC";
+      if (key === "avgScore") return "ZYLQPJF";
+      return "ZYLQZDFWC";
+    }
+
     function readLocalHistoryDataset() {
       try {
         var script = document.querySelector('script[data-history-dataset]');
@@ -821,13 +1143,90 @@
         { college: "重庆大学", code: "5001", majorCode: "130", major: "人文科学试验班(法学新闻类)", minScore: 603, minRank: 1407, avgScore: 608, maxScore: 621, maxRank: 593, subject: "历史", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] },
         { college: "重庆大学", code: "5001", majorCode: "192", major: "汉语言文学(博雅类，含中文、历史、哲学专业)", minScore: 610, minRank: 1038, avgScore: 611, maxScore: 613, maxRank: 901, subject: "历史", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] },
         { college: "重庆大学", code: "5001", majorCode: "111", major: "马克思主义理论", minScore: 603, minRank: 1407, avgScore: 606, maxScore: 611, maxRank: 985, subject: "历史", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] },
+        { college: "重庆大学", code: "5001", majorCode: "118", major: "新闻传播学类", minScore: 605, minRank: 1321, avgScore: 607, maxScore: 613, maxRank: 900, subject: "历史", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] },
+        { college: "重庆大学", code: "5001", majorCode: "124", major: "法学", minScore: 608, minRank: 1189, avgScore: 611, maxScore: 616, maxRank: 821, subject: "历史", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] },
+        { college: "重庆大学", code: "5001", majorCode: "136", major: "英语", minScore: 600, minRank: 1530, avgScore: 604, maxScore: 609, maxRank: 1034, subject: "历史", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] },
+        { college: "重庆大学", code: "5001", majorCode: "205", major: "中国语言文学类", minScore: 612, minRank: 962, avgScore: 614, maxScore: 620, maxRank: 632, subject: "历史", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] },
         { college: "四川大学", code: "5127", majorCode: "1W3", major: "法学", minScore: 625, minRank: 477, avgScore: 627, maxScore: 632, maxRank: 311, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] },
         { college: "四川大学", code: "5127", majorCode: "127", major: "外国语言文学类(含双学士学位)", minScore: 608, minRank: 1141, avgScore: 613, maxScore: 622, maxRank: 559, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] },
         { college: "四川大学", code: "5127", majorCode: "1W4", major: "人文科学试验班(中文与新闻传播)", minScore: 617, minRank: 749, avgScore: 622, maxScore: 628, maxRank: 393, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] },
         { college: "四川大学", code: "5127", majorCode: "1W6", major: "历史学类", minScore: 615, minRank: 830, avgScore: 618, maxScore: 622, maxRank: 559, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] },
         { college: "四川大学", code: "5127", majorCode: "1W1", major: "哲学", minScore: 610, minRank: 1038, avgScore: 613, maxScore: 618, maxRank: 707, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] },
         { college: "四川大学", code: "5127", majorCode: "1W2", major: "经济学类", minScore: 617, minRank: 749, avgScore: 619, maxScore: 623, maxRank: 531, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "1W8", major: "汉语言文学", minScore: 614, minRank: 871, avgScore: 617, maxScore: 621, maxRank: 590, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "1W9", major: "新闻传播学类", minScore: 613, minRank: 903, avgScore: 616, maxScore: 620, maxRank: 640, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "1X1", major: "政治学类", minScore: 612, minRank: 949, avgScore: 615, maxScore: 619, maxRank: 688, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "1X2", major: "工商管理类", minScore: 609, minRank: 1101, avgScore: 612, maxScore: 617, maxRank: 760, subject: "历史", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "重庆大学", code: "5001", majorCode: "301", major: "计算机科学与技术", minScore: 632, minRank: 3380, avgScore: 635, maxScore: 641, maxRank: 2910, subject: "物理", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "重庆大学", code: "5001", majorCode: "302", major: "软件工程", minScore: 630, minRank: 3620, avgScore: 633, maxScore: 638, maxRank: 3140, subject: "物理", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "重庆大学", code: "5001", majorCode: "303", major: "电气工程及其自动化", minScore: 636, minRank: 2912, avgScore: 639, maxScore: 644, maxRank: 2488, subject: "物理", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "重庆大学", code: "5001", majorCode: "304", major: "电子信息类", minScore: 634, minRank: 3150, avgScore: 637, maxScore: 642, maxRank: 2740, subject: "物理", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "重庆大学", code: "5001", majorCode: "305", major: "自动化", minScore: 631, minRank: 3510, avgScore: 634, maxScore: 639, maxRank: 3001, subject: "物理", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "重庆大学", code: "5001", majorCode: "306", major: "建筑类", minScore: 624, minRank: 4488, avgScore: 628, maxScore: 633, maxRank: 3912, subject: "物理", province: "重庆", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "401", major: "计算机类", minScore: 646, minRank: 1805, avgScore: 649, maxScore: 654, maxRank: 1260, subject: "物理", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "402", major: "软件工程", minScore: 644, minRank: 2020, avgScore: 647, maxScore: 652, maxRank: 1420, subject: "物理", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "403", major: "电子信息类", minScore: 642, minRank: 2210, avgScore: 646, maxScore: 651, maxRank: 1608, subject: "物理", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "404", major: "电气工程及其自动化", minScore: 641, minRank: 2340, avgScore: 644, maxScore: 649, maxRank: 1740, subject: "物理", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "405", major: "临床医学", minScore: 650, minRank: 1400, avgScore: 653, maxScore: 658, maxRank: 990, subject: "物理", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
+        ,{ college: "四川大学", code: "5127", majorCode: "406", major: "口腔医学", minScore: 660, minRank: 720, avgScore: 662, maxScore: 666, maxRank: 510, subject: "物理", province: "四川", tags: ["985工程高校", "211工程高校", "双一流"] }
       ];
+    }
+
+    function readLocalPlanDataset() {
+      return [
+        { subject: "历史", requirements: ["不限"], province: "重庆", college: "重庆大学", code: "5001", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "101", major: "人文科学试验班(法学新闻类)", plan: 18, duration: "四年", tuition: "5625", campus: "虎溪校区", note: "含法学、新闻学、广播电视学" },
+        { subject: "历史", requirements: ["思想政治"], province: "重庆", college: "重庆大学", code: "5001", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "102", major: "马克思主义理论", plan: 8, duration: "四年", tuition: "4500", campus: "虎溪校区", note: "要求思想政治合格" },
+        { subject: "历史", requirements: ["不限"], province: "重庆", college: "重庆大学", code: "5001", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "103", major: "汉语言文学", plan: 12, duration: "四年", tuition: "4500", campus: "A区", note: "博雅类培养" },
+        { subject: "历史", requirements: ["不限"], province: "四川", college: "四川大学", code: "5127", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "1W3", major: "法学", plan: 6, duration: "四年", tuition: "6000", campus: "江安校区", note: "国家级一流本科专业" },
+        { subject: "历史", requirements: ["不限"], province: "四川", college: "四川大学", code: "5127", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "1W4", major: "人文科学试验班(中文与新闻传播)", plan: 10, duration: "四年", tuition: "6000", campus: "江安校区", note: "含汉语言文学、新闻学、广告学" },
+        { subject: "历史", requirements: ["地理"], province: "北京", college: "中国人民大学", code: "1102", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "105", major: "人文科学试验班", plan: 3, duration: "四年", tuition: "5000", campus: "北京", note: "含哲学、历史学等专业" },
+        { subject: "历史", requirements: ["思想政治"], province: "北京", college: "中国政法大学", code: "1141", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "011", major: "政治学与行政学", plan: 2, duration: "四年", tuition: "5000", campus: "昌平校区", note: "外语语种不限" },
+        { subject: "物理", requirements: ["化学"], province: "重庆", college: "重庆大学", code: "5001", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "301", major: "计算机科学与技术", plan: 32, duration: "四年", tuition: "5625", campus: "虎溪校区", note: "大类招生分流培养" },
+        { subject: "物理", requirements: ["化学"], province: "重庆", college: "重庆大学", code: "5001", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "302", major: "电气工程及其自动化", plan: 28, duration: "四年", tuition: "5625", campus: "虎溪校区", note: "国家级一流本科专业" },
+        { subject: "物理", requirements: ["化学"], province: "四川", college: "四川大学", code: "5127", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "401", major: "临床医学", plan: 12, duration: "五年", tuition: "7250", campus: "江安校区", note: "不招色盲、色弱考生" },
+        { subject: "物理", requirements: ["化学"], province: "四川", college: "四川大学", code: "5127", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "402", major: "口腔医学", plan: 5, duration: "五年", tuition: "7250", campus: "华西校区", note: "不招色盲、色弱考生" },
+        { subject: "物理", requirements: ["不限"], province: "上海", college: "上海财经大学", code: "3120", nature: "公办 双一流", batchCode: "B", batch: "本科批", majorCode: "018", major: "金融学", plan: 4, duration: "四年", tuition: "7150", campus: "主校区", note: "双一流建设学科相关专业" }
+      ];
+    }
+
+    function valueToSortKey(label) {
+      if (label === "最高分位次") return "maxRank";
+      if (label === "平均分") return "avgScore";
+      return "minRank";
+    }
+
+    function sortKeyToLabel(key) {
+      if (key === "maxRank") return "最高分位次";
+      if (key === "avgScore") return "平均分";
+      return "最低分位次";
+    }
+
+    function fetchJson(url, options) {
+      return fetch(url, options).then(function (response) {
+        return response.text().then(function (text) {
+          var parsed = null;
+          try {
+            parsed = text ? JSON.parse(text) : null;
+          } catch (error) {
+            parsed = { raw: text };
+          }
+          if (!response.ok) {
+            throw new Error((parsed && parsed.msg) || response.statusText || "Request failed");
+          }
+          return parsed;
+        });
+      });
+    }
+
+    function normalizeApiData(payload) {
+      if (!payload) return [];
+      if (Array.isArray(payload)) return payload;
+      if (Array.isArray(payload.data)) return payload.data;
+      if (payload.data && Array.isArray(payload.data.list)) return payload.data.list;
+      if (payload.data && Array.isArray(payload.data.rows)) return payload.data.rows;
+      if (payload.rows && Array.isArray(payload.rows)) return payload.rows;
+      if (payload.list && Array.isArray(payload.list)) return payload.list;
+      return [];
     }
   }
 

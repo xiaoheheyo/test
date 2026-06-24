@@ -22,8 +22,61 @@ http.createServer((req, res) => {
   let filePath = path.join(root, pathname);
 
   if (pathname === "/api/zyfz/history/art-sports") {
-    proxyZyfzHistory(req, res);
+    proxyZyfz(req, res, {
+      method: "POST",
+      upstreamPath: "/history/front/history/ystySearchMajorList",
+      referer: "https://www.cqzk.com.cn/apps/zyfz/system/history/art&sports"
+    });
     return;
+  }
+
+  if (pathname === "/api/zyfz/route/history-normal") {
+    proxyZyfz(req, res, {
+      method: "GET",
+      upstreamPath: "/user/common/route/getByName?name=history_normal",
+      referer: "https://www.cqzk.com.cn/apps/zyfz/system/history/normal"
+    });
+    return;
+  }
+
+  if (pathname === "/api/zyfz/dict/history-years") {
+    proxyZyfz(req, res, {
+      method: "GET",
+      upstreamPath: "/user/common/dictList?key=" + encodeURIComponent("历史数据查询-年份"),
+      referer: "https://www.cqzk.com.cn/apps/zyfz/system/history/normal"
+    });
+    return;
+  }
+
+  if (pathname === "/api/zyfz/history/normal/search") {
+    proxyZyfz(req, res, {
+      method: "POST",
+      upstreamPath: "/history/front/history/ptwlSearchMajorList",
+      referer: "https://www.cqzk.com.cn/apps/zyfz/system/history/normal"
+    });
+    return;
+  }
+
+  if (pathname === "/api/zyfz/history/normal/college") {
+    proxyZyfz(req, res, {
+      method: "POST",
+      upstreamPath: "/search/front/findTableCollage",
+      referer: "https://www.cqzk.com.cn/apps/zyfz/system/history/normal"
+    });
+    return;
+  }
+
+  if (pathname === "/api/zyfz/history/normal/last-three-years") {
+    proxyZyfz(req, res, {
+      method: "POST",
+      upstreamPath: "/history/front/history/lastThreeYearsMajorData",
+      referer: "https://www.cqzk.com.cn/apps/zyfz/system/history/normal"
+    });
+    return;
+  }
+
+  if (pathname === "/apps/zyfz/system/plans" || pathname === "/apps/zyfz/system/plans/") {
+    filePath = path.join(root, "plans.html");
   }
 
   if (pathname.endsWith("/styles/site.css")) {
@@ -52,8 +105,8 @@ http.createServer((req, res) => {
   console.log(`Serving clone on http://localhost:${port}`);
 });
 
-function proxyZyfzHistory(req, res) {
-  if (req.method !== "POST") {
+function proxyZyfz(req, res, options) {
+  if (req.method !== options.method) {
     sendJson(res, 405, { success: false, msg: "Method Not Allowed" });
     return;
   }
@@ -65,18 +118,20 @@ function proxyZyfzHistory(req, res) {
   });
   req.on("end", async () => {
     try {
-      const payload = JSON.parse(body || "{}");
-      const upstream = await fetch("https://applet.cqzk.com.cn/prod/history/front/history/ystySearchMajorList", {
-        method: "POST",
+      const init = {
+        method: options.method,
         headers: {
           "Accept": "application/json, text/javascript, */*; q=0.01",
           "Content-Type": "application/json; charset=UTF-8",
-          "Referer": "https://www.cqzk.com.cn/apps/zyfz/system/history/art&sports",
+          "Referer": options.referer,
           "Secret": zyfzSecret,
           "User-Agent": "Mozilla/5.0"
-        },
-        body: JSON.stringify(payload)
-      });
+        }
+      };
+      if (options.method !== "GET") {
+        init.body = JSON.stringify(JSON.parse(body || "{}"));
+      }
+      const upstream = await fetch("https://applet.cqzk.com.cn/prod" + options.upstreamPath, init);
       const text = await upstream.text();
       res.writeHead(upstream.ok ? 200 : upstream.status, {
         "Content-Type": "application/json; charset=utf-8",

@@ -1618,7 +1618,13 @@ body.score-mode main {
 .history-normal-page[data-zy-view="video"] .history-section,
 .history-normal-page[data-zy-view="video"] .choice-section,
 .history-normal-page[data-zy-view="manual"] .history-section,
-.history-normal-page[data-zy-view="manual"] .choice-section {
+.history-normal-page[data-zy-view="manual"] .choice-section,
+.history-normal-page[data-zy-view="history"] .plan-section,
+.history-normal-page[data-zy-view="choice"] .plan-section,
+.history-normal-page[data-zy-view="home"] .plan-section,
+.history-normal-page[data-zy-view="major"] .plan-section,
+.history-normal-page[data-zy-view="video"] .plan-section,
+.history-normal-page[data-zy-view="manual"] .plan-section {
   display: none;
 }
 
@@ -1629,6 +1635,14 @@ body.score-mode main {
 .history-normal-page[data-zy-view="video"] .aux-section,
 .history-normal-page[data-zy-view="manual"] .aux-section {
   display: block;
+}
+
+.history-normal-page[data-zy-view="plan"] .plan-section {
+  display: block;
+}
+
+.history-normal-page[data-zy-view="plan"] .history-section {
+  display: none;
 }
 
 .history-normal-page .card-system-search {
@@ -1831,6 +1845,41 @@ body.score-mode main {
   margin-right: 18px;
   color: #165dff;
   white-space: nowrap;
+}
+
+.history-normal-page .plan-tip {
+  margin-bottom: 20px;
+}
+
+.history-normal-page .plan-summary {
+  gap: 16px;
+}
+
+.history-normal-page .plan-summary strong {
+  margin-right: 14px;
+  color: #1d2129;
+  font-size: 18px;
+}
+
+.history-normal-page .plan-summary span {
+  color: #86909c;
+  font-size: 14px;
+}
+
+.history-normal-page .plan-result-table th:nth-child(1) { width: 250px; text-align: left; }
+.history-normal-page .plan-result-table th:nth-child(2) { width: 280px; text-align: left; }
+.history-normal-page .plan-result-table th:nth-child(3) { width: 120px; }
+.history-normal-page .plan-result-table th:nth-child(4) { width: 165px; }
+.history-normal-page .plan-result-table th:nth-child(5) { width: 90px; }
+.history-normal-page .plan-result-table th:nth-child(6) { width: 90px; }
+.history-normal-page .plan-result-table th:nth-child(7) { width: 110px; }
+.history-normal-page .plan-result-table th:nth-child(8) { width: auto; }
+
+.history-normal-page .plan-require,
+.history-normal-page .plan-note {
+  color: #1d2129;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .history-normal-page .main-data {
