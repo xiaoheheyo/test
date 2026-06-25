@@ -209,8 +209,12 @@
   function renderRoute(route, push) {
     if (!route || route === "/") route = "/news/list_1.html";
 
-    if (route === "/score/2026.html") {
-      renderScoreLogin();
+    if (route === "/score/2026.html" || route === "/user/grade/4/1066/1230" || route === "/user/grade/4/1066/1230/") {
+      renderGradePortal("score");
+    } else if (route === "/user/personal/0/1073/1230" || route === "/user/personal/0/1073/1230/") {
+      renderGradePortal("personal");
+    } else if (route === "/user/health_examination/0/1075/1230" || route === "/user/health_examination/0/1075/1230/") {
+      renderGradePortal("health");
     } else if (route === "/score/result.html") {
       renderScoreResult();
     } else if (route === "/score/assist.html") {
@@ -239,6 +243,26 @@
     setActiveMain(route);
     if (push) history.pushState({ route: route }, "", route);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function renderGradePortal(activePage) {
+    if (!main) return;
+    document.title = "重庆市教育考试招生查询系统";
+    document.body.classList.add("score-mode", "score-result-mode", "grade-portal-mode");
+    document.body.classList.remove("score-login-mode", "volunteer-mode");
+    main.innerHTML = gradeShellMarkup(activePage || "score");
+  }
+
+  function gradeEntries() {
+    return [
+      { text: "2026年普通高考综合查询", route: "/score/result.html" },
+      { text: "重庆市2026年普通高校招生艺术类专业统考成绩查询", route: "/score/result.html" },
+      { text: "重庆市2026年普通高校招生体育类专业统考成绩查询", route: "/score/result.html" },
+      { text: "2026年高职分类考试综合查询", route: "/score/result.html" },
+      { text: "重庆市2026年普通高校专升本统一考试成绩及录取结果查询", route: "/score/result.html" },
+      { text: "2026年上半年中小学教师资格考试(面试)成绩复核申请系统", route: "/score/result.html" },
+      { text: "重庆市教育考试招生证明", route: "/score/result.html" }
+    ];
   }
 
   function renderList(page) {
@@ -377,7 +401,7 @@
   function renderScoreLogin() {
     if (!main) return;
     document.body.classList.add("score-mode", "score-login-mode");
-    document.body.classList.remove("score-result-mode", "volunteer-mode");
+    document.body.classList.remove("score-result-mode", "volunteer-mode", "grade-portal-mode");
     main.innerHTML = '<section class="score-login-page">' +
       '<div class="score-title"><h1>重庆市教育考试招生查询系统</h1><p>2026年普通高考综合查询</p></div>' +
       '<div class="login-card">' +
@@ -490,42 +514,131 @@
 
   function renderScoreResult() {
     if (!main) return;
-    var candidate = "26500111111371";
-    document.body.classList.add("score-mode", "score-result-mode");
+    document.title = "重庆市教育考试招生查询系统";
+    document.body.classList.add("score-mode", "score-result-mode", "grade-portal-mode");
     document.body.classList.remove("score-login-mode", "volunteer-mode");
-    main.innerHTML = '<section class="score-result-page">' +
-      '<header class="result-top"><div>重庆市教育考试院综合查询系统 [2026年普通高考综合查询]</div></header>' +
-      '<div class="candidate-band">考生：赵丁谕　' + maskId(candidate) + '</div>' +
-      '<nav class="result-nav"><span>▦ 成绩查询</span><button type="button" class="logout-score">↪ 退出</button></nav>' +
-      '<div class="result-paper">' +
-        '<div class="watermark" aria-hidden="true">' + watermarkMarkup(candidate) + '</div>' +
-        qrMarkup("qr-top", "二维码") +
-        '<table class="score-table"><thead><tr><th>科目</th><th>成绩</th></tr></thead><tbody>' +
-          scoreRows().map(function (row) { return "<tr><td>" + row[0] + "</td><td>" + row[1] + "</td></tr>"; }).join("") +
-        '</tbody></table>' +
-        '<div class="verify-code">校验码：96259660B4CA53CEF841667A95A41FF6</div>' +
-        '<a class="assist-link" href="javascript:;" data-route="/score/assist.html">重庆市统一高考志愿填报辅助系统(点击进入)</a>' +
-        qrMarkup("qr-bottom", "重庆招考微信公众号二维码") +
-        '<div class="qr-label">重庆招考微信公众号</div>' +
-      '</div>' +
-      '<div class="result-actions"><button type="button" class="print-score">打印成绩</button><button type="button" class="copy-code">复制校验码</button></div>' +
-    '</section>';
+    main.innerHTML = gradeShellMarkup("score");
+  }
 
-    var logout = document.querySelector(".logout-score");
-    if (logout) logout.addEventListener("click", function () { navigate("/score/2026.html", true); });
-    var print = document.querySelector(".print-score");
-    if (print) print.addEventListener("click", function () { window.print(); });
-    var copy = document.querySelector(".copy-code");
-    if (copy) copy.addEventListener("click", function () {
-      showResultToast("校验码：96259660B4CA53CEF841667A95A41FF6");
-    });
+  function gradeShellMarkup(activePage) {
+    return '<section class="grade-result-layout">' +
+      '<header class="grade-result-header">' +
+        '<div class="grade-header-inner grade-result-banner">' +
+          '<a class="grade-logo" href="https://www.cqksy.cn/" aria-label="重庆市教育考试院">' + gradeLogoMarkup() + '</a>' +
+          '<span class="grade-title-divider" aria-hidden="true"></span>' +
+          '<h1 class="grade-result-title"><b>2026</b>年普通高考综合查询</h1>' +
+          '<button type="button" class="grade-user">你好，赵丁谕 <span>⌄</span></button>' +
+        '</div>' +
+        '<nav class="grade-tabs" aria-label="成绩导航">' +
+          gradeTabMarkup("score", "成绩查询", "/user/grade/4/1066/1230", activePage) +
+          gradeTabMarkup("personal", "基本信息", "/user/personal/0/1073/1230", activePage) +
+          gradeTabMarkup("health", "体检信息", "/user/health_examination/0/1075/1230", activePage) +
+        '</nav>' +
+      '</header>' +
+      '<main class="grade-result-content">' + gradePageContent(activePage) + '</main>' +
+      '<footer class="grade-footer"><p>© 2025-2026 cqksy.cn All rights reserved.</p><p>本服务由重庆市教育考试院提供</p></footer>' +
+    '</section>';
+  }
+
+  function gradeTabMarkup(key, label, route, activePage) {
+    var active = key === activePage ? " active" : "";
+    return '<a class="' + active.trim() + '" href="javascript:;" data-route="' + route + '">' + label + '</a>';
+  }
+
+  function gradePageContent(activePage) {
+    if (activePage === "personal") return personalInfoMarkup();
+    if (activePage === "health") return healthInfoMarkup();
+    return scoreInfoMarkup();
+  }
+
+  function scoreInfoMarkup() {
+    return '<section class="grade-result-card score-card">' +
+      '<div class="grade-result-card-head"><div class="grade-card-col"><div class="grade-card-qrcode">' + qrMarkup("", "二维码", "plain") + '</div></div><div class="grade-card-col"><h2>查询结果</h2></div><div class="grade-card-col"></div></div>' +
+      '<div class="grade-result-card-body">' +
+        '<div class="grade-watermark" aria-hidden="true">' + watermarkMarkup() + '</div>' +
+        '<div class="grade-score-list">' + scoreRows().map(function (row) {
+          return '<div class="grade-subject"><div class="subject-label">' + escapeHtml(row[0]) + '</div><div class="subject-score">' + escapeHtml(row[1]) + '</div><div class="subject-action"><button type="button">申请复核</button></div></div>';
+        }).join("") + '</div>' +
+      '</div>' +
+      '<div class="grade-card-footer"><span>校验码：65B81566467A208FDD96076DF1F168B3</span></div>' +
+    '</section>' +
+    '<ul class="grade-ad-container"><li><span><a href="javascript:;" data-route="/score/assist.html">重庆市统一高考志愿填报辅助系统(点此进入)</a></span></li></ul>' +
+    '<div class="qrcode-bottom">' + qrMarkup("", "qrcode", "marked") + '<span>重庆招考微信公众号</span></div>';
+  }
+
+  function personalInfoMarkup() {
+    return gradeInfoCard("基本信息", personalInfoRows()) +
+      gradeInfoCard("特征信息", [
+        ["特征类别", "重庆户籍", "特征明细", "重庆户籍"],
+        ["特征类别", "外语口试成绩", "特征明细", "90"]
+      ]);
+  }
+
+  function personalInfoRows() {
+    return [
+      ["身份证号", "500106200804108323", "考生号", "26500111111271"],
+      ["准考证号", "", "姓名", "赵丁谕"],
+      ["性别", "女", "政治面貌", "共青团员"],
+      ["民族", "汉族", "出生年月", "2008年04月10日"],
+      ["考生类别", "城市应届", "毕业类别", "普通高中毕业"],
+      ["报考类别", "普通类(历史)", "考试类型", "历史"],
+      ["选择性考试科目", "【历史】生物学、思想政治", "笔试外语语种", "英语"],
+      ["区县", "巴南区", "毕业中学", "重庆巴南育才实验中学校"],
+      ["报名点", "重庆巴南育才实验中学校", "班级", "04班"],
+      ["联系电话", "15730365715", "收件人", "赵丁谕"],
+      ["通知书收件人电话", "15730365715", "通知书邮编", "400054"],
+      ["通知书邮寄地址", "重庆重庆市巴南区李家沱街道莫园誉府5幢2单元601", "", ""]
+    ];
+  }
+
+  function healthInfoMarkup() {
+    return gradeInfoCard("基础信息", [
+      ["考生号", "26500111111271", "既往病史", "无"],
+      ["既往病史说明", "无", "既往病史说明", "无"]
+    ]) +
+    gradeInfoCard("眼科", [
+      ["裸眼视力(右)", "4.4", "裸眼视力(左)", "4.4"],
+      ["矫正视力(右)", "4.8", "矫正视力(左)", "4.8"],
+      ["矫正度数(右)", "300", "矫正度数(左)", "300"],
+      ["彩色图案及数码检查", "正常", "色觉检查图名称", "喻自萍"],
+      ["单色识别-红", "能识别", "单色识别-黄", "能识别"],
+      ["单色识别-绿", "能识别", "单色识别-蓝", "能识别"],
+      ["单色识别-紫", "能识别", "", ""],
+      ["医生意见", "专业受限", "", ""],
+      ["书面意见", "受限24.25", "", ""],
+      ["说明", "任何一只眼睛裸眼视力4.8（含）以上的，矫正视力值为“0”或为空的，均表示无需矫正。", "", ""]
+    ]) +
+    gradeInfoCard("内科", [
+      ["收缩压(MmHg)", "97", "舒张压(MmHg)", "71"],
+      ["发育情况", "良", "心脏血管", "正常"],
+      ["呼吸系统", "正常", "神经系统", "正常"],
+      ["肝长(cm)", "0", "肝性质", "正常"],
+      ["脾长(cm)", "0", "脾性质", "正常"],
+      ["医生意见", "合格", "", ""],
+      ["书面意见", "无", "", ""]
+    ]) +
+    gradeInfoCard("外科", [
+      ["身高(cm)", "160", "体重(kg)", "68"],
+      ["皮肤", "正常", "面部", "正常"],
+      ["颈部", "正常", "脊柱", "正常"],
+      ["四肢", "正常", "关节", "正常"]
+    ]);
+  }
+
+  function gradeInfoCard(title, rows) {
+    return '<section class="grade-info-card"><h2>' + escapeHtml(title) + '</h2><table class="grade-info-table"><tbody>' +
+      rows.map(function (row) {
+        var wide = row[2] === "" && row[3] === "";
+        return '<tr><th>' + escapeHtml(row[0]) + '</th><td' + (wide ? ' colspan="3"' : '') + '>' + escapeHtml(row[1]) + '</td>' +
+          (wide ? "" : '<th>' + escapeHtml(row[2]) + '</th><td>' + escapeHtml(row[3]) + '</td>') + '</tr>';
+      }).join("") + '</tbody></table></section>';
   }
 
   function renderVolunteerAssist(initialView) {
     if (!main) return;
     document.title = "重庆市统一高考志愿填报辅助系统";
     document.body.classList.add("score-mode", "volunteer-mode");
-    document.body.classList.remove("score-login-mode", "score-result-mode");
+    document.body.classList.remove("score-login-mode", "score-result-mode", "grade-portal-mode");
 
     main.innerHTML = '<section class="volunteer-page history-normal-page" data-zy-view="history">' +
       '<header class="volunteer-top arco-layout-header">' +
@@ -1237,21 +1350,21 @@
       articlePanel = document.querySelector(".article-panel");
       sectionMenu = document.querySelector(".section-menu");
     }
-    document.body.classList.remove("score-mode", "score-login-mode", "score-result-mode", "volunteer-mode");
+    document.body.classList.remove("score-mode", "score-login-mode", "score-result-mode", "volunteer-mode", "grade-portal-mode");
   }
 
   function scoreRows() {
-    var subjects = [["语文", 124], ["数学", 103], ["外语", 132], ["历史", 76], ["生物", 96], ["思想政治", 92]];
+    var subjects = [["语文", 124], ["数学", 103], ["外语", 132], ["生物学", 96], ["思想政治", 92], ["历史", 76]];
     var total = subjects.reduce(function (sum, row) {
-      return sum + row[1];
+      return typeof row[1] === "number" ? sum + row[1] : sum;
     }, 0);
-    return subjects.concat([["总分", total]]).map(function (row) {
+    return subjects.concat([["总分", total ? total : "--"]]).map(function (row) {
       return [row[0], String(row[1])];
     });
   }
 
-  function watermarkMarkup(candidate) {
-    var text = "赵丁谕-230026<br>" + escapeHtml(candidate);
+  function watermarkMarkup() {
+    var text = "赵于谕-108323<br>赵3238536749337";
     var marks = "";
     for (var index = 0; index < 24; index += 1) {
       marks += '<span>' + text + "</span>";
@@ -1259,8 +1372,17 @@
     return marks;
   }
 
-  function qrMarkup(extraClass, label) {
-    return '<img class="qr ' + extraClass + '" src="/wechat.png" alt="' + escapeHtml(label) + '">';
+  function qrMarkup(extraClass, label, variant) {
+    var src = variant === "plain" ? "/assets/qrcode-grade-plain.png" : (variant === "marked" ? "/assets/qrcode-grade-marked.png" : "/assets/qrcode_sjb.png");
+    return '<img class="qr ' + extraClass + '" src="' + src + '" alt="' + escapeHtml(label) + '">';
+  }
+
+  function gradeLogoMarkup() {
+    return '<img src="/assets/cqksy-grade-logo.svg" alt="重庆市教育考试院">';
+  }
+
+  function qrCodeIconMarkup() {
+    return '<svg viewBox="0 0 33 33" role="img" aria-label="二维码"><path fill="#fff" d="M0,0 h33v33H0z"></path><path fill="#18326A" d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM26 0h7v7h-7zM27 1v5h5V1zM28 2h3v3h-3zM0 26h7v7H0zM1 27v5h5v-5zM2 28h3v3H2zM9 0h2v1H9zM13 0h3v1h-3zM18 0h2v2h-1v1h-2V1h1zM22 0h2v1h-2zM9 2h4v1H9zM14 2h1v2h2v1h-4V4h1zM20 2h3v1h1v2h-2V4h-2zM8 5h2v2H8zM11 5h1v1h2v2h-3zM16 6h3v1h-3zM21 6h3v2h-1v1h-2zM0 9h2v2H0zM4 9h3v1H4zM9 9h1v2H8v-1h1zM12 9h2v1h1v2h-3zM17 9h1v3h-2v-1h1zM20 9h4v1h-1v2h-3zM27 9h2v1h2v2h-4zM1 13h2v1h2v2H2v-1H1zM6 12h2v3H7v1H5v-2h1zM10 13h2v2h1v2h-3zM15 13h4v1h-1v2h-2v-1h-1zM21 13h2v1h2v2h-1v1h-3zM28 14h1v1h4v2h-5zM0 18h3v2H1v1H0zM5 18h2v1h2v2H5zM11 18h1v1h3v2h-4zM17 18h3v1h-1v2h-2zM22 18h4v2h-2v1h-2zM29 19h2v1h2v3h-4zM9 23h2v2H9zM13 23h4v1h-1v2h-3zM19 23h2v3h-2zM23 23h3v1h2v2h-5zM30 24h3v2h-3zM9 27h1v2h2v2H9zM14 27h2v1h1v3h-3zM19 28h2v1h2v2h-4zM25 27h1v2h2v1h1v3h-4zM31 28h2v5h-2v-2h-1v-1h1z"></path></svg>';
   }
 
   function downIconMarkup() {
