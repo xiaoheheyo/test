@@ -1434,10 +1434,10 @@ body.grade-portal-mode {
 
 .grade-header-inner,
 .grade-result-content {
-  width: 100%;
-  max-width: none;
-  margin-right: 0;
-  margin-left: 0;
+  width: 1480px;
+  max-width: calc(100vw - 32px);
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .grade-result-banner {
@@ -1490,8 +1490,8 @@ body.grade-portal-mode {
 }
 
 .grade-tabs {
-  width: 100%;
-  max-width: none;
+  width: 1480px;
+  max-width: calc(100vw - 32px);
   height: 70px;
   margin: 0 auto;
   gap: 22px;
@@ -1573,7 +1573,7 @@ body.grade-portal-mode {
 
 .grade-subject {
   display: grid;
-  grid-template-columns: 43% 57%;
+  grid-template-columns: 45% 55%;
   height: 72px;
 }
 
@@ -1585,14 +1585,14 @@ body.grade-portal-mode {
 .grade-subject .subject-label {
   justify-content: flex-end;
   padding-left: 0;
-  padding-right: 42px;
+  padding-right: 36px;
   font-size: 18px;
   font-weight: 500;
 }
 
 .grade-subject .subject-score {
   justify-content: flex-end;
-  padding-right: 34%;
+  padding-right: 52%;
   color: #0052d9;
   font-size: 20px;
 }
