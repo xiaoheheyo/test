@@ -557,7 +557,7 @@
       '<div class="grade-result-card-body">' +
         '<div class="grade-watermark" aria-hidden="true">' + watermarkMarkup() + '</div>' +
         '<div class="grade-score-list">' + scoreRows().map(function (row) {
-          return '<div class="grade-subject"><div class="subject-label">' + escapeHtml(row[0]) + '</div><div class="subject-score">' + escapeHtml(row[1]) + '</div><div class="subject-action"><button type="button">申请复核</button></div></div>';
+          return '<div class="grade-subject"><div class="subject-label">' + escapeHtml(row[0]) + '</div><div class="subject-score">' + escapeHtml(row[1]) + '</div></div>';
         }).join("") + '</div>' +
       '</div>' +
       '<div class="grade-card-footer"><span>校验码：65B81566467A208FDD96076DF1F168B3</span></div>' +
@@ -1364,7 +1364,7 @@
   }
 
   function watermarkMarkup() {
-    var text = "赵于谕-108323<br>赵3238536749337";
+    var text = "赵于谕-108323<br>124103132969276623";
     var marks = "";
     for (var index = 0; index < 24; index += 1) {
       marks += '<span>' + text + "</span>";

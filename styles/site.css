@@ -1434,10 +1434,10 @@ body.grade-portal-mode {
 
 .grade-header-inner,
 .grade-result-content {
-  width: 1480px;
-  max-width: calc(100vw - 32px);
-  margin-right: auto;
-  margin-left: auto;
+  width: 100%;
+  max-width: none;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 .grade-result-banner {
@@ -1490,8 +1490,8 @@ body.grade-portal-mode {
 }
 
 .grade-tabs {
-  width: 1480px;
-  max-width: calc(100vw - 32px);
+  width: 100%;
+  max-width: none;
   height: 70px;
   margin: 0 auto;
   gap: 22px;
@@ -1527,7 +1527,7 @@ body.grade-portal-mode {
 
 .grade-result-card-head {
   height: 202px;
-  padding: 0 38px;
+  padding: 0 48px;
 }
 
 .grade-result-card-head h2 {
@@ -1544,16 +1544,18 @@ body.grade-portal-mode {
 
 .grade-result-card-body {
   min-height: 560px;
-  padding: 0 40px;
+  padding: 0 48px;
 }
 
 .grade-watermark {
-  inset: 0 40px;
+  inset: 0 48px;
 }
 
 .grade-watermark span {
   color: rgba(0, 0, 0, .13);
   font-size: 22px;
+  min-width: 250px;
+  text-align: left;
 }
 
 .grade-watermark span:nth-child(1) { left: 72px; top: 24px; }
@@ -1570,37 +1572,29 @@ body.grade-portal-mode {
 .grade-watermark span:nth-child(12) { left: 1010px; top: 355px; display: block; }
 
 .grade-subject {
+  display: grid;
+  grid-template-columns: 43% 57%;
   height: 72px;
 }
 
 .grade-subject .subject-label,
-.grade-subject .subject-score,
-.grade-subject .subject-action {
+.grade-subject .subject-score {
   height: 72px;
 }
 
 .grade-subject .subject-label {
-  padding-left: 86px;
+  justify-content: flex-end;
+  padding-left: 0;
+  padding-right: 42px;
   font-size: 18px;
   font-weight: 500;
 }
 
 .grade-subject .subject-score {
+  justify-content: flex-end;
+  padding-right: 34%;
   color: #0052d9;
   font-size: 20px;
-}
-
-.grade-subject .subject-action {
-  justify-content: flex-end;
-  padding-right: 30px;
-}
-
-.grade-subject .subject-action button {
-  min-width: 86px;
-  height: 34px;
-  border-radius: 3px;
-  font-size: 14px;
-  font-weight: 600;
 }
 
 .grade-card-footer {
