@@ -2,25 +2,25 @@
   {
     "name": "首页通栏A5-1",
     "href": "admissions_hkmo/list_1.html",
-    "image": "userfiles/fileupload/202606/2055214222746034178.jpg",
+    "image": "/重庆招考信息网_files/2055214222746034178.jpg",
     "educationGgClassify": { "cols": 1, "treeName": "首页通栏A5区" }
   },
   {
     "name": "首页通栏A5-2",
     "href": "admissions_abroad/list_1.html",
-    "image": "userfiles/fileupload/202606/2011613936681197570.jpg",
+    "image": "/重庆招考信息网_files/2011613936681197570.jpg",
     "educationGgClassify": { "cols": 1, "treeName": "首页通栏A5区" }
   },
   {
     "name": "首页通栏A5-3",
     "href": "party/party_news/list_1.html",
-    "image": "userfiles/fileupload/202606/2011727907727843330.jpg",
+    "image": "/重庆招考信息网_files/2011727907727843330.jpg",
     "educationGgClassify": { "cols": 1, "treeName": "首页通栏A5区" }
   },
   {
     "name": "首页通栏A5-4",
     "href": "news_districts/list_1.html",
-    "image": "userfiles/fileupload/202606/2032303409664335874.jpg",
+    "image": "/重庆招考信息网_files/2032303409664335874.jpg",
     "educationGgClassify": { "cols": 1, "treeName": "首页通栏A5区" }
   }
 ]

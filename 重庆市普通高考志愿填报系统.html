@@ -134,6 +134,20 @@ footer Section
     <script src="./重庆市普通高考志愿填报系统_files/layer.js"></script>
     <script>
       (function () {
+        var storageKey = "cqzk_volunteer_plan";
+
+        function readStore() {
+          try {
+            return JSON.parse(localStorage.getItem(storageKey) || "{}");
+          } catch (error) {
+            return {};
+          }
+        }
+
+        function writeStore(value) {
+          localStorage.setItem(storageKey, JSON.stringify(value));
+        }
+
         function cleanupLayers() {
           var layers = document.querySelectorAll('.layui-layer-shade, .layui-layer, .layui-layer-move');
           layers.forEach(function (layer) {
@@ -144,7 +158,29 @@ footer Section
           document.body.classList.remove('layui-layer-lock');
         }
 
-        window.saveContent = window.saveContent || function () {};
+        window.saveContent = function (button) {
+          var row = button && button.closest ? button.closest("tr") : null;
+          if (!row) return;
+
+          var batchCell = row.querySelector("td");
+          var orderCell = row.querySelector("td:nth-of-type(2)");
+          var yxdhInput = row.querySelector("td.yxdh input");
+          var zyInput = row.querySelector("td.zydh input");
+          var select = row.querySelector("select");
+          var key = row.id || [batchCell && batchCell.textContent || "", orderCell && orderCell.textContent || ""].join("::");
+          var store = readStore();
+
+          store[key] = {
+            batch: batchCell ? batchCell.textContent.trim() : "",
+            order: orderCell ? orderCell.textContent.trim() : "",
+            schoolCode: yxdhInput ? yxdhInput.value.trim() : "",
+            majorCode: zyInput ? zyInput.value.trim() : "",
+            fit: select ? select.value : ""
+          };
+          writeStore(store);
+
+          alert("保存成功，数据已保存到浏览器存储");
+        };
         window.delContent = window.delContent || function () {};
         window.up = window.up || function () {};
 

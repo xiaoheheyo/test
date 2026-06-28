@@ -2,7 +2,7 @@
   {
     "name": "院校传真",
     "href": "colleges/list_1.html",
-    "image": "userfiles/fileupload/202606/1398942381198360578.jpg",
+    "image": "/重庆招考信息网_files/1398942381198360578.jpg",
     "width": 600,
     "height": 150,
     "educationGgClassify": { "cols": 2, "treeName": "院校传真" }
@@ -10,7 +10,7 @@
   {
     "name": "招生资讯",
     "href": "PTGK/PTGK_news/list_1.html",
-    "image": "userfiles/fileupload/202606/1506180040480481282.jpg",
+    "image": "/重庆招考信息网_files/1506180040480481282.jpg",
     "width": 600,
     "height": 150,
     "educationGgClassify": { "cols": 2, "treeName": "院校传真" }
@@ -18,7 +18,7 @@
   {
     "name": "高考服务",
     "href": "news/list_1.html",
-    "image": "userfiles/fileupload/202606/1531917806707949570.jpg",
+    "image": "/重庆招考信息网_files/1531917806707949570.jpg",
     "width": 600,
     "height": 150,
     "educationGgClassify": { "cols": 2, "treeName": "院校传真" }
@@ -26,7 +26,7 @@
   {
     "name": "重庆招考",
     "href": "announcement/list_1.html",
-    "image": "userfiles/fileupload/202606/2011724185849274370.jpg",
+    "image": "/重庆招考信息网_files/2011724185849274370.jpg",
     "width": 601,
     "height": 151,
     "educationGgClassify": { "cols": 2, "treeName": "院校传真" }
