@@ -1,0 +1,26 @@
+[
+  {
+    "name": "重庆市2026年普通高等学校招生网上志愿填报系统",
+    "href": "/tianbao.html",
+    "image": "userfiles/fileupload/202606/1399346139429806082.png",
+    "width": 1200,
+    "height": 150,
+    "educationGgClassify": { "cols": 1, "treeName": "首页顶部轮播区" }
+  },
+  {
+    "name": "重庆市2026年普通高考综合查询",
+    "href": "/score/2026.html",
+    "image": "userfiles/fileupload/202606/1400733068398927874.png",
+    "width": 1200,
+    "height": 150,
+    "educationGgClassify": { "cols": 1, "treeName": "首页顶部轮播区" }
+  },
+  {
+    "name": "重庆招考服务",
+    "href": "https://www.cqzk.com.cn/",
+    "image": "userfiles/fileupload/202606/1994294312734269442.png",
+    "width": 1200,
+    "height": 90,
+    "educationGgClassify": { "cols": 1, "treeName": "首页顶部轮播区" }
+  }
+]

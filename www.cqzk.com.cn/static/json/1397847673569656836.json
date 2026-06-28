@@ -1,0 +1,26 @@
+[
+  {
+    "name": "首页通栏A3-1",
+    "href": "PTGK/PTGK_news/list_1.html",
+    "image": "userfiles/fileupload/202606/1744686786439651329.jpg",
+    "educationGgClassify": { "cols": 1, "treeName": "首页通栏A3区" }
+  },
+  {
+    "name": "首页通栏A3-2",
+    "href": "XYSPKS/XYSPKS_news/list_1.html",
+    "image": "userfiles/fileupload/202606/1923298198847922178.jpg",
+    "educationGgClassify": { "cols": 1, "treeName": "首页通栏A3区" }
+  },
+  {
+    "name": "首页通栏A3-3",
+    "href": "YZYK/YZYK_news/list_1.html",
+    "image": "userfiles/fileupload/202606/2055211450256564226.jpg",
+    "educationGgClassify": { "cols": 1, "treeName": "首页通栏A3区" }
+  },
+  {
+    "name": "首页通栏A3-4",
+    "href": "CRKS/CRKS_news/list_1.html",
+    "image": "userfiles/fileupload/202606/2055211693878517762.jpg",
+    "educationGgClassify": { "cols": 1, "treeName": "首页通栏A3区" }
+  }
+]

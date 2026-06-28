@@ -167,7 +167,7 @@
     renderRoute(location.pathname || "/", false);
   });
 
-  renderRoute(location.pathname === "/" ? "/news/list_1.html" : location.pathname, false);
+  renderRoute(location.pathname || "/", false);
 
   function handleSearch(event) {
     event.preventDefault();
@@ -207,10 +207,16 @@
   }
 
   function renderRoute(route, push) {
-    if (!route || route === "/") route = "/news/list_1.html";
+    if (!route || route === "/") route = "/";
 
-    if (route === "/score/2026.html" || route === "/user/grade/4/1066/1230" || route === "/user/grade/4/1066/1230/") {
-      renderGradePortal("score");
+    if (route === "/score/2026.html") {
+      renderScoreLogin("/user/grade/4/1066/1230");
+    } else if (route === "/user/grade/4/1066/1230" || route === "/user/grade/4/1066/1230/") {
+      if (isScoreLoggedIn()) {
+        renderGradePortal("score");
+      } else {
+        renderScoreLogin("/user/grade/4/1066/1230");
+      }
     } else if (route === "/user/personal/0/1073/1230" || route === "/user/personal/0/1073/1230/") {
       renderGradePortal("personal");
     } else if (route === "/user/health_examination/0/1075/1230" || route === "/user/health_examination/0/1075/1230/") {
@@ -223,6 +229,8 @@
       renderVolunteerAssist("plan");
     } else if (/^\/score\//.test(route)) {
       renderScoreResult();
+    } else if (route.indexOf("/YZYK/") === 0) {
+      renderYzykPortal(pageData[route] || pageData["/YZYK/YZYK_news/list_1.html"]);
     } else if (/\.pdf$/i.test(route)) {
       ensurePortal();
       renderDetail({
@@ -235,6 +243,9 @@
     } else if (routeArticles[route]) {
       ensurePortal();
       renderDetail(routeArticles[route]);
+    } else if (route === "/") {
+      ensurePortal();
+      renderHome();
     } else {
       ensurePortal();
       renderList(pageData[route] || makePage("最新资讯", "资讯公告", genericArticles("最新资讯", "/news/news")));
@@ -253,6 +264,15 @@
     main.innerHTML = gradeShellMarkup(activePage || "score");
   }
 
+  function renderYzykPortal(page) {
+    if (!main) return;
+    document.title = "重庆招考信息网";
+    document.body.classList.remove("score-mode", "score-login-mode", "score-result-mode", "volunteer-mode", "grade-portal-mode");
+    main.innerHTML = yzykMainMarkup(page);
+    articlePanel = document.querySelector(".article-panel");
+    sectionMenu = document.querySelector(".section-menu");
+  }
+
   function gradeEntries() {
     return [
       { text: "2026年普通高考综合查询", route: "/score/result.html" },
@@ -267,7 +287,12 @@
 
   function renderList(page) {
     ensurePortal();
-    if (!articlePanel || !sectionMenu) return;
+    if (!articlePanel || !sectionMenu) {
+      if (!main) return;
+      main.innerHTML = portalMainMarkup(page);
+      articlePanel = document.querySelector(".article-panel");
+      sectionMenu = document.querySelector(".section-menu");
+    }
     var menu = page.menu || [[page.activeMenu, currentRouteFor(page)]];
     sectionMenu.innerHTML = "<h2>" + escapeHtml(page.menuTitle) + "</h2>" + menu.map(function (item) {
       var active = item[0] === page.activeMenu ? " on" : "";
@@ -280,9 +305,23 @@
     }).join("") + "</ul>" + renderPager(page.pager);
   }
 
+  function renderHome() {
+    if (!main) return;
+    document.title = "重庆招考信息网";
+    document.body.classList.remove("score-mode", "score-login-mode", "score-result-mode", "volunteer-mode", "grade-portal-mode");
+    main.innerHTML = homeMainMarkup();
+    articlePanel = document.querySelector(".article-panel");
+    sectionMenu = document.querySelector(".section-menu");
+  }
+
   function renderDetail(article) {
     ensurePortal();
-    if (!articlePanel || !sectionMenu) return;
+    if (!articlePanel || !sectionMenu) {
+      if (!main) return;
+      main.innerHTML = portalMainMarkup(pageForSection(article.section || inferSection(article.route)));
+      articlePanel = document.querySelector(".article-panel");
+      sectionMenu = document.querySelector(".section-menu");
+    }
     var section = article.section || inferSection(article.route);
     var basePage = pageForSection(section);
     sectionMenu.innerHTML = "<h2>" + escapeHtml(basePage.menuTitle) + "</h2>" + (basePage.menu || [[basePage.activeMenu, currentRouteFor(basePage)]]).map(function (item) {
@@ -398,8 +437,96 @@
     return '<div class="detail-attachment"><strong>附件：</strong><a href="javascript:;">' + escapeHtml(article.title) + "相关材料.pdf</a></div>";
   }
 
-  function renderScoreLogin() {
+  function portalMainMarkup(page) {
+    var yzykPage = pageData["/YZYK/YZYK_news/list_1.html"];
+    var announcementPage = pageData["/announcement/list_1.html"];
+    var listPage = page || yzykPage;
+    return '<div class="wrap search-result" aria-live="polite" hidden></div>' +
+      '<div class="wrap portal-shell">' +
+        '<aside class="section-menu portal-menu" aria-label="' + escapeHtml(listPage.menuTitle || "研招考试栏目") + '">' +
+          '<h2>' + escapeHtml(listPage.menuTitle || "研招考试") + '</h2>' +
+          (listPage.menu || [[listPage.activeMenu || "资讯公告", currentRouteFor(listPage)]]).map(function (item) {
+            var active = item[0] === (listPage.activeMenu || item[0]) ? " on" : "";
+            return '<a class="' + active.trim() + '" href="javascript:;" data-route="' + escapeHtml(item[1]) + '">' + escapeHtml(item[0]) + '</a>';
+          }).join("") +
+        '</aside>' +
+        '<section class="article-panel portal-panel" aria-label="' + escapeHtml(listPage.activeMenu || "资讯公告") + '">' +
+          '<ul class="article-list">' + (listPage.articles || yzykPage.articles).map(function (article) {
+            return '<li><time><span>' + escapeHtml(article.date) + '</span><small>' + escapeHtml(article.year) + '</small></time><a href="javascript:;" data-route="' + escapeHtml(article.route) + '">' + escapeHtml(article.title) + '</a></li>';
+          }).join("") + '</ul>' +
+          renderPager(listPage.pager || yzykPage.pager) +
+        '</section>' +
+        '<aside class="rightbar portal-rightbar">' +
+          '<a class="side-ad" href="https://www.utm.edu.mo/admission/sc/home/index.html"><img src="https://www.cqzk.com.cn/userfiles/fileupload/202604/2046044448606625794.jpg" alt="澳门旅游大学"></a>' +
+          '<section class="notice-card">' +
+            '<header><h2>公示公告</h2><a href="javascript:;" data-route="/announcement/list_1.html">更多 »</a></header>' +
+            '<ul>' + announcementPage.articles.slice(0, 8).map(function (article) { return '<li><a href="javascript:;" data-route="' + escapeHtml(article.route) + '">' + escapeHtml(article.title) + '</a></li>'; }).join("") + '</ul>' +
+          '</section>' +
+          '<a class="side-ad lower" href="http://www.xivuedu.com/"><img src="https://www.cqzk.com.cn/userfiles/fileupload/202605/2055214566586687490.jpg" alt="西安信息职业大学"></a>' +
+        '</aside>' +
+      '</div>' +
+      '<div class="wrap bottom-ads">' +
+        '<img src="https://www.cqzk.com.cn/userfiles/fileupload/202305/1655482190138003458.jpg" alt="韶关学院">' +
+        '<img src="https://www.cqzk.com.cn/userfiles/fileupload/202305/1655482266260426754.jpg" alt="盐城工学院">' +
+        '<img src="https://www.cqzk.com.cn/userfiles/fileupload/202305/1655482338394066946.jpg" alt="湖北医药学院">' +
+      '</div>';
+  }
+
+  function yzykMainMarkup(page) {
+    return portalMainMarkup(pageData["/YZYK/YZYK_news/list_1.html"]);
+  }
+
+  function homeMainMarkup() {
+    var newsPage = pageData["/news/list_1.html"];
+    var announcementPage = pageData["/announcement/list_1.html"];
+    return '<div class="wrap home-main">' +
+      '<section class="home-news-column">' +
+        '<header class="home-section-head"><h2>最新资讯</h2><a href="javascript:;" data-route="/news/list_1.html">更多 »</a></header>' +
+        '<ul class="article-list home-article-list">' + newsPage.articles.slice(0, 12).map(function (article) {
+          return '<li><time><span>' + escapeHtml(article.date) + '</span><small>' + escapeHtml(article.year) + '</small></time><a href="javascript:;" data-route="' + escapeHtml(article.route) + '">' + escapeHtml(article.title) + '</a></li>';
+        }).join("") + '</ul>' +
+      '</section>' +
+      '<section class="home-center-column">' +
+        '<div class="home-tools">' +
+          '<a class="home-tool-entry" href="javascript:;" data-route="/score/2026.html"><strong>2026年普通高考综合查询</strong><span>点此进入</span></a>' +
+          '<div class="home-tool-links">' +
+            '<a href="javascript:;">官方微信</a>' +
+            '<a href="javascript:;">淘宝书店</a>' +
+            '<a href="javascript:;" data-route="/score/2026.html">系统入口</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="home-feature">' +
+          '<div class="home-feature-main"><span>重庆市高考综合改革专栏</span></div>' +
+          '<div class="home-feature-side">' +
+            '<a href="javascript:;">政策文件</a>' +
+            '<a href="javascript:;">政策解读</a>' +
+            '<a href="javascript:;">一图读懂</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="home-notice-grid">' +
+          '<div class="home-notice-box">' +
+            '<header class="home-section-head"><h2>公示公告</h2><a href="javascript:;" data-route="/announcement/list_1.html">更多 »</a></header>' +
+            '<ul class="article-list home-article-list">' + announcementPage.articles.slice(0, 10).map(function (article) {
+              return '<li><time><span>' + escapeHtml(article.date) + '</span><small>' + escapeHtml(article.year) + '</small></time><a href="javascript:;" data-route="' + escapeHtml(article.route) + '">' + escapeHtml(article.title) + '</a></li>';
+            }).join("") + '</ul>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+      '<aside class="home-right-column">' +
+        '<a class="home-side-ad" href="javascript:;"><img src="https://www.cqzk.com.cn/userfiles/fileupload/202604/2046044448606625794.jpg" alt="澳门旅游大学"></a>' +
+        '<a class="home-side-ad" href="javascript:;"><img src="https://www.cqzk.com.cn/userfiles/fileupload/202605/2055214566586687490.jpg" alt="西安信息职业大学"></a>' +
+      '</aside>' +
+    '</div>' +
+    '<div class="wrap bottom-ads">' +
+      '<img src="https://www.cqzk.com.cn/userfiles/fileupload/202305/1655482190138003458.jpg" alt="韶关学院">' +
+      '<img src="https://www.cqzk.com.cn/userfiles/fileupload/202305/1655482266260426754.jpg" alt="盐城工学院">' +
+      '<img src="https://www.cqzk.com.cn/userfiles/fileupload/202305/1655482338394066946.jpg" alt="湖北医药学院">' +
+    '</div>';
+  }
+
+  function renderScoreLogin(redirectRoute) {
     if (!main) return;
+    var nextRoute = redirectRoute || "/user/grade/4/1066/1230";
     document.body.classList.add("score-mode", "score-login-mode");
     document.body.classList.remove("score-result-mode", "volunteer-mode", "grade-portal-mode");
     main.innerHTML = '<section class="score-login-page">' +
@@ -407,8 +534,8 @@
       '<div class="login-card">' +
         '<form class="score-login-form">' +
           '<div class="login-tabs"><button class="active" type="button">账号密码</button></div>' +
-          '<label class="select-wrap"><select name="method"><option value="">请选择登录方式</option><option value="candidate">考生号/身份证号</option><option value="ticket">准考证号</option></select></label>' +
-          '<label><input name="candidate" autocomplete="off" placeholder="请先选择登录方式" disabled></label>' +
+          '<label class="select-wrap"><select name="method"><option value="">请选择登录方式</option><option value="candidate" selected>考生号/身份证号</option><option value="ticket">准考证号</option></select></label>' +
+          '<label><input name="candidate" autocomplete="off" placeholder="考生号/身份证号"></label>' +
           '<label><input name="password" type="password" placeholder="密码"></label>' +
           '<div class="captcha-row"><label><input name="captcha" autocomplete="off" placeholder="验证码"></label><button class="captcha-img" type="button" aria-label="刷新验证码">st4m</button></div>' +
           '<button class="login-submit" type="submit">登 录</button>' +
@@ -497,7 +624,8 @@
       }
 
       sessionStorage.setItem("scoreCandidate", candidate);
-      navigate("/score/result.html", true);
+      sessionStorage.setItem("scoreLoggedIn", "1");
+      navigate(nextRoute, true);
     });
 
     function accountLabel() {
@@ -509,6 +637,14 @@
       if (!error) return;
       error.hidden = false;
       error.textContent = message;
+    }
+  }
+
+  function isScoreLoggedIn() {
+    try {
+      return sessionStorage.getItem("scoreLoggedIn") === "1";
+    } catch (error) {
+      return false;
     }
   }
 
@@ -1503,6 +1639,7 @@
   }
 
   function setActiveMain(route) {
+    if (route === "/") return;
     var section = mainSections.find(function (item) {
       return route.indexOf(item.route.split("/")[1] ? "/" + item.route.split("/")[1] + "/" : item.route) === 0 || route === item.route;
     });

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "首页通栏A4-1",
+    "href": "ZXKS/ZXKS_news/list_1.html",
+    "image": "userfiles/fileupload/202606/2055213089461870594.jpg",
+    "educationGgClassify": { "cols": 1, "treeName": "首页通栏A4区" }
+  },
+  {
+    "name": "首页通栏A4-2",
+    "href": "SHKS/SHKS_news/list_1.html",
+    "image": "userfiles/fileupload/202606/2055213384514379778.jpg",
+    "educationGgClassify": { "cols": 1, "treeName": "首页通栏A4区" }
+  },
+  {
+    "name": "首页通栏A4-3",
+    "href": "admissions_hkmo/list_1.html",
+    "image": "userfiles/fileupload/202606/1924363506970959874.jpg",
+    "educationGgClassify": { "cols": 1, "treeName": "首页通栏A4区" }
+  },
+  {
+    "name": "首页通栏A4-4",
+    "href": "admissions_abroad/list_1.html",
+    "image": "userfiles/fileupload/202606/2055214112649748482.jpg",
+    "educationGgClassify": { "cols": 1, "treeName": "首页通栏A4区" }
+  }
+]
