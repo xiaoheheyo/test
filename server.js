@@ -1,11 +1,19 @@
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
+const crypto = require("crypto");
 
 const root = __dirname;
 const mirrorRoot = path.join(root, "www.cqzk.com.cn");
 const mirrorAssetRoot = path.join(root, "重庆招考信息网_files");
+const scoreShell = path.join(root, "score.html");
 const port = Number(process.env.PORT || 3456);
+const scoreAccountHashes = new Set([
+  "172e122b1f2ee8997019a36e89ff655127d02f7ebe788be82633b55f2ab4419e",
+  "1bc2bbb5f314453d8c41e2c724f3f0df7fd8a48f38986791d03f43700165e193"
+]);
+const scorePasswordHash = "65b61073ccd2ab7b938564d495cd963587c7cb26a05725209e7d2c72f8d562a7";
+const scoreSessions = new Set();
 const zyfzSecret = "CwnXDUjZifq/DZIhIo1O3kHARUVbP/CnPZ2n6Do432j0s5gSAt9/7zl9GZ9rO1C5p1h2ieZpUJ+CH7XBthAXXCsCF4rMsSu6DQvXdzLNBXeYnr1g7Hpcf6XT5GF1GXf+aRgmjJ/wM9MIli3ih8iLgJUg8uf3ha3DhBVVg5qi71s=";
 const types = {
   ".css": "text/css; charset=utf-8",
@@ -26,6 +34,26 @@ http.createServer((req, res) => {
   const url = new URL(req.url, `http://localhost:${port}`);
   const pathname = decodeURIComponent(url.pathname);
   let filePath = path.join(root, pathname);
+
+  if (pathname === "/api/score/login") {
+    authenticateScore(req, res, false);
+    return;
+  }
+
+  if (pathname === "/score/login") {
+    authenticateScore(req, res, true);
+    return;
+  }
+
+  if (pathname.indexOf("/user/") === 0) {
+    const snapshot = resolveUserSnapshot(pathname);
+    if (!snapshot) {
+      sendJson(res, 404, { success: false, msg: "Page Not Found" });
+      return;
+    }
+    sendUserSnapshot(req, res, snapshot);
+    return;
+  }
 
   if (pathname === "/api/zyfz/history/art-sports") {
     proxyZyfz(req, res, {
@@ -88,6 +116,8 @@ http.createServer((req, res) => {
 
   if (pathname === "/" || pathname === "/index.html") {
     filePath = path.join(mirrorRoot, "index.html");
+  } else if (isScoreRoute(pathname)) {
+    filePath = scoreShell;
   } else if (pathname === "/apps/zyfz/system/plans" || pathname === "/apps/zyfz/system/plans/") {
     filePath = path.join(root, "plans.html");
   }
@@ -131,6 +161,131 @@ function resolveMirrorPath(pathname) {
   const candidate = path.join(mirrorRoot, normalized);
   if (fs.existsSync(candidate) && !fs.statSync(candidate).isDirectory()) return candidate;
   return resolveMirrorAsset(pathname);
+}
+
+function isScoreRoute(pathname) {
+  return pathname.indexOf("/score/") === 0;
+}
+
+function resolveUserSnapshot(pathname) {
+  const normalized = pathname.replace(/^\/+|\/+$/g, "");
+  if (!normalized || normalized.includes("..")) return null;
+  const withExtension = normalized.endsWith(".html") ? normalized : normalized + ".html";
+  const candidate = path.join(root, withExtension);
+  const userRoot = path.join(root, "user") + path.sep;
+  if (!candidate.startsWith(userRoot)) return null;
+  if (!fs.existsSync(candidate) || fs.statSync(candidate).isDirectory()) return null;
+  return candidate;
+}
+
+function sendUserSnapshot(req, res, filePath) {
+  if (!hasScoreSession(req)) {
+    res.writeHead(302, { Location: "/score/2026.html", "Cache-Control": "no-store" });
+    res.end();
+    return;
+  }
+
+  fs.readFile(filePath, "utf8", (error, source) => {
+    if (error) {
+      res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("Internal Server Error");
+      return;
+    }
+
+    let html = source
+      .replace(/<script\b[^>]*type=["']module["'][^>]*><\/script>/gi, "")
+      .replace(/<link\b[^>]*rel=["']modulepreload["'][^>]*>/gi, "")
+      .replace(/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/cdn\.cqzk\.com\.cn\//g, "https://cdn.cqzk.com.cn/")
+      .replace(/\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/tdesign\.gtimg\.com\//g, "https://tdesign.gtimg.com/")
+      .replace(/https:\/\/www\.cqzk\.com\.cn\/apps\/zyfz\/login/g, "/apps/zyfz/login");
+
+    html = html.replace(/https:\/\/gkcj\.cqksy\.cn\/(user\/[^"']+)/g, (match, route) => {
+      return resolveUserSnapshot("/" + route) ? "/" + route : match;
+    });
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-store"
+    });
+    res.end(html);
+  });
+}
+
+function authenticateScore(req, res, redirectOnComplete) {
+  if (req.method !== "POST") {
+    sendJson(res, 405, { success: false, msg: "Method Not Allowed" });
+    return;
+  }
+
+  let body = "";
+  req.on("data", chunk => {
+    body += chunk;
+    if (body.length > 4096) req.destroy();
+  });
+  req.on("end", () => {
+    try {
+      const contentType = String(req.headers["content-type"] || "");
+      const payload = contentType.indexOf("application/x-www-form-urlencoded") >= 0
+        ? Object.fromEntries(new URLSearchParams(body))
+        : JSON.parse(body || "{}");
+      const account = payload.account || payload.candidate || "";
+      const accountHash = sha256(String(account).trim());
+      const passwordHash = sha256(String(payload.password || ""));
+      if (!scoreAccountHashes.has(accountHash) || !safeHashEqual(passwordHash, scorePasswordHash)) {
+        if (redirectOnComplete) {
+          redirectScoreLogin(res, "/score/2026.html?error=credentials");
+          return;
+        }
+        sendJson(res, 401, { success: false, msg: "账号或密码错误" });
+        return;
+      }
+
+      const session = crypto.randomBytes(32).toString("hex");
+      scoreSessions.add(session);
+      if (redirectOnComplete) {
+        res.writeHead(303, {
+          Location: "/user/grade/4/1066/1230",
+          "Cache-Control": "no-store",
+          "Set-Cookie": `score_session=${session}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800`
+        });
+        res.end();
+        return;
+      }
+      sendJson(res, 200, { success: true }, {
+        "Set-Cookie": `score_session=${session}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800`
+      });
+    } catch (error) {
+      if (redirectOnComplete) {
+        redirectScoreLogin(res, "/score/2026.html?error=request");
+        return;
+      }
+      sendJson(res, 400, { success: false, msg: "Invalid Request" });
+    }
+  });
+}
+
+function redirectScoreLogin(res, location) {
+  res.writeHead(303, { Location: location, "Cache-Control": "no-store" });
+  res.end();
+}
+
+function hasScoreSession(req) {
+  const cookies = String(req.headers.cookie || "").split(";");
+  for (const cookie of cookies) {
+    const [name, value] = cookie.trim().split("=", 2);
+    if (name === "score_session" && scoreSessions.has(value)) return true;
+  }
+  return false;
+}
+
+function sha256(value) {
+  return crypto.createHash("sha256").update(value).digest("hex");
+}
+
+function safeHashEqual(actual, expected) {
+  const actualBuffer = Buffer.from(actual, "hex");
+  const expectedBuffer = Buffer.from(expected, "hex");
+  return actualBuffer.length === expectedBuffer.length && crypto.timingSafeEqual(actualBuffer, expectedBuffer);
 }
 
 function resolveMirrorAsset(pathname) {
@@ -240,10 +395,11 @@ function proxyZyfz(req, res, options) {
   });
 }
 
-function sendJson(res, status, data) {
+function sendJson(res, status, data, extraHeaders = {}) {
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
-    "Cache-Control": "no-store"
+    "Cache-Control": "no-store",
+    ...extraHeaders
   });
   res.end(JSON.stringify(data));
 }

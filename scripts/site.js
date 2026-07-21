@@ -532,7 +532,7 @@
     main.innerHTML = '<section class="score-login-page">' +
       '<div class="score-title"><h1>重庆市教育考试招生查询系统</h1><p>2026年普通高考综合查询</p></div>' +
       '<div class="login-card">' +
-        '<form class="score-login-form">' +
+        '<form class="score-login-form" method="post" action="/score/login">' +
           '<div class="login-tabs"><button class="active" type="button">账号密码</button></div>' +
           '<label class="select-wrap"><select name="method"><option value="">请选择登录方式</option><option value="candidate" selected>考生号/身份证号</option><option value="ticket">准考证号</option></select></label>' +
           '<label><input name="candidate" autocomplete="off" placeholder="考生号/身份证号"></label>' +
@@ -554,9 +554,14 @@
     var forgot = document.querySelector(".forgot-pass");
     var methodSelect = document.querySelector('select[name="method"]');
     var accountInput = document.querySelector('input[name="candidate"]');
-    var expectedPassword = "ZDYzdy410DZYV!";
     var codes = ["st4m", "7kq2", "m8r6", "c9x5"];
     var codeIndex = 0;
+
+    if (location.search.indexOf("error=credentials") >= 0) {
+      showLoginError("账号或密码错误，请重新输入。");
+    } else if (location.search.indexOf("error=request") >= 0) {
+      showLoginError("登录请求无效，请重新提交。");
+    }
 
     if (methodSelect && accountInput) {
       methodSelect.addEventListener("change", function () {
@@ -615,17 +620,9 @@
         return;
       }
 
-      if (password !== expectedPassword) {
-        if (error) {
-          error.hidden = false;
-          error.textContent = "密码错误，请重新输入。";
-        }
-        return;
-      }
-
-      sessionStorage.setItem("scoreCandidate", candidate);
-      sessionStorage.setItem("scoreLoggedIn", "1");
-      navigate(nextRoute, true);
+      var submit = form.querySelector(".login-submit");
+      if (submit) submit.disabled = true;
+      form.submit();
     });
 
     function accountLabel() {
@@ -663,7 +660,7 @@
           '<a class="grade-logo" href="https://www.cqksy.cn/" aria-label="重庆市教育考试院">' + gradeLogoMarkup() + '</a>' +
           '<span class="grade-title-divider" aria-hidden="true"></span>' +
           '<h1 class="grade-result-title"><b>2026</b>年普通高考综合查询</h1>' +
-          '<button type="button" class="grade-user">你好，赵丁谕 <span>⌄</span></button>' +
+          '<button type="button" class="grade-user">你好，赵同学 <span>⌄</span></button>' +
         '</div>' +
         '<nav class="grade-tabs" aria-label="成绩导航">' +
           gradeTabMarkup("score", "成绩查询", "/user/grade/4/1066/1230", activePage) +
@@ -712,24 +709,24 @@
 
   function personalInfoRows() {
     return [
-      ["身份证号", "500106200804108323", "考生号", "26500111111271"],
-      ["准考证号", "", "姓名", "赵丁谕"],
+      ["身份证号", "500106********8323", "考生号", "265001********71"],
+      ["准考证号", "", "姓名", "赵同学"],
       ["性别", "女", "政治面貌", "共青团员"],
-      ["民族", "汉族", "出生年月", "2008年04月10日"],
+      ["民族", "汉族", "出生年月", "2008年04月"],
       ["考生类别", "城市应届", "毕业类别", "普通高中毕业"],
       ["报考类别", "普通类(历史)", "考试类型", "历史"],
       ["选择性考试科目", "【历史】生物学、思想政治", "笔试外语语种", "英语"],
-      ["区县", "巴南区", "毕业中学", "重庆巴南育才实验中学校"],
-      ["报名点", "重庆巴南育才实验中学校", "班级", "04班"],
-      ["联系电话", "15730365715", "收件人", "赵丁谕"],
-      ["通知书收件人电话", "15730365715", "通知书邮编", "400054"],
-      ["通知书邮寄地址", "重庆重庆市巴南区李家沱街道莫园誉府5幢2单元601", "", ""]
+      ["区县", "巴南区", "毕业中学", "已脱敏"],
+      ["报名点", "已脱敏", "班级", "已脱敏"],
+      ["联系电话", "157****5715", "收件人", "赵同学"],
+      ["通知书收件人电话", "157****5715", "通知书邮编", "400054"],
+      ["通知书邮寄地址", "重庆市巴南区（已脱敏）", "", ""]
     ];
   }
 
   function healthInfoMarkup() {
     return gradeInfoCard("基础信息", [
-      ["考生号", "26500111111271", "既往病史", "无"],
+      ["考生号", "265001********71", "既往病史", "无"],
       ["既往病史说明", "无", "既往病史说明", "无"]
     ]) +
     gradeInfoCard("眼科", [
